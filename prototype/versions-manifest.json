@@ -1,0 +1,40 @@
+{
+  "current": "v0.1.3",
+  "versions": [
+    {
+      "version": "v0.1.3",
+      "label": "L4 Complete — Edge Cases + Responsive",
+      "date": "2026-03-26",
+      "files": ["index.html"],
+      "fidelity": "L4 5/5"
+    },
+    {
+      "version": "v0.1.2",
+      "label": "L3 Complete — Brand Voice + Accessibility",
+      "date": "2026-03-26",
+      "files": ["index.html"],
+      "fidelity": "L3 9/9"
+    },
+    {
+      "version": "v0.1.1",
+      "label": "Dark Mode + Agent States + Growth Ring",
+      "date": "2026-03-26",
+      "files": ["index.html", "creator.html"],
+      "fidelity": "L2 7/7"
+    },
+    {
+      "version": "v0.1.0",
+      "label": "Baseline — Core Flow Prototype",
+      "date": "2026-03-26",
+      "files": ["index.html", "creator.html"],
+      "fidelity": "Baseline"
+    },
+    {
+      "version": "v0.0.0",
+      "label": "Initial Placeholder",
+      "date": "2026-03-26",
+      "files": ["index.html"],
+      "fidelity": "L0"
+    }
+  ]
+}

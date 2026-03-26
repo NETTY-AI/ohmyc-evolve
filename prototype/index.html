@@ -207,29 +207,16 @@
           <div class="card-icon">🎨</div>
           <div class="card-title">Creator Flow</div>
           <div class="card-desc">캐릭터 생성 → Soul Editor → 테스트 → 퍼블리시</div>
-          <div class="card-badge">v0.1.0</div>
+          <div class="card-badge">Creator</div>
         </a>
       </div>
     </div>
 
-    <!-- Version History -->
+    <!-- Version History (loaded from versions-manifest.json) -->
     <div class="section">
       <div class="section-title">Version History</div>
       <div id="version-list">
-        <a class="version-item" href="versions/v0.1.0/">
-          <div>
-            <div class="version-name">v0.1.0 — User Flow</div>
-            <div class="version-meta">Baseline — prototype-v0.1.html</div>
-          </div>
-          <span class="version-link">보기 →</span>
-        </a>
-        <a class="version-item" href="versions/v0.1.0/creator.html">
-          <div>
-            <div class="version-name">v0.1.0 — Creator Flow</div>
-            <div class="version-meta">Baseline — creator-v1.html</div>
-          </div>
-          <span class="version-link">보기 →</span>
-        </a>
+        <div class="version-meta" style="padding:12px;">버전 목록 로딩 중…</div>
       </div>
     </div>
 
@@ -286,17 +273,40 @@
   </div>
 
   <script>
-    // Load loop state
+    // Load versions manifest and render version history + current badge
+    fetch('versions-manifest.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(manifest => {
+        if (!manifest) return;
+        // Update current version badge
+        const versionEl = document.getElementById('current-version');
+        if (versionEl) versionEl.textContent = manifest.current;
+        // Render version list
+        const listEl = document.getElementById('version-list');
+        if (!listEl) return;
+        listEl.innerHTML = '';
+        manifest.versions.forEach(function(v) {
+          v.files.forEach(function(file) {
+            var a = document.createElement('a');
+            a.className = 'version-item';
+            a.href = 'versions/' + v.version + '/' + (file === 'index.html' ? '' : file);
+            var flowName = file === 'index.html' ? 'User Flow' : file.replace('.html','').replace(/^\w/, function(c){return c.toUpperCase()}) + ' Flow';
+            a.innerHTML = '<div>' +
+              '<div class="version-name">' + v.version + ' — ' + flowName + '</div>' +
+              '<div class="version-meta">' + v.label + ' · ' + v.fidelity + '</div>' +
+              '</div><span class="version-link">보기 →</span>';
+            listEl.appendChild(a);
+          });
+        });
+      })
+      .catch(function(){});
+
+    // Load loop state for status indicator
     fetch('loop-state.json')
       .then(r => r.ok ? r.json() : null)
       .then(state => {
         if (!state) return;
         const statusEl = document.getElementById('status');
-        const versionEl = document.getElementById('current-version');
-        if (state.current_version !== undefined) {
-          const ver = state.current_version === 1 ? 'v0.1.0' : 'v' + state.current_version;
-          if (versionEl) versionEl.textContent = ver;
-        }
         if (statusEl) {
           const dot = statusEl.querySelector('.status-dot');
           const text = statusEl.querySelector('span:last-child');
@@ -309,10 +319,7 @@
           }
         }
       })
-      .catch(() => {
-        const statusEl = document.getElementById('status');
-        if (statusEl) statusEl.querySelector('span:last-child').textContent = 'Ready';
-      });
+      .catch(() => {});
   </script>
 <script src="nav.js"></script>
 </body>
