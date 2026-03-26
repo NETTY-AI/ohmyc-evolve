@@ -41,54 +41,6 @@
     }
     .container { max-width: 800px; margin: 0 auto; padding: 48px 20px; }
 
-    /* Hamburger Nav */
-    .hamburger {
-      position: fixed; top: 16px; left: 16px; z-index: 100;
-      width: 40px; height: 40px; border-radius: 10px;
-      background: var(--card); border: 1px solid var(--separator);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      transition: transform 0.15s;
-    }
-    .hamburger:active { transform: scale(0.92); }
-    .hamburger svg { width: 18px; height: 18px; color: var(--label); }
-
-    .side-nav {
-      position: fixed; top: 0; left: -300px; z-index: 200;
-      width: 280px; height: 100vh;
-      background: var(--card);
-      box-shadow: 4px 0 24px rgba(0,0,0,0.1);
-      transition: left 0.25s cubic-bezier(.22,1,.36,1);
-      padding: 72px 20px 40px;
-      overflow-y: auto;
-    }
-    .side-nav.open { left: 0; }
-    .side-overlay {
-      position: fixed; top: 0; left: 0; z-index: 199;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.3);
-      display: none;
-    }
-    .side-overlay.show { display: block; }
-
-    .side-nav-title {
-      font-size: 11px; font-weight: 700;
-      color: var(--label-tertiary);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 8px; margin-top: 20px;
-    }
-    .side-nav-title:first-child { margin-top: 0; }
-    .side-nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px; border-radius: 10px;
-      font-size: 15px; font-weight: 500;
-      color: var(--label); text-decoration: none;
-      transition: background 0.1s;
-    }
-    .side-nav-item:hover { background: var(--tint-soft); color: var(--tint); }
-    .side-nav-item .nav-icon { font-size: 18px; width: 24px; text-align: center; }
-
     /* Header */
     .header { margin-bottom: 40px; }
     .wordmark {
@@ -100,7 +52,7 @@
     .wordmark .c { color: var(--tint); }
     .header-sub { font-size: 15px; color: var(--label-secondary); }
 
-    /* Nav */
+    /* Nav (pill buttons) */
     .nav { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
     .nav a {
       display: inline-flex; align-items: center; gap: 6px;
@@ -197,29 +149,6 @@
   </style>
 </head>
 <body>
-  <!-- Hamburger -->
-  <button class="hamburger" onclick="toggleNav()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
-
-  <!-- Side Nav -->
-  <div class="side-overlay" id="sideOverlay" onclick="toggleNav()"></div>
-  <nav class="side-nav" id="sideNav">
-    <div class="side-nav-title">Prototypes</div>
-    <a class="side-nav-item" href="current/"><span class="nav-icon">📱</span> Latest (User Flow)</a>
-    <a class="side-nav-item" href="current/creator.html"><span class="nav-icon">🎨</span> Latest (Creator Flow)</a>
-
-    <div class="side-nav-title">Tools</div>
-    <a class="side-nav-item" href="review.html"><span class="nav-icon">📊</span> Review Portal</a>
-
-    <div class="side-nav-title">Versions</div>
-    <a class="side-nav-item" href="versions/v0.1.0/"><span class="nav-icon">📁</span> v0.1.0 (User Flow)</a>
-    <a class="side-nav-item" href="versions/v0.1.0/creator.html"><span class="nav-icon">📁</span> v0.1.0 (Creator Flow)</a>
-
-    <div class="side-nav-title">Links</div>
-    <a class="side-nav-item" href="https://github.com/NETTY-AI/ohmyc-evolve" target="_blank"><span class="nav-icon">🔗</span> GitHub</a>
-  </nav>
-
   <div class="container">
     <!-- Header -->
     <div class="header">
@@ -323,12 +252,6 @@
   </div>
 
   <script>
-    // Hamburger nav
-    function toggleNav() {
-      document.getElementById('sideNav').classList.toggle('open');
-      document.getElementById('sideOverlay').classList.toggle('show');
-    }
-
     // Load loop state
     fetch('loop-state.json')
       .then(r => r.ok ? r.json() : null)
@@ -357,5 +280,6 @@
         if (statusEl) statusEl.querySelector('span:last-child').textContent = 'Ready';
       });
   </script>
+<script src="nav.js"></script>
 </body>
 </html>
