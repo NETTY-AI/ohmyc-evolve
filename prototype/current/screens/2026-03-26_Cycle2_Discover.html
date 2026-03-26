@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ohmyc - Discover (Cycle 2, v2 - 2:3 Hero)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tint: #FF8552;
+    --tint-bright: #FFA47A;
+    --tint-soft: #FFF4EE;
+    --label: #000000;
+    --label-sec: rgba(60,60,67,0.6);
+    --label-tri: rgba(60,60,67,0.3);
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F2F2F7;
+    --warm-cream: #FBF8F7;
+    --glass-bg: rgba(255,255,255,0.72);
+    --glass-border: rgba(255,255,255,0.4);
+    --glass-blur: blur(40px) saturate(180%);
+    --font-sys: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+    --font-rounded: 'SF Pro Rounded', -apple-system, system-ui, sans-serif;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+    --shadow-2: 0 4px 12px rgba(0,0,0,0.06);
+    --ease-smooth: cubic-bezier(.22, 1, .36, 1);
+  }
+
+  /* Dark Mode Adjustments */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #1C1C1E;
+      --label: #FFFFFF;
+      --label-sec: rgba(235, 235, 245, 0.6);
+      --label-tri: rgba(235, 235, 245, 0.3);
+      --glass-bg: rgba(30, 30, 30, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --shadow-2: 0 0 0 1px rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.4);
+    }
+  }
+  
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-sys); background:#E5E5EA; color:var(--label); -webkit-font-smoothing:antialiased; height: 100vh; display: flex; justify-content: center; align-items: center; }
+  @media (prefers-color-scheme: dark) { body { background: #111; } }
+
+  /* Device Mockup */
+  .device-frame {
+    width: 393px;
+    height: 852px;
+    background: var(--bg-primary);
+    border-radius: 44px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    border: 8px solid #1a1a1a;
+  }
+  .device-frame::-webkit-scrollbar { display: none; }
+
+  /* Header */
+  .header {
+    padding: 60px 24px 16px;
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, var(--bg-primary) 80%, transparent 100%);
+    z-index: 100;
+  }
+  .title {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  /* Search Bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 0.5px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--label-sec);
+    font-size: 17px;
+  }
+
+  /* Chips */
+  .chip-scroll {
+    display: flex;
+    gap: 8px;
+    padding: 0 24px 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .chip-scroll::-webkit-scrollbar { display: none; }
+  .chip {
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    background: var(--bg-secondary);
+    color: var(--label-sec);
+    transition: 0.2s var(--ease-smooth);
+  }
+  .chip.active {
+    background: var(--tint);
+    color: white;
+  }
+
+  /* Breathe Motion */
+  .alive-dot {
+    width: 6px; height: 6px; border-radius: 50%; display: inline-block;
+    background: #34C759; box-shadow: 0 0 6px rgba(52,199,89,0.5);
+    animation: breathe 3s var(--ease-smooth) infinite;
+  }
+  @keyframes breathe {
+    0%,100%{transform:scale(1);opacity:.4}
+    50%{transform:scale(1.2);opacity:.9}
+  }
+
+  .content-area {
+    padding: 0 24px 120px;
+  }
+
+  /* CHANGED: Hero Section to 2:3 ratio */
+  .hero-card {
+    width: 100%;
+    aspect-ratio: 2/3; /* Changed from 4:5 to 2:3 per VI.md */
+    border-radius: var(--radius-lg); /* Changed from 24px to 20px per VI.md */
+    background: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600&h=800') center/cover;
+    position: relative;
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .cc {
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-secondary);
+    background-size: cover;
+    background-position: center;
+    aspect-ratio: 2/3;
+    position: relative;
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+  }
+  
+  .glass-badge {
+    position: absolute; top: 12px; left: 12px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(12px) saturate(200%);
+    -webkit-backdrop-filter: blur(12px) saturate(200%);
+    font-size: 11px; font-weight: 700; color: #000;
+    border: 0.5px solid rgba(255,255,255,0.6);
+  }
+
+  .ov {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 24px 16px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .hero-card .ov { padding: 32px 24px 24px; }
+  
+  .name { font-size: 17px; font-weight: 700; color: #FFF; margin-bottom: 2px; }
+  .hero-card .name { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; } /* Adjusted font size for 2:3 card width */
+  
+  .creator { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
+  
+  .meta { display: flex; align-items: center; gap: 6px; font-family: var(--font-rounded); }
+  .meta-text { font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 500; }
+  .hero-card .meta-text { font-size: 14px; } /* Adjusted meta size for larger hero */
+
+  /* Tab Bar Container (Floating) */
+  .tab-bar-container {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    z-index: 200;
+  }
+
+  .tab-bar {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 0.5px solid var(--glass-border);
+    border-radius: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    color: var(--label-tri);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .tab-item.active {
+    color: var(--tint);
+  }
+
+  /* Active shape background (pill) */
+  .tab-item.active::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    background: rgba(255, 133, 82, 0.1);
+    border-radius: 24px;
+    z-index: -1;
+  }
+
+  .tab-icon {
+    width: 22px;
+    height: 22px;
+    background-color: currentColor;
+  }
+
+  /* Create (+) Tab Distinction */
+  .tab-item.create-btn {
+    color: #FFF;
+  }
+  .tab-item.create-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 42px; height: 42px;
+    background: var(--tint);
+    border-radius: 50%;
+    z-index: -1;
+    box-shadow: 0 4px 12px rgba(255, 133, 82, 0.3);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="header">
+    <div class="title">Discover</div>
+    <div class="search-bar">
+      <!-- Search Icon SVG -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <div>Find a character...</div>
+    </div>
+  </div>
+
+  <div class="chip-scroll">
+    <div class="chip active">For You</div>
+    <div class="chip">Romance</div>
+    <div class="chip">Comfort</div>
+    <div class="chip">Fantasy</div>
+    <div class="chip">Sci-Fi</div>
+  </div>
+
+  <div class="content-area">
+    <!-- Hero / Highlight Card - NOW 2:3 Aspect Ratio maintaining VI standard -->
+    <div class="hero-card">
+      <div class="glass-badge">NEW</div>
+      <div class="ov">
+        <div class="name">Elena</div>
+        <div class="creator">by @storyteller</div>
+        <div class="meta">
+          <span class="alive-dot"></span>
+          <span class="meta-text">alive &middot; 4.2K</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 Column Grid -->
+    <div class="grid-2col">
+      <div class="cc" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400&h=600');">
+        <div class="ov">
+          <div class="name">Kai</div>
+          <div class="creator">by @moonlight</div>
+          <div class="meta"><span class="alive-dot" style="animation-delay: 0.5s;"></span><span class="meta-text">alive &middot; 8.1K</span></div>
+        </div>
+      </div>
+      <div class="cc" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400&h=600');">
+        <div class="glass-badge">HOT</div>
+        <div class="ov">
+          <div class="name">Ren</div>
+          <div class="creator">by @windchaser</div>
+          <div class="meta"><span class="alive-dot" style="animation-delay: 1s;"></span><span class="meta-text">alive &middot; 12K</span></div>
+        </div>
+      </div>
+      <div class="cc" style="background-image: url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400&h=600');">
+        <div class="ov">
+          <div class="name">Mira</div>
+          <div class="creator">by @dreamweaver</div>
+          <div class="meta"><span class="alive-dot" style="animation-delay: 1.5s;"></span><span class="meta-text">alive &middot; 3.5K</span></div>
+        </div>
+      </div>
+      <div class="cc" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400&h=600');">
+        <div class="ov">
+          <div class="name">Leo</div>
+          <div class="creator">by @stardust</div>
+          <div class="meta"><span class="alive-dot" style="animation-delay: 0.2s;"></span><span class="meta-text">alive &middot; 1.2K</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar-container">
+    <div class="tab-bar">
+      <a href="#" class="tab-item">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"></path><polyline points=\"9 22 9 12 15 12 15 22\"></polyline></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"></path><polyline points=\"9 22 9 12 15 12 15 22\"></polyline></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item active">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"></circle><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"></line></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"></circle><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"></line></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item create-btn">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"></path></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"></path></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"></path><circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"></path><circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg>') center/cover;"></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

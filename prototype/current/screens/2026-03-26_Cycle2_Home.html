@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ohmyc - Character Home (Cycle 2, v2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tint: #FF8552;
+    --label: #000000;
+    --label-sec: rgba(60,60,67,0.6);
+    --label-tri: rgba(60,60,67,0.3);
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F2F2F7;
+    --glass-bg: rgba(255,255,255,0.72);
+    --glass-border: rgba(255,255,255,0.4);
+    --glass-blur: blur(40px) saturate(180%);
+    --font-sys: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+    --ease-smooth: cubic-bezier(.22, 1, .36, 1);
+  }
+  
+  /* Dark Mode Adjustments */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #1C1C1E;
+      --label: #FFFFFF;
+      --label-sec: rgba(235, 235, 245, 0.6);
+      --label-tri: rgba(235, 235, 245, 0.3);
+      --glass-bg: rgba(30, 30, 30, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-sys); background:#E5E5EA; color:var(--label); -webkit-font-smoothing:antialiased; height: 100vh; display: flex; justify-content: center; align-items: center; }
+  @media (prefers-color-scheme: dark) { body { background: #111; } }
+
+  /* Device Mockup */
+  .device-frame {
+    width: 393px;
+    height: 852px; /* iPhone 14 Pro aspect ratio */
+    background: var(--bg-primary);
+    border-radius: 44px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    border: 8px solid #1a1a1a;
+  }
+
+  /* Header */
+  .header {
+    padding: 60px 24px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .title {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Refined Breathe Motion */
+  .alive-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+    background: #34C759; box-shadow: 0 0 6px rgba(52,199,89,0.4);
+    animation: breathe 3s var(--ease-smooth) infinite;
+  }
+  @keyframes breathe {
+    0%,100%{transform:scale(1);opacity:.4}
+    50%{transform:scale(1.2);opacity:.9}
+  }
+
+  /* Main Character Area */
+  .main-character-area {
+    padding: 0 24px;
+    height: calc(100% - 210px); /* adjusted for floating tab bar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .character-card {
+    width: 100%;
+    flex: 1; /* Take up remaining space */
+    border-radius: var(--radius-lg);
+    background: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600&h=800') center/cover;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+
+  .character-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 32px 24px 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    color: white;
+  }
+
+  .character-name {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .character-meta {
+    font-size: 15px;
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Refined Liquid Glass Tab Bar (Floating, 5-tab) */
+  .tab-bar-container {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    z-index: 200;
+  }
+
+  .tab-bar {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 0.5px solid var(--glass-border);
+    border-radius: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    color: var(--label-tri);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .tab-item.active {
+    color: var(--tint);
+  }
+
+  /* Active shape background (pill) */
+  .tab-item.active::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    background: rgba(255, 133, 82, 0.1);
+    border-radius: 24px;
+    z-index: -1;
+  }
+
+  .tab-icon {
+    width: 22px;
+    height: 22px;
+    background-color: currentColor;
+  }
+
+  /* Create (+) Tab Distinction */
+  .tab-item.create-btn {
+    color: #FFF;
+  }
+  .tab-item.create-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 42px; height: 42px;
+    background: var(--tint);
+    border-radius: 50%;
+    z-index: -1;
+    box-shadow: 0 4px 12px rgba(255, 133, 82, 0.3);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="device-frame">
+  <div class="header">
+    <div class="title">Home</div>
+    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-secondary);"></div>
+  </div>
+
+  <div class="main-character-area">
+    <div class="character-card">
+      <div class="character-overlay">
+        <div class="character-name">Elena</div>
+        <div class="character-meta">
+          <span class="alive-dot"></span>
+          <span>alive &middot; 36.5&deg;C</span>
+        </div>
+        <div style="margin-top: 12px; font-size: 15px; color: rgba(255,255,255,0.9); line-height: 1.4;">
+          "Hey! I remembered your cafe story from yesterday."
+        </div>
+      </div>
+    </div>
+    
+    <!-- Action buttons -->
+    <div style="display: flex; gap: 12px; margin-top: 24px; width: 100%;">
+       <button style="flex: 1; padding: 16px; border-radius: var(--radius-full); background: var(--tint); color: white; border: none; font-size: 17px; font-weight: 600; box-shadow: 0 4px 12px rgba(255, 133, 82, 0.3);">Chat</button>
+       <button style="padding: 16px; border-radius: var(--radius-full); background: var(--bg-secondary); color: var(--tint); border: none; font-size: 17px; font-weight: 600; width: 80px;">Mem</button>
+    </div>
+  </div>
+
+  <!-- Dynamic Glass Tab Bar (from Discover) -->
+  <div class="tab-bar-container">
+    <div class="tab-bar">
+      <a href="#" class="tab-item active">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"></path><polyline points=\"9 22 9 12 15 12 15 22\"></polyline></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"></path><polyline points=\"9 22 9 12 15 12 15 22\"></polyline></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"></circle><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"></line></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"></circle><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"></line></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item create-btn">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"></path></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"></path></svg>') center/cover;"></div>
+      </a>
+      <a href="#" class="tab-item">
+        <div class="tab-icon" style="mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"></path><circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg>') center/cover; -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"></path><circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg>') center/cover;"></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
