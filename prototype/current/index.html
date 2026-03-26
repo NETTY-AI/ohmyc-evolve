@@ -373,7 +373,7 @@ body {
 #home { position:relative; }
 .home-bg { position:absolute; top:0; left:0; width:100%; height:100%; transition:background 1s var(--ease-default); }
 .home-bg.evening { background:linear-gradient(180deg,#111118 0%,#1C1C2E 40%,#2A2840 100%); }
-.home-bg.morning { background:linear-gradient(180deg,#FFF0E0 0%,#FFE0B8 40%,#FFF5E6 100%); }
+.home-bg.morning { background:linear-gradient(180deg,#FFF6F0 0%,#FFE5D6 40%,#FFD4BB 100%); }
 .home-bg.daytime { background:linear-gradient(180deg,#FFF5E6 0%,var(--warm-cream) 100%); }
 .home-bg.afternoon { background:linear-gradient(180deg,#FFF0DD 0%,#FFE8CC 40%,var(--warm-cream) 100%); }
 .home-bg.night2 { background:linear-gradient(180deg,#111118 0%,#1C1C2E 40%,#2A2840 100%); }
@@ -415,8 +415,8 @@ body {
   transition:color 0.5s ease;
   z-index:3; position:relative;
 }
-.temp-pill.dark { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.15); color:rgba(255,255,255,0.7); }
-.temp-pill.light { color:var(--label-secondary); }
+.temp-pill.dark { background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.4); color:rgba(255,255,255,0.9); }
+.temp-pill.light { background:var(--glass-bg); border:1px solid var(--glass-border); color:var(--tint); }
 .temp-pill-dot {
   width:6px; height:6px; border-radius:50%;
   transition:background 0.5s ease;
@@ -812,6 +812,23 @@ body {
   padding:2px var(--space-sm); background:var(--tint); border-radius:var(--radius-full);
   font-size:9px; font-weight:700; color:white;
 }
+
+/* ═══ Edit Profile ═══ */
+.edit-profile-btn { margin-top:var(--space-md); padding:8px 20px; border:1px solid var(--label-tertiary); border-radius:var(--radius-md); background:transparent; color:var(--label-primary); font-size:14px; font-weight:600; cursor:pointer; }
+.edit-profile-btn:active { background:var(--bg-secondary); }
+.edit-profile-screen { background:var(--bg-primary); padding:0 var(--space-base) var(--space-2xl); overflow-y:auto; }
+.edit-profile-nav { display:flex; align-items:center; justify-content:space-between; padding:54px var(--space-xs) var(--space-md); }
+.edit-profile-back, .edit-profile-save { background:none; border:none; font-size:17px; color:var(--accent-warm); font-weight:600; cursor:pointer; padding:var(--space-xs); }
+.edit-profile-back:active, .edit-profile-save:active { opacity:0.6; }
+.edit-profile-nav-title { font-size:17px; font-weight:600; }
+.edit-profile-form { padding:var(--space-lg) 0; }
+.edit-profile-avatar-section { text-align:center; margin-bottom:var(--space-2xl); }
+.edit-avatar-btn { display:block; margin:var(--space-sm) auto 0; background:none; border:none; color:var(--accent-warm); font-size:14px; font-weight:600; cursor:pointer; }
+.edit-profile-field { margin-bottom:var(--space-xl); }
+.edit-profile-label { display:block; font-size:12px; font-weight:600; color:var(--label-tertiary); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:var(--space-sm); }
+.edit-profile-input { width:100%; padding:12px var(--space-md); border:1px solid var(--border-color, rgba(120,120,128,0.2)); border-radius:var(--radius-md); background:var(--bg-secondary); font-size:16px; color:var(--label-primary); box-sizing:border-box; }
+.edit-profile-input:focus { outline:none; border-color:var(--accent-warm); }
+.edit-profile-textarea { resize:none; font-family:inherit; }
 
 /* ═══ Character Profile ═══ */
 .char-profile-screen { background:var(--bg-primary); overflow-y:auto; }
@@ -1245,7 +1262,7 @@ body {
 
 <!-- 8. Home -->
 <div class="screen" id="home">
-  <div class="home-bg evening" id="home-bg"></div>
+  <div class="home-bg" id="home-bg"></div>
   <div class="deco moon" id="deco-moon" style="top:80px;right:36px"></div>
   <div class="deco star" style="top:100px;left:50px;animation-delay:0.3s"></div>
   <div class="deco star" style="top:130px;left:100px;animation-delay:0.8s"></div>
@@ -1549,7 +1566,8 @@ body {
   <div class="profile-header">
     <div class="profile-avatar">👤</div>
     <div class="profile-name" id="profile-name">Demo</div>
-    <div class="profile-sub">1 companion · 2 days together</div>
+    <div class="profile-sub" id="profile-role">1 companion · 2 days together</div>
+    <button class="edit-profile-btn" onclick="goTo('edit-profile')">Edit Profile</button>
   </div>
   <div class="profile-section">
     <div class="profile-section-title">My Bond</div>
@@ -1601,6 +1619,33 @@ body {
     <button class="tab-item" onclick="switchTab('miniapps')"><span class="tab-icon">🧩</span><span class="tab-label light">Mini-Apps</span></button>
     <button class="tab-item active" onclick="switchTab('profile')"><span class="tab-icon">👤</span><span class="tab-label light">Profile</span></button>
   </div></div>
+</div>
+
+<!-- 8.2 Edit Profile -->
+<div class="screen edit-profile-screen" id="edit-profile">
+  <div class="edit-profile-nav">
+    <button class="edit-profile-back" onclick="switchTab('profile')">‹ Back</button>
+    <span class="edit-profile-nav-title">Edit Profile</span>
+    <button class="edit-profile-save" onclick="saveProfile()">Save</button>
+  </div>
+  <div class="edit-profile-form">
+    <div class="edit-profile-avatar-section">
+      <div class="profile-avatar">👤</div>
+      <button class="edit-avatar-btn">Change Photo</button>
+    </div>
+    <div class="edit-profile-field">
+      <label class="edit-profile-label" for="edit-name">Name</label>
+      <input class="edit-profile-input" type="text" id="edit-name" value="Demo" placeholder="Your name">
+    </div>
+    <div class="edit-profile-field">
+      <label class="edit-profile-label" for="edit-role">Role / Job</label>
+      <input class="edit-profile-input" type="text" id="edit-role" value="" placeholder="e.g. Designer, Student...">
+    </div>
+    <div class="edit-profile-field">
+      <label class="edit-profile-label" for="edit-bio">Bio</label>
+      <textarea class="edit-profile-input edit-profile-textarea" id="edit-bio" rows="3" placeholder="Tell your characters about yourself..."></textarea>
+    </div>
+  </div>
 </div>
 
 <!-- 7.2 Credits Sheet -->
@@ -1670,6 +1715,7 @@ body {
   <button class="flow-nav-item" data-stage="chats-list" onclick="jumpTo('chats-list')"><span class="flow-nav-dot"></span>7.1 Chats List</button>
   <div class="flow-nav-section">8. User Profile</div>
   <button class="flow-nav-item" data-stage="profile" onclick="jumpTo('profile')"><span class="flow-nav-dot"></span>8.1 Profile</button>
+  <button class="flow-nav-item" data-stage="edit-profile" onclick="jumpTo('edit-profile')"><span class="flow-nav-dot"></span>8.2 Edit Profile</button>
   <button class="flow-nav-item" data-stage="credits" onclick="jumpTo('credits')"><span class="flow-nav-dot"></span>8.2 Credits</button>
   <div class="flow-nav-section">9. Edge Cases (P3)</div>
   <button class="flow-nav-item" data-stage="edge-error" onclick="jumpToEdge('error')"><span class="flow-nav-dot"></span>9.1 Error State</button>
@@ -1898,6 +1944,7 @@ async function startChat(){
 }
 
 /* ═══ Closing → Home ═══ */
+function saveProfile(){var n=document.getElementById('edit-name').value.trim();var r=document.getElementById('edit-role').value.trim();if(n)document.getElementById('profile-name').textContent=n;if(r)document.getElementById('profile-role').textContent=r;else document.getElementById('profile-role').textContent='1 companion · 2 days together';switchTab('profile');}
 function goToHome(){prevTemp=36.5;bondTemp=36.5;lifeData={tasks:[],meals:[],mood:[],memories:[],routines:[]};seedOnboardingData();goTo('home');setupHome('evening');setTimeout(showEveningBubble,1200);}
 
 /* ═══ Home ═══ */
@@ -2577,6 +2624,7 @@ function jumpTo(stage){
     case 'miniapp-meals':mealsInstalled=true;if(!lifeData.meals.length)addLifeData('meals',{day:2,type:'Lunch',what:'Sandwich',time:'12:30 PM',emoji:'🥪'});openMiniApp('meals');break;
     case 'char-profile':goTo('char-profile');break;
     case 'chats-list':goTo('chats-list');break;
+    case 'edit-profile':document.getElementById('edit-name').value=document.getElementById('profile-name').textContent;goTo('edit-profile');break;
     case 'credits':switchTab('profile');setTimeout(openCredits,300);break;
   }
   flowNavOpen=false;document.getElementById('flow-nav').classList.remove('open');

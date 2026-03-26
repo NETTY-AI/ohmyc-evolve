@@ -73,6 +73,7 @@
 |----|------|----------|------|
 | char-profile | Character Profile | discover | 캐릭터 상세 (온도, 통계, SOUL 요약) |
 | credits | Credits | profile | 크레딧 잔액/충전 |
+| edit-profile | Edit Profile | profile | 이름/역할/자기소개 편집 |
 | life-grid | Life Grid | home | 미니앱 그리드 |
 | miniapp-store | Mini-App Store | life-grid | 설치 가능한 미니앱 목록 |
 | miniapp | Mini-App | life-grid | 개별 미니앱 뷰. type으로 구분 |
@@ -159,6 +160,14 @@ chats -> chat(context)
 profile -> credits
 ```
 
+### F9. Edit Profile
+
+프로필 편집. 비민감 텍스트 정보(이름, 역할, 자기소개) 수정.
+
+```
+profile -> edit-profile -> (save) -> profile
+```
+
 ---
 
 ## 탭 구조
@@ -176,7 +185,7 @@ profile -> credits
 
 | | 수 |
 |---|---|
-| 고유 화면 | 12 |
+| 고유 화면 | 13 |
 | 상태/컨텍스트 | 12 (home 5 + chat 5 + miniapp 3 - 1 중복) |
-| 플로우 | 8 |
+| 플로우 | 9 |
 | 핵심 플로우 | F1 (Onboarding) + F3 (Day 2 Loop) |
