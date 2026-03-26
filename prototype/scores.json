@@ -20,5 +20,16 @@
     },
     "summary": { "L1": "6/6", "L2": "7/7", "L3": "9/9", "L4": "3/5" },
     "notes": "Cycle 4 — V9 brand voice UI text overhaul + P4 prefers-reduced-motion + forced-colors accessibility"
+  },
+  "v0.3.5": {
+    "timestamp": "2026-03-26T18:30:00+09:00",
+    "scores": {
+      "F1": true, "F2": true, "F3": true, "F4": true, "F5": true, "F6": true,
+      "I1": true, "I2": true, "I3": true, "I4": true, "I5": true, "I6": true, "I7": true,
+      "V1": true, "V2": true, "V3": true, "V4": true, "V5": true, "V6": true, "V7": true, "V8": true, "V9": true,
+      "P1": true, "P2": true, "P3": true, "P4": true, "P5": true
+    },
+    "summary": { "L1": "6/6", "L2": "7/7", "L3": "9/9", "L4": "5/5" },
+    "notes": "Cycle 5 — P3 edge cases (skeleton loading, error banner, empty-state) + P5 responsive (100vw/100svh ≤500px, compact ≤374px) — L4 5/5 달성"
   }
 }
