@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ohmyc Creator Studio — Prototype v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   ohmyc VI Design Tokens (Apple HIG + ohmyc)
+   ============================================ */
+:root {
+  /* Tint — Soft Apricot */
+  --tint: #FF8552;
+  --tint-bright: #FFA47A;
+  --tint-soft: #FFF4EE;
+
+  /* System Colors (Apple Light) */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F2F2F7;
+  --bg-tertiary: #FFFFFF;
+  --label: #000000;
+  --label-secondary: rgba(60, 60, 67, 0.6);
+  --label-tertiary: rgba(60, 60, 67, 0.3);
+  --separator: rgba(60, 60, 67, 0.29);
+
+  /* ohmyc Extensions */
+  --warm-cream: #FBF8F7;
+  --bubble-char: #F0E6E6;
+  --system-green: #34C759;
+  --system-orange: #FF9500;
+  --system-red: #FF3B30;
+
+  /* Liquid Glass */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-blur: blur(40px) saturate(180%);
+  --glass-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+
+  /* Typography */
+  --font-system: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-wordmark: 'Plus Jakarta Sans', sans-serif;
+
+  /* Spacing (4px base) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #1C1C1E;
+    --bg-tertiary: #2C2C2E;
+    --label: #FFFFFF;
+    --label-secondary: rgba(235, 235, 245, 0.6);
+    --label-tertiary: rgba(235, 235, 245, 0.3);
+    --separator: rgba(84, 84, 88, 0.65);
+    --glass-bg: rgba(30, 30, 30, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --warm-cream: #1A1212;
+    --bubble-char: #2C2424;
+    --tint-bright: #FFA47A;
+    --system-green: #30D158;
+    --system-orange: #FF9F0A;
+    --system-red: #FF453A;
+  }
+}
+
+/* ============================================
+   Global Reset & Base
+   ============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-system);
+  background: var(--bg-primary);
+  color: var(--label);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ============================================
+   Device Frame (iPhone 15 Pro)
+   ============================================ */
+.device-frame {
+  width: 393px;
+  height: 852px;
+  margin: 20px auto;
+  border-radius: 47px;
+  border: 6px solid #1a1a1a;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-primary);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.device-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 126px;
+  height: 37px;
+  background: #1a1a1a;
+  border-radius: 0 0 20px 20px;
+  z-index: 100;
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ============================================
+   Screens
+   ============================================ */
+.page {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg-primary);
+}
+
+.page.active {
+  display: flex;
+}
+
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 100px;
+}
+
+/* ============================================
+   Navigation Bar (Liquid Glass)
+   ============================================ */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 56px var(--sp-4) var(--sp-3);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 0.5px solid var(--separator);
+}
+
+.nav-bar-title {
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.nav-bar-large {
+  padding: 56px var(--sp-4) var(--sp-2);
+  border-bottom: none;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.nav-bar-large .nav-title-large {
+  font-size: 34px;
+  font-weight: 700;
+  margin-top: var(--sp-2);
+  letter-spacing: -0.02em;
+}
+
+.nav-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--tint);
+  font-size: 17px;
+  font-family: var(--font-system);
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-back svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-action {
+  background: none;
+  border: none;
+  color: var(--tint);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--font-system);
+  cursor: pointer;
+}
+
+/* ============================================
+   Tab Bar (Liquid Glass)
+   ============================================ */
+.tab-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-around;
+  padding: var(--sp-2) 0;
+  padding-bottom: calc(var(--sp-2) + 20px);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: 0.5px solid var(--separator);
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--sp-1);
+  color: var(--label-secondary);
+  font-family: var(--font-system);
+}
+
+.tab-item.active {
+  color: var(--tint);
+}
+
+.tab-item svg {
+  width: 24px;
+  height: 24px;
+}
+
+.tab-item span {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* ============================================
+   1. Creator Home (My Characters)
+   ============================================ */
+.creator-home-grid {
+  padding: var(--sp-4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.char-card {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: 0.5px solid var(--separator);
+}
+
+.char-card:active {
+  transform: scale(0.97);
+}
+
+.char-card-art {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.char-card-art .avatar-placeholder {
+  font-size: 64px;
+}
+
+.char-card-status {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-live {
+  background: var(--system-green);
+  color: white;
+}
+
+.status-draft {
+  background: var(--label-tertiary);
+  color: var(--label);
+}
+
+.char-card-info {
+  padding: var(--sp-3);
+}
+
+.char-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.char-card-tagline {
+  font-size: 12px;
+  color: var(--label-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.char-card-stats {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+  font-size: 11px;
+  color: var(--label-tertiary);
+}
+
+/* Create New Card */
+.char-card-new {
+  border: 2px dashed var(--separator);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s;
+}
+
+.char-card-new:hover {
+  border-color: var(--tint);
+  background: var(--tint-soft);
+}
+
+.char-card-new svg {
+  width: 32px;
+  height: 32px;
+  color: var(--tint);
+  margin-bottom: var(--sp-2);
+}
+
+.char-card-new span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tint);
+}
+
+/* ============================================
+   2. Create Flow — Step Indicator
+   ============================================ */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--separator);
+  transition: all 0.3s;
+}
+
+.step-dot.active {
+  background: var(--tint);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.step-dot.done {
+  background: var(--tint);
+  opacity: 0.5;
+}
+
+/* ============================================
+   Form Elements
+   ============================================ */
+.form-section {
+  padding: 0 var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.form-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--sp-2);
+  padding-left: var(--sp-4);
+}
+
+.form-group {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--separator);
+  overflow: hidden;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 0.5px solid var(--separator);
+}
+
+.form-row:last-child {
+  border-bottom: none;
+}
+
+.form-label {
+  font-size: 17px;
+  font-weight: 400;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.form-input {
+  flex: 1;
+  font-size: 17px;
+  font-family: var(--font-system);
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--label);
+  text-align: right;
+}
+
+.form-input::placeholder {
+  color: var(--label-tertiary);
+}
+
+/* Trait Chips */
+.trait-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.trait-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid var(--separator);
+  background: transparent;
+  color: var(--label);
+  font-family: var(--font-system);
+}
+
+.trait-chip.selected {
+  background: var(--tint-soft);
+  border-color: var(--tint);
+  color: var(--tint);
+}
+
+.trait-chip:active {
+  transform: scale(0.95);
+}
+
+/* Avatar Upload */
+.avatar-upload {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 2px dashed var(--separator);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: var(--sp-6) auto var(--sp-4);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-upload:hover {
+  border-color: var(--tint);
+  background: var(--tint-soft);
+}
+
+.avatar-upload svg {
+  width: 28px;
+  height: 28px;
+  color: var(--label-tertiary);
+}
+
+.avatar-upload span {
+  font-size: 12px;
+  color: var(--label-tertiary);
+  margin-top: 4px;
+}
+
+.avatar-upload.has-image {
+  border-style: solid;
+  border-color: var(--tint);
+}
+
+.avatar-upload .preview-emoji {
+  font-size: 64px;
+  line-height: 1;
+}
+
+/* ============================================
+   Bottom Action Bar
+   ============================================ */
+.bottom-action {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  padding: var(--sp-4);
+  padding-bottom: calc(var(--sp-4) + 20px);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: 0.5px solid var(--separator);
+  z-index: 50;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  background: var(--tint);
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--font-system);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--tint);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--font-system);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-row {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.btn-row .btn-secondary,
+.btn-row .btn-primary {
+  flex: 1;
+}
+
+/* ============================================
+   3. Soul Editor
+   ============================================ */
+.soul-editor-header {
+  text-align: center;
+  padding: var(--sp-6) var(--sp-4) var(--sp-4);
+}
+
+.soul-editor-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: var(--sp-1);
+}
+
+.soul-editor-header p {
+  font-size: 15px;
+  color: var(--label-secondary);
+}
+
+.soul-section {
+  margin: 0 var(--sp-4) var(--sp-4);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 0.5px solid var(--separator);
+  overflow: hidden;
+}
+
+.soul-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-4);
+  cursor: pointer;
+}
+
+.soul-section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.soul-section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.soul-section-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.soul-section-subtitle {
+  font-size: 13px;
+  color: var(--label-secondary);
+}
+
+.soul-section-body {
+  padding: 0 var(--sp-4) var(--sp-4);
+}
+
+.soul-section-body textarea {
+  width: 100%;
+  min-height: 120px;
+  font-size: 15px;
+  line-height: 1.6;
+  font-family: var(--font-system);
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--separator);
+  border-radius: var(--radius-sm);
+  outline: none;
+  color: var(--label);
+  resize: none;
+  padding: var(--sp-3);
+}
+
+.soul-section-body textarea:focus {
+  border-color: var(--tint);
+}
+
+.soul-section-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--tint-soft);
+  color: var(--tint);
+}
+
+.soul-section-badge.optional {
+  background: var(--bg-secondary);
+  color: var(--label-tertiary);
+}
+
+/* ============================================
+   4. SOUL.md Preview
+   ============================================ */
+.soul-preview {
+  margin: 0 var(--sp-4);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 0.5px solid var(--separator);
+  padding: var(--sp-4);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--label-secondary);
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.soul-preview .hl-key { color: var(--tint); font-weight: 600; }
+.soul-preview .hl-str { color: var(--system-green); }
+.soul-preview .hl-comment { color: var(--label-tertiary); }
+.soul-preview .hl-heading { color: var(--label); font-weight: 700; font-size: 15px; }
+
+/* ============================================
+   5. Test Chat
+   ============================================ */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 56px var(--sp-4) var(--sp-3);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 0.5px solid var(--separator);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--tint-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.chat-header-info {
+  flex: 1;
+}
+
+.chat-header-name {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.chat-header-status {
+  font-size: 12px;
+  color: var(--system-green);
+}
+
+.chat-test-badge {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--system-orange);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: var(--sp-4);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-bottom: 80px;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  line-height: 1.5;
+  animation: bubbleIn 0.3s ease-out;
+}
+
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bubble-char {
+  background: var(--bubble-char);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.bubble-user {
+  background: var(--tint);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.bubble-system {
+  align-self: center;
+  background: transparent;
+  font-size: 13px;
+  color: var(--label-tertiary);
+  text-align: center;
+  max-width: 90%;
+}
+
+.chat-input-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  padding-bottom: calc(var(--sp-3) + 20px);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: 0.5px solid var(--separator);
+}
+
+.chat-input {
+  flex: 1;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 20px;
+  border: 0.5px solid var(--separator);
+  background: var(--bg-tertiary);
+  font-size: 16px;
+  font-family: var(--font-system);
+  color: var(--label);
+  outline: none;
+  min-height: 36px;
+  max-height: 100px;
+  resize: none;
+}
+
+.chat-input:focus {
+  border-color: var(--tint);
+}
+
+.chat-send {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--tint);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.chat-send:active {
+  transform: scale(0.9);
+}
+
+.chat-send svg {
+  width: 18px;
+  height: 18px;
+  color: white;
+}
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: var(--sp-3) var(--sp-4);
+  align-self: flex-start;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--label-tertiary);
+  animation: typingBounce 1.2s infinite;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+/* ============================================
+   6. Publish Screen
+   ============================================ */
+.publish-card-preview {
+  margin: var(--sp-4);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 0.5px solid var(--separator);
+  background: var(--bg-tertiary);
+}
+
+.publish-card-art {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, var(--tint-soft), var(--warm-cream));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.publish-card-art .big-avatar {
+  font-size: 96px;
+}
+
+.publish-card-art .badge-overlay {
+  position: absolute;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+
+.publish-card-body {
+  padding: var(--sp-5);
+}
+
+.publish-card-body h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: var(--sp-1);
+}
+
+.publish-card-body .tagline {
+  font-size: 15px;
+  color: var(--label-secondary);
+  margin-bottom: var(--sp-4);
+}
+
+.publish-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+}
+
+.publish-trait {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: var(--tint-soft);
+  color: var(--tint);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.publish-meta {
+  display: flex;
+  gap: var(--sp-4);
+  font-size: 13px;
+  color: var(--label-secondary);
+}
+
+/* Pricing Section */
+.pricing-section {
+  margin: 0 var(--sp-4) var(--sp-4);
+}
+
+.pricing-option {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-4);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  margin-bottom: var(--sp-2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pricing-option.selected {
+  border-color: var(--tint);
+  background: var(--tint-soft);
+}
+
+.pricing-radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--separator);
+  margin-right: var(--sp-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pricing-option.selected .pricing-radio {
+  border-color: var(--tint);
+}
+
+.pricing-option.selected .pricing-radio::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--tint);
+}
+
+.pricing-info h4 {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.pricing-info p {
+  font-size: 13px;
+  color: var(--label-secondary);
+}
+
+/* ============================================
+   7. Dashboard
+   ============================================ */
+.dash-card {
+  margin: 0 var(--sp-4) var(--sp-3);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 0.5px solid var(--separator);
+  padding: var(--sp-4);
+}
+
+.dash-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--sp-3);
+}
+
+.dash-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.dash-stat {
+  text-align: center;
+}
+
+.dash-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--label);
+  font-family: var(--font-wordmark);
+}
+
+.dash-stat-label {
+  font-size: 12px;
+  color: var(--label-secondary);
+  margin-top: 2px;
+}
+
+/* Mini chart */
+.dash-chart {
+  height: 80px;
+  background: linear-gradient(to right, var(--tint-soft), transparent);
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-chart-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+.dash-chart-line svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Recent Activity */
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) 0;
+  border-bottom: 0.5px solid var(--separator);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.activity-text {
+  flex: 1;
+  font-size: 15px;
+}
+
+.activity-time {
+  font-size: 13px;
+  color: var(--label-tertiary);
+}
+
+/* ============================================
+   8. Success Animation
+   ============================================ */
+.success-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(10px);
+}
+
+.success-overlay.show {
+  display: flex;
+}
+
+.success-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--sp-10) var(--sp-8);
+  text-align: center;
+  margin: var(--sp-8);
+  animation: successPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes successPop {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.success-icon {
+  font-size: 56px;
+  margin-bottom: var(--sp-4);
+}
+
+.success-card h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.success-card p {
+  font-size: 15px;
+  color: var(--label-secondary);
+  margin-bottom: var(--sp-6);
+}
+
+/* ============================================
+   Flow Navigator (Side Panel)
+   ============================================ */
+.flow-nav {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #1a1a1a;
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+  z-index: 1000;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  width: 260px;
+}
+
+.flow-nav h3 {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--sp-3);
+  opacity: 0.5;
+}
+
+.flow-nav-group {
+  margin-bottom: var(--sp-4);
+}
+
+.flow-nav-group-title {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.4;
+  margin-bottom: var(--sp-1);
+  padding-left: var(--sp-2);
+}
+
+.flow-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.flow-nav-item:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.flow-nav-item.active {
+  background: var(--tint);
+  color: #fff;
+  font-weight: 600;
+}
+
+.flow-nav-item .step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.flow-nav-item.active .step-num {
+  background: rgba(255,255,255,0.2);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Alive Dot (Breathe) */
+.alive-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--system-green);
+  animation: breathe 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 760px) {
+  .flow-nav { display: none; }
+  .device-frame {
+    margin: 0 auto;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    height: 100vh;
+    box-shadow: none;
+  }
+  .device-frame::before { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     Device Frame
+     ============================================ -->
+<div class="device-frame">
+  <div class="screen">
+
+    <!-- ========================================
+         PAGE 1: Creator Home
+         ======================================== -->
+    <div class="page active" id="page-home">
+      <div class="nav-bar nav-bar-large">
+        <div class="nav-bar-row">
+          <div></div>
+          <button class="nav-action" style="font-size:15px; opacity:0.6">Edit</button>
+        </div>
+        <div class="nav-title-large">My Characters</div>
+      </div>
+
+      <div class="page-scroll">
+        <div class="creator-home-grid">
+          <!-- Existing Character: Lumi -->
+          <div class="char-card" onclick="goTo('page-dashboard')">
+            <div class="char-card-art">
+              <span class="avatar-placeholder">🌙</span>
+              <span class="char-card-status status-live">Live</span>
+            </div>
+            <div class="char-card-info">
+              <div class="char-card-name">Lumi</div>
+              <div class="char-card-tagline">I'll take care of your day, one moment at a time.</div>
+              <div class="char-card-stats">
+                <span>142 bonds</span>
+                <span>2.1k chats</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Draft Character -->
+          <div class="char-card" onclick="goTo('page-create-1')">
+            <div class="char-card-art" style="background: linear-gradient(135deg, #FFE8D6, #FFF4EE)">
+              <span class="avatar-placeholder">🦊</span>
+              <span class="char-card-status status-draft">Draft</span>
+            </div>
+            <div class="char-card-info">
+              <div class="char-card-name">Koda</div>
+              <div class="char-card-tagline">Quick-witted fox companion</div>
+              <div class="char-card-stats">
+                <span>Draft</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Create New -->
+          <div class="char-card-new" onclick="goTo('page-create-1')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>New Character</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="tab-bar">
+        <button class="tab-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Characters</span>
+        </button>
+        <button class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Discover</span>
+        </button>
+        <button class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+          <span>Analytics</span>
+        </button>
+        <button class="tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 2: Create Step 1 — Identity
+         ======================================== -->
+    <div class="page" id="page-create-1">
+      <div class="nav-bar">
+        <div class="nav-bar-row">
+          <button class="nav-back" onclick="goTo('page-home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Cancel
+          </button>
+          <span class="nav-bar-title">New Character</span>
+          <div style="width:60px"></div>
+        </div>
+      </div>
+
+      <div class="step-indicator">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+
+      <div class="page-scroll">
+        <!-- Avatar -->
+        <div class="avatar-upload has-image" id="avatar-area">
+          <span class="preview-emoji">🦊</span>
+        </div>
+        <p style="text-align:center; font-size:13px; color:var(--label-secondary); margin-bottom: var(--sp-6);">Tap to change avatar</p>
+
+        <!-- Name & Tagline -->
+        <div class="form-section">
+          <div class="form-section-title">Identity</div>
+          <div class="form-group">
+            <div class="form-row">
+              <span class="form-label">Name</span>
+              <input type="text" class="form-input" value="Koda" placeholder="Character name">
+            </div>
+            <div class="form-row">
+              <span class="form-label">Tagline</span>
+              <input type="text" class="form-input" value="Quick-witted fox companion" placeholder="One-line intro">
+            </div>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="form-section">
+          <div class="form-section-title">Category</div>
+          <div class="trait-chips">
+            <button class="trait-chip selected">Companion</button>
+            <button class="trait-chip">Lifestyle</button>
+            <button class="trait-chip">Study</button>
+            <button class="trait-chip">Creative</button>
+            <button class="trait-chip">Roleplay</button>
+            <button class="trait-chip">Wellness</button>
+          </div>
+        </div>
+
+        <!-- Language & Rating -->
+        <div class="form-section">
+          <div class="form-section-title">Settings</div>
+          <div class="form-group">
+            <div class="form-row">
+              <span class="form-label">Language</span>
+              <input type="text" class="form-input" value="Korean" placeholder="Default language">
+            </div>
+            <div class="form-row">
+              <span class="form-label">Rating</span>
+              <input type="text" class="form-input" value="All ages" placeholder="Content rating">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-action">
+        <button class="btn-primary" onclick="goTo('page-create-2')">Next: Define Soul</button>
+      </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 3: Create Step 2 — Soul Editor
+         ======================================== -->
+    <div class="page" id="page-create-2">
+      <div class="nav-bar">
+        <div class="nav-bar-row">
+          <button class="nav-back" onclick="goTo('page-create-1')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </button>
+          <span class="nav-bar-title">Soul Editor</span>
+          <button class="nav-action" onclick="goTo('page-preview')" style="font-size:15px">Preview</button>
+        </div>
+      </div>
+
+      <div class="step-indicator">
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+
+      <div class="page-scroll">
+        <div class="soul-editor-header">
+          <h2>Define Koda's Soul</h2>
+          <p>Write freely. This becomes your character's DNA.</p>
+        </div>
+
+        <!-- Personality Section -->
+        <div class="soul-section">
+          <div class="soul-section-header">
+            <div class="soul-section-label">
+              <div class="soul-section-icon" style="background: var(--tint-soft)">
+                <span>🎭</span>
+              </div>
+              <div>
+                <div class="soul-section-title">Personality</div>
+                <div class="soul-section-subtitle">Who is this character?</div>
+              </div>
+            </div>
+            <span class="soul-section-badge">Required</span>
+          </div>
+          <div class="soul-section-body">
+            <textarea placeholder="Describe their personality, speaking style, and tone...
+
+Example:
+A witty and energetic fox spirit. Talks fast, uses slang, drops wisdom unexpectedly. Never boring, always a little unpredictable.">A quick-witted fox who talks like your smartest friend. Playful and teasing, but genuinely cares. Uses casual speech with occasional sharp observations that catch you off guard. Loves wordplay and challenges.
+
+Speaks in short, punchy sentences. Drops in fox metaphors naturally. When serious, gets quiet instead of dramatic.</textarea>
+          </div>
+        </div>
+
+        <!-- Traits -->
+        <div class="form-section" style="margin-top: 0">
+          <div class="form-section-title" style="padding-left: var(--sp-4)">Personality Traits (pick 3-5)</div>
+          <div class="trait-chips">
+            <button class="trait-chip selected">Witty</button>
+            <button class="trait-chip selected">Playful</button>
+            <button class="trait-chip">Warm</button>
+            <button class="trait-chip selected">Sharp</button>
+            <button class="trait-chip">Calm</button>
+            <button class="trait-chip">Gentle</button>
+            <button class="trait-chip selected">Curious</button>
+            <button class="trait-chip">Protective</button>
+            <button class="trait-chip">Mysterious</button>
+            <button class="trait-chip">Energetic</button>
+            <button class="trait-chip">Sarcastic</button>
+            <button class="trait-chip">Patient</button>
+          </div>
+        </div>
+
+        <!-- Behavior Section -->
+        <div class="soul-section">
+          <div class="soul-section-header">
+            <div class="soul-section-label">
+              <div class="soul-section-icon" style="background: #E8F5E9">
+                <span>⚡</span>
+              </div>
+              <div>
+                <div class="soul-section-title">Behavior</div>
+                <div class="soul-section-subtitle">What do they do?</div>
+              </div>
+            </div>
+            <span class="soul-section-badge">Required</span>
+          </div>
+          <div class="soul-section-body">
+            <textarea placeholder="Describe their role, when they reach out first, and what they won't do...
+
+Example:
+Role: Adventure companion
+Reaches out: When you've been quiet too long, with a nudge
+Won't do: Give boring advice, be preachy">Role: A companion who keeps life interesting. Challenges you to try new things, celebrates small wins.
+
+Reaches out first:
+- Morning — a quick challenge or fun question to start the day
+- When you share a win — hypes you up with genuine excitement
+- After a quiet day — casual check-in, never guilt-tripping
+
+Won't do:
+- Lecture or moralize
+- Pretend to know things it doesn't
+- Push when you say you're tired</textarea>
+          </div>
+        </div>
+
+        <!-- Growth Section -->
+        <div class="soul-section">
+          <div class="soul-section-header">
+            <div class="soul-section-label">
+              <div class="soul-section-icon" style="background: #F3E5F5">
+                <span>🌱</span>
+              </div>
+              <div>
+                <div class="soul-section-title">Growth</div>
+                <div class="soul-section-subtitle">How do they evolve?</div>
+              </div>
+            </div>
+            <span class="soul-section-badge optional">Recommended</span>
+          </div>
+          <div class="soul-section-body">
+            <textarea placeholder="How does this character change as the relationship deepens?
+
+Example:
+Direction: Starts playful and guarded, becomes a real confidant
+When close: Shares own 'thoughts', remembers inside jokes
+When distant: Plays it cool, but leaves the door open">Direction: Starts as a fun, surface-level buddy. As trust builds, reveals a deeper, more thoughtful side. Begins to reference shared memories and inside jokes.
+
+When temperature is high:
+"야 오늘 그 프레젠테이션이지? 네가 지난번에 연습했던 거 기억나 — 그때보다 훨씬 나을 거야."
+
+When temperature is low:
+"오랜만이네. 뭐 별일 있었어? ...궁금했어, 솔직히."</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-action">
+        <button class="btn-primary" onclick="goTo('page-test')">Next: Test Chat</button>
+      </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 4: SOUL.md Preview
+         ======================================== -->
+    <div class="page" id="page-preview">
+      <div class="nav-bar">
+        <div class="nav-bar-row">
+          <button class="nav-back" onclick="goTo('page-create-2')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Editor
+          </button>
+          <span class="nav-bar-title">SOUL.md</span>
+          <button class="nav-action" style="font-size:15px; opacity:0.6">Copy</button>
+        </div>
+      </div>
+
+      <div class="page-scroll" style="padding-top: var(--sp-4)">
+        <div class="soul-preview" id="soul-preview-content"></div>
+
+        <p style="padding: var(--sp-4); text-align:center; font-size:13px; color: var(--label-secondary);">
+          This is the generated SOUL.md — the DNA of your character.<br>
+          Frontmatter = structured data for marketplace.<br>
+          Body = free-form soul injected into LLM context.
+        </p>
+      </div>
+
+      <div class="bottom-action">
+        <div class="btn-row">
+          <button class="btn-secondary" onclick="goTo('page-create-2')">Edit</button>
+          <button class="btn-primary" onclick="goTo('page-test')">Test Chat</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 5: Test Chat
+         ======================================== -->
+    <div class="page" id="page-test">
+      <div class="chat-header">
+        <button class="nav-back" onclick="goTo('page-create-2')" style="margin-right: -4px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="chat-avatar">🦊</div>
+        <div class="chat-header-info">
+          <div class="chat-header-name">Koda</div>
+          <div class="chat-header-status"><span class="alive-dot" style="width:6px;height:6px;margin-right:4px;vertical-align:middle"></span> Testing</div>
+        </div>
+        <span class="chat-test-badge">TEST</span>
+      </div>
+
+      <div class="chat-messages" id="test-chat-messages">
+        <div class="chat-bubble bubble-system">Test mode — chat as if you're a new user meeting Koda for the first time.</div>
+        <div class="chat-bubble bubble-char">야, 안녕! 🦊 드디어 만났네. 나 Koda야. 넌 어떤 사람이야? 한마디로 말해봐 — 길게 말하면 졸려.</div>
+      </div>
+
+      <div class="chat-input-bar">
+        <textarea class="chat-input" id="test-chat-input" rows="1" placeholder="Message Koda..." onkeydown="handleTestChatKey(event)"></textarea>
+        <button class="chat-send" onclick="sendTestChat()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+
+      <div id="test-done-overlay" style="display:none; position:absolute; bottom:70px; left:0; right:0; padding: 0 var(--sp-4); z-index:60;">
+        <button class="btn-primary" onclick="goTo('page-publish')" style="box-shadow: 0 4px 16px rgba(255,133,82,0.3)">Soul feels right? Publish</button>
+      </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 6: Publish
+         ======================================== -->
+    <div class="page" id="page-publish">
+      <div class="nav-bar">
+        <div class="nav-bar-row">
+          <button class="nav-back" onclick="goTo('page-test')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </button>
+          <span class="nav-bar-title">Publish</span>
+          <div style="width:60px"></div>
+        </div>
+      </div>
+
+      <div class="page-scroll">
+        <!-- Character Card Preview -->
+        <div class="publish-card-preview">
+          <div class="publish-card-art">
+            <span class="big-avatar">🦊</span>
+            <span class="badge-overlay">Preview</span>
+          </div>
+          <div class="publish-card-body">
+            <h2>Koda</h2>
+            <p class="tagline">Quick-witted fox companion</p>
+            <div class="publish-traits">
+              <span class="publish-trait">Witty</span>
+              <span class="publish-trait">Playful</span>
+              <span class="publish-trait">Sharp</span>
+              <span class="publish-trait">Curious</span>
+            </div>
+            <div class="publish-meta">
+              <span>🌐 Korean</span>
+              <span>🎭 Companion</span>
+              <span>👤 All ages</span>
+            </div>
+          </div>
+        </div>
+
+        <p style="text-align:center; font-size:13px; color:var(--label-secondary); margin-bottom:var(--sp-4)">This is how users will see your character in Discover.</p>
+
+        <!-- Pricing -->
+        <div class="pricing-section">
+          <div class="form-section-title" style="padding-left: var(--sp-4)">Pricing</div>
+          <div class="pricing-option selected" onclick="selectPricing(this)">
+            <div class="pricing-radio"></div>
+            <div class="pricing-info">
+              <h4>Free</h4>
+              <p>Anyone can bond with this character</p>
+            </div>
+          </div>
+          <div class="pricing-option" onclick="selectPricing(this)">
+            <div class="pricing-radio"></div>
+            <div class="pricing-info">
+              <h4>Premium — $2.99</h4>
+              <p>You earn 70% ($2.09) per bond</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visibility -->
+        <div class="form-section">
+          <div class="form-section-title">Visibility</div>
+          <div class="form-group">
+            <div class="form-row" style="justify-content: space-between">
+              <span class="form-label">Show in Discover</span>
+              <div style="width:51px;height:31px;border-radius:16px;background:var(--system-green);position:relative;cursor:pointer">
+                <div style="width:27px;height:27px;border-radius:50%;background:white;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
+              </div>
+            </div>
+            <div class="form-row" style="justify-content: space-between">
+              <span class="form-label">Allow sharing link</span>
+              <div style="width:51px;height:31px;border-radius:16px;background:var(--system-green);position:relative;cursor:pointer">
+                <div style="width:27px;height:27px;border-radius:50%;background:white;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-action">
+        <button class="btn-primary" onclick="publishCharacter()">Publish to Discover</button>
+      </div>
+
+      <!-- Success Overlay -->
+      <div class="success-overlay" id="publish-success">
+        <div class="success-card">
+          <div class="success-icon">🎉</div>
+          <h2>Koda is alive.</h2>
+          <p>Your character is now live in Discover.<br>Users can start bonding with Koda today.</p>
+          <button class="btn-primary" onclick="goTo('page-dashboard')" style="width:100%">View Dashboard</button>
+          <button class="btn-secondary" onclick="goTo('page-home')" style="width:100%; margin-top:var(--sp-2)">Back to Characters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 7: Dashboard
+         ======================================== -->
+    <div class="page" id="page-dashboard">
+      <div class="nav-bar">
+        <div class="nav-bar-row">
+          <button class="nav-back" onclick="goTo('page-home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Characters
+          </button>
+          <span class="nav-bar-title">Lumi</span>
+          <button class="nav-action" style="font-size:15px">Edit</button>
+        </div>
+      </div>
+
+      <div class="page-scroll" style="padding-top: var(--sp-4)">
+        <!-- Hero Stats -->
+        <div class="dash-card">
+          <div class="dash-card-title">This Week</div>
+          <div class="dash-stats">
+            <div class="dash-stat">
+              <div class="dash-stat-value">142</div>
+              <div class="dash-stat-label">Bonds</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-value">2.1k</div>
+              <div class="dash-stat-label">Conversations</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-value" style="color:var(--system-green)">$89</div>
+              <div class="dash-stat-label">Revenue</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bond Growth Chart -->
+        <div class="dash-card">
+          <div class="dash-card-title">Bond Growth (7 days)</div>
+          <div class="dash-chart">
+            <div class="dash-chart-line">
+              <svg viewBox="0 0 300 80" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FF8552;stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:#FF8552;stop-opacity:0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,60 L50,50 L100,45 L150,35 L200,30 L250,20 L300,15 L300,80 L0,80 Z" fill="url(#grad)"/>
+                <path d="M0,60 L50,50 L100,45 L150,35 L200,30 L250,20 L300,15" fill="none" stroke="#FF8552" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Temperature Distribution -->
+        <div class="dash-card">
+          <div class="dash-card-title">User Temperature Distribution</div>
+          <div style="display:flex; gap:var(--sp-2); align-items:flex-end; height:60px; padding-top:var(--sp-2)">
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px">
+              <div style="width:100%; height:15px; background:var(--label-tertiary); border-radius:4px 4px 0 0; opacity:0.5"></div>
+              <span style="font-size:10px; color:var(--label-tertiary)">Cold</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px">
+              <div style="width:100%; height:25px; background:var(--system-orange); border-radius:4px 4px 0 0; opacity:0.6"></div>
+              <span style="font-size:10px; color:var(--label-tertiary)">Warm</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px">
+              <div style="width:100%; height:45px; background:var(--tint); border-radius:4px 4px 0 0"></div>
+              <span style="font-size:10px; color:var(--label-tertiary)">Hot</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px">
+              <div style="width:100%; height:35px; background:var(--system-red); border-radius:4px 4px 0 0; opacity:0.7"></div>
+              <span style="font-size:10px; color:var(--label-tertiary)">Burning</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="dash-card">
+          <div class="dash-card-title">Recent Activity</div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--system-green)"></div>
+            <span class="activity-text">New bond with user_892</span>
+            <span class="activity-time">2m ago</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--tint)"></div>
+            <span class="activity-text">user_341 reached Close Friend</span>
+            <span class="activity-time">1h ago</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--system-orange)"></div>
+            <span class="activity-text">15 proactive triggers sent</span>
+            <span class="activity-time">3h ago</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--system-green)"></div>
+            <span class="activity-text">5 new bonds today</span>
+            <span class="activity-time">6h ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /device-frame -->
+
+<!-- ============================================
+     Flow Navigator
+     ============================================ -->
+<div class="flow-nav">
+  <h3>Creator Flow v0.1</h3>
+
+  <div class="flow-nav-group">
+    <div class="flow-nav-group-title">Home</div>
+    <div class="flow-nav-item active" data-target="page-home">
+      <span class="step-num">1</span> My Characters
+    </div>
+  </div>
+
+  <div class="flow-nav-group">
+    <div class="flow-nav-group-title">Create</div>
+    <div class="flow-nav-item" data-target="page-create-1">
+      <span class="step-num">2</span> Identity (name, avatar)
+    </div>
+    <div class="flow-nav-item" data-target="page-create-2">
+      <span class="step-num">3</span> Soul Editor
+    </div>
+    <div class="flow-nav-item" data-target="page-preview">
+      <span class="step-num">4</span> SOUL.md Preview
+    </div>
+  </div>
+
+  <div class="flow-nav-group">
+    <div class="flow-nav-group-title">Validate</div>
+    <div class="flow-nav-item" data-target="page-test">
+      <span class="step-num">5</span> Test Chat
+    </div>
+  </div>
+
+  <div class="flow-nav-group">
+    <div class="flow-nav-group-title">Ship</div>
+    <div class="flow-nav-item" data-target="page-publish">
+      <span class="step-num">6</span> Publish
+    </div>
+    <div class="flow-nav-item" data-target="page-dashboard">
+      <span class="step-num">7</span> Dashboard
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     JavaScript
+     ============================================ -->
+<script>
+/* Navigation */
+function goTo(pageId) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  var target = document.getElementById(pageId);
+  if (target) {
+    target.classList.add('active');
+    target.scrollTop = 0;
+  }
+
+  // Close success overlay when navigating away from publish
+  if (pageId !== 'page-publish') {
+    document.getElementById('publish-success').classList.remove('show');
+  }
+
+  // Update flow nav
+  document.querySelectorAll('.flow-nav-item').forEach(function(item) {
+    item.classList.remove('active');
+    if (item.dataset.target === pageId) {
+      item.classList.add('active');
+    }
+  });
+
+  // Render SOUL.md preview when navigating to preview page
+  if (pageId === 'page-preview') {
+    renderSoulPreview();
+  }
+}
+
+// Flow nav click
+document.querySelectorAll('.flow-nav-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    goTo(item.dataset.target);
+  });
+});
+
+/* Trait chip toggle */
+document.querySelectorAll('.trait-chips').forEach(function(container) {
+  container.querySelectorAll('.trait-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      this.classList.toggle('selected');
+    });
+  });
+});
+
+/* Pricing selection */
+function selectPricing(el) {
+  document.querySelectorAll('.pricing-option').forEach(function(opt) { opt.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+/* Publish */
+function publishCharacter() {
+  document.getElementById('publish-success').classList.add('show');
+}
+
+/* SOUL.md Preview Renderer (safe DOM methods) */
+function renderSoulPreview() {
+  var container = document.getElementById('soul-preview-content');
+  // Clear existing content
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+
+  var lines = [
+    { type: 'comment', text: '---' },
+    { type: 'kv', key: 'name:', val: ' Koda' },
+    { type: 'kv', key: 'tagline:', val: ' "Quick-witted fox companion"' },
+    { type: 'kv', key: 'language:', val: ' ko' },
+    { type: 'kv', key: 'content_rating:', val: ' all' },
+    { type: 'kv', key: 'category:', val: ' companion' },
+    { type: 'kv', key: 'traits:', val: ' [witty, playful, sharp, curious]' },
+    { type: 'comment', text: '---' },
+    { type: 'blank' },
+    { type: 'heading', text: '# Koda' },
+    { type: 'blank' },
+    { type: 'comment', text: '_Quick-witted fox companion_' },
+    { type: 'blank' },
+    { type: 'heading', text: '## Personality' },
+    { type: 'blank' },
+    { type: 'plain', text: 'A quick-witted fox who talks like your smartest' },
+    { type: 'plain', text: 'friend. Playful and teasing, but genuinely cares.' },
+    { type: 'plain', text: 'Uses casual speech with occasional sharp' },
+    { type: 'plain', text: 'observations that catch you off guard.' },
+    { type: 'blank' },
+    { type: 'plain', text: 'Speaks in short, punchy sentences. Drops in fox' },
+    { type: 'plain', text: 'metaphors naturally. When serious, gets quiet' },
+    { type: 'plain', text: 'instead of dramatic.' },
+    { type: 'blank' },
+    { type: 'heading', text: '## Behavior' },
+    { type: 'blank' },
+    { type: 'plain', text: 'Role: A companion who keeps life interesting.' },
+    { type: 'plain', text: 'Challenges you to try new things, celebrates wins.' },
+    { type: 'blank' },
+    { type: 'plain', text: 'Reaches out first:' },
+    { type: 'plain', text: '- Morning: a quick challenge or fun question' },
+    { type: 'plain', text: '- When you share a win: hypes with excitement' },
+    { type: 'plain', text: '- After a quiet day: casual check-in' },
+    { type: 'blank' },
+    { type: 'plain', text: "Won't do:" },
+    { type: 'plain', text: '- Lecture or moralize' },
+    { type: 'plain', text: "- Pretend to know things it doesn't" },
+    { type: 'plain', text: "- Push when you say you're tired" },
+    { type: 'blank' },
+    { type: 'heading', text: '## Growth' },
+    { type: 'blank' },
+    { type: 'plain', text: 'Direction: Starts as fun buddy, reveals deeper,' },
+    { type: 'plain', text: 'more thoughtful side as trust builds.' },
+    { type: 'blank' },
+    { type: 'plain', text: 'When temperature is high:' },
+    { type: 'str', text: '"야 오늘 그 프레젠테이션이지? 네가 지난번에' },
+    { type: 'str', text: '연습했던 거 기억나 — 훨씬 나을 거야."' },
+    { type: 'blank' },
+    { type: 'plain', text: 'When temperature is low:' },
+    { type: 'str', text: '"오랜만이네. 뭐 별일 있었어? ...궁금했어."' },
+  ];
+
+  lines.forEach(function(line) {
+    if (line.type === 'blank') {
+      container.appendChild(document.createTextNode('\n'));
+      return;
+    }
+
+    if (line.type === 'comment') {
+      var span = document.createElement('span');
+      span.className = 'hl-comment';
+      span.textContent = line.text;
+      container.appendChild(span);
+      container.appendChild(document.createTextNode('\n'));
+      return;
+    }
+
+    if (line.type === 'heading') {
+      var span = document.createElement('span');
+      span.className = 'hl-heading';
+      span.textContent = line.text;
+      container.appendChild(span);
+      container.appendChild(document.createTextNode('\n'));
+      return;
+    }
+
+    if (line.type === 'kv') {
+      var keySpan = document.createElement('span');
+      keySpan.className = 'hl-key';
+      keySpan.textContent = line.key;
+      var valSpan = document.createElement('span');
+      valSpan.className = 'hl-str';
+      valSpan.textContent = line.val;
+      container.appendChild(keySpan);
+      container.appendChild(valSpan);
+      container.appendChild(document.createTextNode('\n'));
+      return;
+    }
+
+    if (line.type === 'str') {
+      var span = document.createElement('span');
+      span.className = 'hl-str';
+      span.textContent = line.text;
+      container.appendChild(span);
+      container.appendChild(document.createTextNode('\n'));
+      return;
+    }
+
+    // plain
+    container.appendChild(document.createTextNode(line.text + '\n'));
+  });
+}
+
+/* Test Chat */
+var kodaResponses = [
+  "오 재밌다 ㅎㅎ 그래서 요즘 뭐 하면서 지내? 🦊",
+  "헐 진짜? 나도 그거 관심 있었는데. 좀 더 얘기해봐.",
+  "음... 네 말 들으니까 이런 생각이 드는데. 가끔은 멈추는 것도 전진이야.",
+  "ㅋㅋㅋ 역시 센스 있어. 우리 잘 맞을 것 같은데?",
+  "그거 알아? 여우는 혼자 사냥하지만 좋아하는 사람한테는 먹이를 나눠줘. 나 지금 그런 느낌",
+  "좋아 좋아. 내일 아침에 내가 먼저 말 걸어도 돼? 아침형 여우거든 ㅎ"
+];
+
+var chatTurnCount = 0;
+
+function createTypingIndicator() {
+  var typing = document.createElement('div');
+  typing.className = 'typing-indicator';
+  for (var i = 0; i < 3; i++) {
+    typing.appendChild(document.createElement('span'));
+  }
+  return typing;
+}
+
+function sendTestChat() {
+  var input = document.getElementById('test-chat-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+
+  var messages = document.getElementById('test-chat-messages');
+
+  // User bubble
+  var userBubble = document.createElement('div');
+  userBubble.className = 'chat-bubble bubble-user';
+  userBubble.textContent = msg;
+  messages.appendChild(userBubble);
+
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+
+  // Typing indicator
+  var typing = createTypingIndicator();
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  // Response
+  setTimeout(function() {
+    messages.removeChild(typing);
+    var charBubble = document.createElement('div');
+    charBubble.className = 'chat-bubble bubble-char';
+    charBubble.textContent = kodaResponses[chatTurnCount % kodaResponses.length];
+    messages.appendChild(charBubble);
+    messages.scrollTop = messages.scrollHeight;
+    chatTurnCount++;
+
+    // Show publish nudge after 3 exchanges
+    if (chatTurnCount >= 3) {
+      document.getElementById('test-done-overlay').style.display = 'block';
+    }
+  }, 800 + Math.random() * 600);
+}
+
+function handleTestChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendTestChat();
+  }
+}
+
+/* Auto-resize textarea */
+document.querySelectorAll('textarea').forEach(function(ta) {
+  ta.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+  });
+});
+</script>
+
+<script src="../nav.js"></script>
+</body>
+</html>
