@@ -1265,13 +1265,13 @@ body {
     <div class="home-bubble" id="home-bubble"></div>
     <div class="home-skip"><button class="btn-ghost" id="skip-btn" onclick="skipToMorning()" style="color:rgba(255,255,255,0.45)">Skip to morning →</button></div>
   </div>
-  <div class="tab-bar dark" id="tab-bar">
+  <div class="tab-bar-container"><div class="tab-bar dark" id="tab-bar">
     <button class="tab-item active" onclick="switchTab('home')"><span class="tab-icon">🏠</span><span class="tab-label dark">Home</span></button>
     <button class="tab-item" onclick="switchTab('discover')"><span class="tab-icon">🔍</span><span class="tab-label dark">Discover</span></button>
     <button class="tab-item create-btn" onclick="switchTab('create')"><span class="tab-icon">✏️</span><span class="tab-label dark">Create</span></button>
-    <button class="tab-item" onclick="switchTab('chats')"><span class="tab-icon">💬</span><span class="tab-label light">Chats</span></button><span class="tab-icon">💬</span><span class="tab-label dark">Chats</span></button>
-    <button class="tab-item" onclick="switchTab('profile')"><span class="tab-icon">👤</span><span class="tab-label light">Profile</span></button><span class="tab-icon">👤</span><span class="tab-label dark">Profile</span></button>
-  </div>
+    <button class="tab-item" onclick="switchTab('chats')"><span class="tab-icon">💬</span><span class="tab-label dark">Chats</span></button>
+    <button class="tab-item" onclick="switchTab('profile')"><span class="tab-icon">👤</span><span class="tab-label dark">Profile</span></button>
+  </div></div>
 </div>
 
 <!-- 9. Push Notification -->
