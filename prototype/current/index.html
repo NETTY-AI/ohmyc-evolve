@@ -388,6 +388,23 @@ body {
 .home-date.dark { color:rgba(255,255,255,0.4); }
 .home-time.light { color:#2A3A5C; }
 .home-date.light { color:#5C6D8A; }
+
+.home-time.morning { color:#2E4773; }
+.home-date.morning { color:#607B9E; }
+.home-status.morning { color:#3D5580; }
+
+.home-time.daytime { color:#3D2A24; }
+.home-date.daytime { color:#7B625A; }
+.home-status.daytime { color:#7B625A; }
+
+.home-time.afternoon { color:#5C3A21; }
+.home-date.afternoon { color:#8F634A; }
+.home-status.afternoon { color:#8F634A; }
+
+.home-time.evening, .home-time.night2 { color:rgba(255,255,255,0.9); }
+.home-date.evening, .home-date.night2 { color:rgba(255,255,255,0.4); }
+.home-status.evening, .home-status.night2 { color:rgba(255,255,255,0.6); }
+
 /* Temperature System */
 .temp-glow {
   position:absolute; width:180px; height:180px; border-radius:50%;
@@ -1964,27 +1981,27 @@ function setupHome(state){
   tempColor(isDark);
   if(state==='evening'){
     setTemp(36.8);wg.classList.add('hidden');
-    time.className='home-time dark';time.textContent='11:30 PM';
-    date.className='home-date dark';date.textContent='Monday, March 23';
-    status.className='home-status dark';status.textContent=agreedTomorrow?'Getting ready for '+wakeTime+'...':'Here whenever you need her...';
+    time.className='home-time ' + bgState;time.textContent='11:30 PM';
+    date.className='home-date ' + bgState;date.textContent='Monday, March 23';
+    status.className='home-status ' + bgState;status.textContent=agreedTomorrow?'Getting ready for '+wakeTime+'...':'Here whenever you need her...';
     skip.style.color='rgba(255,255,255,0.45)';skip.classList.remove('hidden');
     tabbar.className='tab-bar dark';setTabTheme('dark');
     moon.classList.remove('hidden');sun.classList.add('hidden');
     for(var i=0;i<stars.length;i++)stars[i].style.display='block';
   }else if(state==='morning'){
     setTemp(36.7);wg.classList.add('hidden'); // natural overnight cooling
-    time.className='home-time light';time.textContent=wakeTime.replace('am',' AM');
-    date.className='home-date light';date.textContent='Tuesday, March 24';
-    status.className='home-status light';status.textContent='Tap to chat ☀️';
+    time.className='home-time ' + bgState;time.textContent=wakeTime.replace('am',' AM');
+    date.className='home-date ' + bgState;date.textContent='Tuesday, March 24';
+    status.className='home-status ' + bgState;status.textContent='Tap to chat ☀️';
     skip.classList.add('hidden');tabbar.className='tab-bar';setTabTheme('light');
     moon.classList.add('hidden');sun.classList.remove('hidden');
     for(var i=0;i<stars.length;i++)stars[i].style.display='none';
     wrap.style.cursor='pointer';wrap.onclick=function(){wrap.onclick=null;goTo('chat-day2');startDay2Chat();};
   }else if(state==='daytime'){
     setTemp(37.2); // morning conv completed
-    time.className='home-time light';time.textContent='10:30 AM';
-    date.className='home-date light';date.textContent='Tuesday, March 24';
-    status.className='home-status light';status.textContent='Lumi is keeping an eye on your day...';
+    time.className='home-time ' + bgState;time.textContent='10:30 AM';
+    date.className='home-date ' + bgState;date.textContent='Tuesday, March 24';
+    status.className='home-status ' + bgState;status.textContent='Lumi is keeping an eye on your day...';
     skip.textContent='Skip to afternoon →';skip.style.color='#6B5A60';skip.classList.remove('hidden');
     skip.onclick=function(){showPushAndGo('3:15 PM','Lumi','How did it go?','chat-afternoon',startAfternoonChat);};
     tabbar.className='tab-bar';setTabTheme('light');
@@ -1994,9 +2011,9 @@ function setupHome(state){
     setTimeout(function(){showHomeBubble("Keeping an eye on your day. Tap 'Your Life' below to see your data. ☀️");},800);
   }else if(state==='afternoon'){
     setTemp(37.5); // afternoon check-in
-    time.className='home-time light';time.textContent='4:30 PM';
-    date.className='home-date light';date.textContent='Tuesday, March 24';
-    status.className='home-status light';status.textContent='Afternoon check-in done.';
+    time.className='home-time ' + bgState;time.textContent='4:30 PM';
+    date.className='home-date ' + bgState;date.textContent='Tuesday, March 24';
+    status.className='home-status ' + bgState;status.textContent='Afternoon check-in done.';
     skip.textContent='Skip to evening →';skip.style.color='#6B5A60';skip.classList.remove('hidden');
     skip.onclick=function(){showPushAndGo('9:00 PM','Lumi',"Let's wrap up the day ✨",'chat-evening',startEveningChat);};
     tabbar.className='tab-bar';setTabTheme('light');
@@ -2005,9 +2022,9 @@ function setupHome(state){
     setTimeout(function(){showHomeBubble("I'll be back tonight to wrap up your day. 💛");},800);
   }else if(state==='night2'){
     setTemp(37.8); // full day together
-    time.className='home-time dark';time.textContent='10:30 PM';
-    date.className='home-date dark';date.textContent='Tuesday, March 24';
-    status.className='home-status dark';status.textContent='Day complete. Sleep well.';
+    time.className='home-time ' + bgState;time.textContent='10:30 PM';
+    date.className='home-date ' + bgState;date.textContent='Tuesday, March 24';
+    status.className='home-status ' + bgState;status.textContent='Day complete. Sleep well.';
     skip.classList.add('hidden');
     tabbar.className='tab-bar dark';setTabTheme('dark');
     moon.classList.remove('hidden');sun.classList.add('hidden');
@@ -2015,9 +2032,9 @@ function setupHome(state){
     bg.className='home-bg night2';wrap.className='home-character-wrap evening';
     setTimeout(function(){showHomeBubble("3 conversations today. I feel like I know "+userName+" a little better now. 🌙");},800);
   }else{
-    time.className='home-time light';time.textContent='10:30 AM';
-    date.className='home-date light';date.textContent='Tuesday, March 24';
-    status.className='home-status light';status.textContent='Lumi is thinking of you...';
+    time.className='home-time ' + bgState;time.textContent='10:30 AM';
+    date.className='home-date ' + bgState;date.textContent='Tuesday, March 24';
+    status.className='home-status ' + bgState;status.textContent='Lumi is thinking of you...';
     skip.classList.add('hidden');tabbar.className='tab-bar';setTabTheme('light');
     moon.classList.add('hidden');sun.classList.add('hidden');
     for(var i=0;i<stars.length;i++)stars[i].style.display='none';
