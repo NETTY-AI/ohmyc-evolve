@@ -373,7 +373,7 @@ body {
 #home { position:relative; }
 .home-bg { position:absolute; top:0; left:0; width:100%; height:100%; transition:background 1s var(--ease-default); }
 .home-bg.evening { background:linear-gradient(180deg,#111118 0%,#1C1C2E 40%,#2A2840 100%); }
-.home-bg.morning { background:linear-gradient(180deg,#FFF6F0 0%,#FFE5D6 40%,#FFD4BB 100%); }
+.home-bg.morning { background:linear-gradient(180deg, #F2F5FF 0%, #D8E5FF 40%, #BBD0FF 100%); }
 .home-bg.daytime { background:linear-gradient(180deg,#FFF5E6 0%,var(--warm-cream) 100%); }
 .home-bg.afternoon { background:linear-gradient(180deg,#FFF0DD 0%,#FFE8CC 40%,var(--warm-cream) 100%); }
 .home-bg.night2 { background:linear-gradient(180deg,#111118 0%,#1C1C2E 40%,#2A2840 100%); }
@@ -386,8 +386,8 @@ body {
 .home-date { font-size:15px; font-weight:500; margin-bottom:var(--space-2xl); }
 .home-time.dark { color:rgba(255,255,255,0.9); }
 .home-date.dark { color:rgba(255,255,255,0.4); }
-.home-time.light { color:#2D2226; }
-.home-date.light { color:#6B5A60; }
+.home-time.light { color:#2A3A5C; }
+.home-date.light { color:#5C6D8A; }
 /* Temperature System */
 .temp-glow {
   position:absolute; width:180px; height:180px; border-radius:50%;
@@ -435,7 +435,7 @@ body {
 @keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
 .home-status { font-size:15px; font-weight:500; margin-bottom:var(--space-sm); max-width:260px; }
 .home-status.dark { color:rgba(255,255,255,0.6); }
-.home-status.light { color:#6B5A60; }
+.home-status.light { color:#5C6D8A; }
 .home-bubble {
   background:var(--glass-bg); backdrop-filter:var(--glass-blur);
   border:1px solid var(--glass-border);
@@ -576,7 +576,7 @@ body {
 .star { width:3px; height:3px; border-radius:50%; background:white; animation:twinkle 2s ease-in-out infinite; }
 @keyframes twinkle { 0%,100%{opacity:0.2} 50%{opacity:0.8} }
 .moon { width:36px; height:36px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#FFF8DC,#F0E68C); box-shadow:0 0 16px rgba(240,230,140,0.2); }
-.sun { width:44px; height:44px; border-radius:50%; background:radial-gradient(circle at 40% 40%,#FFF8DC,#FFD700); box-shadow:0 0 24px rgba(255,215,0,0.3); }
+.sun { width:44px; height:44px; border-radius:50%; background:radial-gradient(circle at 40% 40%,#FFFFF0,#FF8552); box-shadow:0 0 32px rgba(255,133,82,0.4); }
 
 /* ═══ Tab Bar (Floating Liquid Glass — Cycle 2) ═══ */
 .tab-bar-container {
