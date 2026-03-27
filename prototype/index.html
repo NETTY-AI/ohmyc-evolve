@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ohmyc-evolve</title>
+  <title>omc-evolve</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -166,7 +166,7 @@
     <nav class="nav">
       <a href="current/" class="active">📱 Latest Prototype</a>
       <a href="review.html">📊 Review Portal</a>
-      <a href="https://github.com/NETTY-AI/ohmyc-evolve" target="_blank">🔗 GitHub</a>
+      <a href="https://github.com/NETTY-AI/omc-evolve" target="_blank">🔗 GitHub</a>
     </nav>
 
     <!-- Main Entry Points -->
@@ -212,7 +212,7 @@
       </div>
     </div>
 
-    <!-- Version History (loaded from versions-manifest.json) -->
+    <!-- Version History (loaded from state.json) -->
     <div class="section">
       <div class="section-title">Version History</div>
       <div id="version-list">
@@ -224,39 +224,39 @@
     <div class="section">
       <div class="section-title">SSOT Documents (원본)</div>
       <div id="ssot-list">
-        <a class="version-item" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/IDENTITY.md" target="_blank">
+        <a class="version-item" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/IDENTITY.md" target="_blank">
           <div><div class="version-name">📋 IDENTITY.md</div><div class="version-meta">제품 정체성, 원칙, 북극성, 경계</div></div>
           <span class="version-link">GitHub →</span>
         </a>
-        <a class="version-item" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/UX.md" target="_blank">
+        <a class="version-item" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/UX.md" target="_blank">
           <div><div class="version-name">🎯 UX.md</div><div class="version-meta">3+1대 UX 원칙, 온도 시스템, 행동 규칙</div></div>
           <span class="version-link">GitHub →</span>
         </a>
-        <a class="version-item" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/CHARACTER-AGENT-SPEC.md" target="_blank">
+        <a class="version-item" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/CHARACTER-AGENT-SPEC.md" target="_blank">
           <div><div class="version-name">🧠 CHARACTER-AGENT-SPEC.md</div><div class="version-meta">Memory / Action / Growth 엔진 스펙</div></div>
           <span class="version-link">GitHub →</span>
         </a>
-        <a class="version-item" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/VI.md" target="_blank">
+        <a class="version-item" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/VI.md" target="_blank">
           <div><div class="version-name">🎨 VI.md</div><div class="version-meta">시각 정체성, 디자인 토큰, Liquid Glass</div></div>
           <span class="version-link">GitHub →</span>
         </a>
-        <a class="version-item" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/FLOWS.md" target="_blank">
+        <a class="version-item" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/FLOWS.md" target="_blank">
           <div><div class="version-name">📱 FLOWS.md</div><div class="version-meta">화면 & 유저 플로우 정의</div></div>
           <span class="version-link">GitHub →</span>
         </a>
-        <a class="version-item" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/GLOSSARY.md" target="_blank">
+        <a class="version-item" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/GLOSSARY.md" target="_blank">
           <div><div class="version-name">📖 GLOSSARY.md</div><div class="version-meta">용어 사전</div></div>
           <span class="version-link">GitHub →</span>
         </a>
       </div>
       <div style="margin-top:12px;">
         <div class="card-grid">
-          <a class="card" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/CHECKLIST.md" target="_blank">
+          <a class="card" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/CHECKLIST.md" target="_blank">
             <div class="card-icon">✅</div>
             <div class="card-title">Checklist</div>
             <div class="card-desc">L1~L4 평가 기준 27항목</div>
           </a>
-          <a class="card" href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/SYSTEM.md" target="_blank">
+          <a class="card" href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/SYSTEM.md" target="_blank">
             <div class="card-icon">📐</div>
             <div class="card-title">System Design</div>
             <div class="card-desc">Evolve 루프 시스템 설계</div>
@@ -267,25 +267,25 @@
 
     <!-- Footer -->
     <div class="footer">
-      <span>ohmyc-evolve · <a href="https://github.com/NETTY-AI/ohmyc-evolve">NETTY-AI</a></span>
+      <span>omc-evolve · <a href="https://github.com/NETTY-AI/omc-evolve">NETTY-AI</a></span>
       <span>SSOT: IDENTITY.md → UX.md → SPEC.md → VI.md</span>
     </div>
   </div>
 
   <script>
-    // Load versions manifest and render version history + current badge
-    fetch('versions-manifest.json')
+    // Load state and render version history + current badge
+    fetch('state.json')
       .then(r => r.ok ? r.json() : null)
-      .then(manifest => {
-        if (!manifest) return;
+      .then(state => {
+        if (!state) return;
         // Update current version badge
         const versionEl = document.getElementById('current-version');
-        if (versionEl) versionEl.textContent = manifest.current;
+        if (versionEl) versionEl.textContent = state.current_version;
         // Render version list
         const listEl = document.getElementById('version-list');
         if (!listEl) return;
         listEl.innerHTML = '';
-        manifest.versions.forEach(function(v) {
+        state.versions.forEach(function(v) {
           v.files.forEach(function(file) {
             var a = document.createElement('a');
             a.className = 'version-item';
@@ -301,21 +301,21 @@
       })
       .catch(function(){});
 
-    // Load loop state for status indicator
-    fetch('loop-state.json')
+    // Load state for status indicator
+    fetch('state.json')
       .then(r => r.ok ? r.json() : null)
-      .then(state => {
-        if (!state) return;
+      .then(s => {
+        if (!s) return;
         const statusEl = document.getElementById('status');
         if (statusEl) {
           const dot = statusEl.querySelector('.status-dot');
           const text = statusEl.querySelector('span:last-child');
-          if (state.fidelity_level === 'pending_evaluation') {
+          if (s.cycle.phase === 'idle' && s.cycle.iteration === 0) {
             dot.className = 'status-dot idle';
             text.textContent = 'Baseline loaded — 첫 Evaluate 대기 중';
           } else {
             dot.className = 'status-dot active';
-            text.textContent = state.fidelity_level + ' · v' + state.current_version;
+            text.textContent = s.cycle.fidelity_level + ' · ' + s.current_version;
           }
         }
       })

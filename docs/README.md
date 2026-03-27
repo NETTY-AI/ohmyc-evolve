@@ -1,4 +1,4 @@
-# ohmyc-evolve Documents
+# omc-evolve Documents
 
 > 이 폴더가 omc 제품 문서의 **원본(SSOT)**입니다.
 > netty-datacenter의 복사본이 아니라, 여기가 원본.

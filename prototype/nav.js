@@ -1,4 +1,4 @@
-// ohmyc-evolve 공통 햄버거 네비게이션
+// omc-evolve 공통 햄버거 네비게이션
 // 모든 페이지에서 <script src="/nav.js"> 또는 상대경로로 include
 (function() {
   // 현재 경로에서 루트(prototype/)까지의 상대 경로 계산
@@ -72,12 +72,12 @@
     '<div class="evolve-nav-title evolve-nav-toggle" id="evolve-nav-versions" style="cursor:pointer;user-select:none">Versions <span id="evolve-ver-arrow" style="font-size:8px;margin-left:4px">▶</span></div>',
     '<div id="evolve-ver-list" style="display:none"></div>',
     '<div class="evolve-nav-title">SSOT Docs</div>',
-    '<a href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/IDENTITY.md" target="_blank"><span class="evolve-nav-icon">📋</span> IDENTITY</a>',
-    '<a href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/UX.md" target="_blank"><span class="evolve-nav-icon">🎯</span> UX</a>',
-    '<a href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/CHARACTER-AGENT-SPEC.md" target="_blank"><span class="evolve-nav-icon">🧠</span> SPEC</a>',
-    '<a href="https://github.com/NETTY-AI/ohmyc-evolve/blob/main/docs/VI.md" target="_blank"><span class="evolve-nav-icon">🎨</span> VI</a>',
+    '<a href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/IDENTITY.md" target="_blank"><span class="evolve-nav-icon">📋</span> IDENTITY</a>',
+    '<a href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/UX.md" target="_blank"><span class="evolve-nav-icon">🎯</span> UX</a>',
+    '<a href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/CHARACTER-AGENT-SPEC.md" target="_blank"><span class="evolve-nav-icon">🧠</span> SPEC</a>',
+    '<a href="https://github.com/NETTY-AI/omc-evolve/blob/main/docs/VI.md" target="_blank"><span class="evolve-nav-icon">🎨</span> VI</a>',
     '<div class="evolve-nav-title">Links</div>',
-    '<a href="https://github.com/NETTY-AI/ohmyc-evolve" target="_blank"><span class="evolve-nav-icon">🔗</span> GitHub</a>',
+    '<a href="https://github.com/NETTY-AI/omc-evolve" target="_blank"><span class="evolve-nav-icon">🔗</span> GitHub</a>',
   ].join('');
 
   function toggle() {
@@ -104,12 +104,11 @@
     });
   }
 
-  fetch(base + 'versions-manifest.json')
+  fetch(base + 'state.json')
     .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(manifest){
-      if (!manifest || !verList) return;
-      // Already sorted DESC in manifest, but ensure it
-      var sorted = manifest.versions.slice().sort(function(a, b){
+    .then(function(state){
+      if (!state || !verList) return;
+      var sorted = state.versions.slice().sort(function(a, b){
         return b.version.localeCompare(a.version, undefined, {numeric: true});
       });
       sorted.forEach(function(v){

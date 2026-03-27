@@ -133,7 +133,7 @@
 | 이름 | 종류 | 의미 | 사용 맥락 |
 |------|------|------|----------|
 | **Evolve Cycle** | 시스템명 | 프로토타입을 에이전트가 자율적으로 반복 개선하되, 매 이터레이션마다 사람이 웹 URL로 평가하는 자가 진화 사이클 | 시스템 설계, Slack, 리뷰 포털, 문서 |
-| **ohmyc-evolve** | repo명 | Evolve Cycle을 실행하는 GitHub repo | GitHub, Vercel, 배포 URL |
+| **omc-evolve** | repo명 | Evolve Cycle을 실행하는 GitHub repo | GitHub, Vercel, 배포 URL |
 
 - "루프", "자가 개선 루프", "자가 루프" 대신 **Evolve Cycle**을 사용한다.
 - 한 바퀴 = 1 Evolve Cycle = Evaluate → Plan → Build → Review → Gate → Publish.

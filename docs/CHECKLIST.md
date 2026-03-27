@@ -1,4 +1,4 @@
-# ohmyc-evolve 평가 체크리스트
+# omc-evolve 평가 체크리스트
 
 > SSOT: IDENTITY.md, UX.md, CHARACTER-AGENT-SPEC.md, VI.md에서 추출
 > 에이전트 리뷰어가 매 이터레이션마다 이 기준으로 채점한다.

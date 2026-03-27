@@ -1,7 +1,7 @@
 #!/bin/bash
-# sync-ssot.sh — SSOT 문서를 ohmyc-evolve(원본)에서 netty-datacenter로 싱크
+# sync-ssot.sh — SSOT 문서를 omc-evolve(원본)에서 netty-datacenter로 싱크
 #
-# ohmyc-evolve/docs/ 가 원본(SSOT)
+# omc-evolve/docs/ 가 원본(SSOT)
 # netty-datacenter/omc/ 는 참조 복사본
 #
 # 사용법: ./scripts/sync-ssot.sh [datacenter-path]
@@ -13,7 +13,7 @@ DATACENTER="${1:-$HOME/_P/company/netty}"
 OMC="$DATACENTER/07_사업운영/프로젝트/omc"
 SOURCE="$(cd "$(dirname "$0")/.." && pwd)/docs"
 
-echo "📄 Syncing SSOT: ohmyc-evolve → netty-datacenter"
+echo "📄 Syncing SSOT: omc-evolve → netty-datacenter"
 echo "   Source (SSOT): $SOURCE"
 echo "   Target (copy): $OMC"
 
@@ -25,5 +25,5 @@ cp "$SOURCE/FLOWS.md" "$OMC/설계/"
 cp "$SOURCE/GLOSSARY.md" "$OMC/" 2>/dev/null || true
 
 echo "✅ Synced $(ls "$SOURCE"/{IDENTITY,UX,CHARACTER-AGENT-SPEC,VI,FLOWS,GLOSSARY}.md 2>/dev/null | wc -l | tr -d ' ') documents"
-echo "   Direction: ohmyc-evolve (원본) → netty-datacenter (복사본)"
+echo "   Direction: omc-evolve (원본) → netty-datacenter (복사본)"
 echo "   Time: $(date)"

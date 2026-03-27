@@ -21,6 +21,6 @@
     "agent_b": { "verdict": "PASS", "score": "L3 8/9", "issues": ["V9: brand voice partially improved"] }
   },
   "human_feedback": null,
-  "url": "https://netty-ai.github.io/ohmyc-evolve/versions/v0.1.1/",
+  "url": "https://netty-ai.github.io/omc-evolve/versions/v0.1.1/",
   "screenshot": null
 }

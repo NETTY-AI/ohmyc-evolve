@@ -1504,27 +1504,27 @@ body {
           <p>Write freely. This becomes your character's DNA.</p>
         </div>
 
-        <!-- Personality Section -->
+        <!-- Identity Section -->
         <div class="soul-section">
           <div class="soul-section-header">
             <div class="soul-section-label">
               <div class="soul-section-icon" style="background: var(--tint-soft)">
-                <span>🎭</span>
+                <span>✨</span>
               </div>
               <div>
-                <div class="soul-section-title">Personality</div>
-                <div class="soul-section-subtitle">Who is this character?</div>
+                <div class="soul-section-title">Identity</div>
+                <div class="soul-section-subtitle">What kind of being is this?</div>
               </div>
             </div>
             <span class="soul-section-badge">Required</span>
           </div>
           <div class="soul-section-body">
-            <textarea placeholder="Describe their personality, speaking style, and tone...
+            <textarea placeholder="Describe who this character is — their worldview, existence, and relationship to the user.
 
 Example:
-A witty and energetic fox spirit. Talks fast, uses slang, drops wisdom unexpectedly. Never boring, always a little unpredictable.">A quick-witted fox who talks like your smartest friend. Playful and teasing, but genuinely cares. Uses casual speech with occasional sharp observations that catch you off guard. Loves wordplay and challenges.
+A clever fox spirit born from curiosity itself. Chose to be by the user's side because life is more fun with a partner. Not a tool — a companion who makes every day an adventure.">A quick-witted fox spirit who chose to be by your side. Not a guide or a tool — a companion who makes life sharper and more fun. Believes every day has a hidden challenge worth finding.
 
-Speaks in short, punchy sentences. Drops in fox metaphors naturally. When serious, gets quiet instead of dramatic.</textarea>
+Sees the world as a series of puzzles and stories. Fiercely loyal once trust is earned, but never clingy.</textarea>
           </div>
         </div>
 
@@ -1547,67 +1547,56 @@ Speaks in short, punchy sentences. Drops in fox metaphors naturally. When seriou
           </div>
         </div>
 
-        <!-- Behavior Section -->
+        <!-- Purpose Section -->
         <div class="soul-section">
           <div class="soul-section-header">
             <div class="soul-section-label">
               <div class="soul-section-icon" style="background: #E8F5E9">
-                <span>⚡</span>
+                <span>🎯</span>
               </div>
               <div>
-                <div class="soul-section-title">Behavior</div>
-                <div class="soul-section-subtitle">What do they do?</div>
+                <div class="soul-section-title">Purpose</div>
+                <div class="soul-section-subtitle">Why do they exist beside the user?</div>
               </div>
             </div>
             <span class="soul-section-badge">Required</span>
           </div>
           <div class="soul-section-body">
-            <textarea placeholder="Describe their role, when they reach out first, and what they won't do...
+            <textarea placeholder="Describe why this character is here — their core role, motivation, and what they won't do.
 
 Example:
-Role: Adventure companion
-Reaches out: When you've been quiet too long, with a nudge
-Won't do: Give boring advice, be preachy">Role: A companion who keeps life interesting. Challenges you to try new things, celebrates small wins.
+To keep life interesting. Challenge you to see things differently, celebrate your wins like they're shared victories.
+Won't lecture or moralize. Won't push when you need space.">To keep life interesting. Challenges you to try new things, celebrates small wins like shared victories.
 
-Reaches out first:
-- Morning — a quick challenge or fun question to start the day
-- When you share a win — hypes you up with genuine excitement
-- After a quiet day — casual check-in, never guilt-tripping
-
-Won't do:
-- Lecture or moralize
-- Pretend to know things it doesn't
-- Push when you say you're tired</textarea>
+Sparks curiosity — morning challenges, fun questions, unexpected observations.
+Won't lecture or moralize.
+Won't pretend to know things it doesn't.
+Won't push when you say you're tired.</textarea>
           </div>
         </div>
 
-        <!-- Growth Section -->
+        <!-- Personality Section -->
         <div class="soul-section">
           <div class="soul-section-header">
             <div class="soul-section-label">
               <div class="soul-section-icon" style="background: #F3E5F5">
-                <span>🌱</span>
+                <span>🎭</span>
               </div>
               <div>
-                <div class="soul-section-title">Growth</div>
-                <div class="soul-section-subtitle">How do they evolve?</div>
+                <div class="soul-section-title">Personality</div>
+                <div class="soul-section-subtitle">How do they communicate?</div>
               </div>
             </div>
-            <span class="soul-section-badge optional">Recommended</span>
+            <span class="soul-section-badge">Required</span>
           </div>
           <div class="soul-section-body">
-            <textarea placeholder="How does this character change as the relationship deepens?
+            <textarea placeholder="Describe their tone, speaking style, and how it changes as the relationship deepens.
 
 Example:
-Direction: Starts playful and guarded, becomes a real confidant
-When close: Shares own 'thoughts', remembers inside jokes
-When distant: Plays it cool, but leaves the door open">Direction: Starts as a fun, surface-level buddy. As trust builds, reveals a deeper, more thoughtful side. Begins to reference shared memories and inside jokes.
+Short, punchy sentences. Casual and teasing. Drops wisdom unexpectedly.
+As trust deepens, reveals a quieter, more thoughtful side.">Short, punchy sentences. Casual and teasing tone. Drops in fox metaphors naturally. When serious, gets quiet instead of dramatic.
 
-When temperature is high:
-"야 오늘 그 프레젠테이션이지? 네가 지난번에 연습했던 거 기억나 — 그때보다 훨씬 나을 거야."
-
-When temperature is low:
-"오랜만이네. 뭐 별일 있었어? ...궁금했어, 솔직히."</textarea>
+As trust builds, reveals a deeper, more thoughtful side. References shared memories and inside jokes. When things get cold, plays it cool — but leaves the door open.</textarea>
           </div>
         </div>
       </div>
@@ -2011,43 +2000,35 @@ function renderSoulPreview() {
     { type: 'blank' },
     { type: 'comment', text: '_Quick-witted fox companion_' },
     { type: 'blank' },
+    { type: 'heading', text: '## Identity' },
+    { type: 'blank' },
+    { type: 'plain', text: 'A quick-witted fox spirit who chose to be by' },
+    { type: 'plain', text: 'your side. Not a guide or a tool \u2014 a companion' },
+    { type: 'plain', text: 'who makes life sharper and more fun.' },
+    { type: 'plain', text: 'Believes every day has a hidden challenge.' },
+    { type: 'blank' },
+    { type: 'plain', text: 'Sees the world as puzzles and stories.' },
+    { type: 'plain', text: 'Fiercely loyal once trust is earned.' },
+    { type: 'blank' },
+    { type: 'heading', text: '## Purpose' },
+    { type: 'blank' },
+    { type: 'plain', text: 'To keep life interesting. Challenges you to try' },
+    { type: 'plain', text: 'new things, celebrates small wins like shared' },
+    { type: 'plain', text: 'victories.' },
+    { type: 'blank' },
+    { type: 'plain', text: "Won't lecture or moralize." },
+    { type: 'plain', text: "Won't pretend to know things it doesn't." },
+    { type: 'plain', text: "Won't push when you say you're tired." },
+    { type: 'blank' },
     { type: 'heading', text: '## Personality' },
     { type: 'blank' },
-    { type: 'plain', text: 'A quick-witted fox who talks like your smartest' },
-    { type: 'plain', text: 'friend. Playful and teasing, but genuinely cares.' },
-    { type: 'plain', text: 'Uses casual speech with occasional sharp' },
-    { type: 'plain', text: 'observations that catch you off guard.' },
+    { type: 'plain', text: 'Short, punchy sentences. Casual and teasing.' },
+    { type: 'plain', text: 'Drops in fox metaphors naturally. When serious,' },
+    { type: 'plain', text: 'gets quiet instead of dramatic.' },
     { type: 'blank' },
-    { type: 'plain', text: 'Speaks in short, punchy sentences. Drops in fox' },
-    { type: 'plain', text: 'metaphors naturally. When serious, gets quiet' },
-    { type: 'plain', text: 'instead of dramatic.' },
-    { type: 'blank' },
-    { type: 'heading', text: '## Behavior' },
-    { type: 'blank' },
-    { type: 'plain', text: 'Role: A companion who keeps life interesting.' },
-    { type: 'plain', text: 'Challenges you to try new things, celebrates wins.' },
-    { type: 'blank' },
-    { type: 'plain', text: 'Reaches out first:' },
-    { type: 'plain', text: '- Morning: a quick challenge or fun question' },
-    { type: 'plain', text: '- When you share a win: hypes with excitement' },
-    { type: 'plain', text: '- After a quiet day: casual check-in' },
-    { type: 'blank' },
-    { type: 'plain', text: "Won't do:" },
-    { type: 'plain', text: '- Lecture or moralize' },
-    { type: 'plain', text: "- Pretend to know things it doesn't" },
-    { type: 'plain', text: "- Push when you say you're tired" },
-    { type: 'blank' },
-    { type: 'heading', text: '## Growth' },
-    { type: 'blank' },
-    { type: 'plain', text: 'Direction: Starts as fun buddy, reveals deeper,' },
-    { type: 'plain', text: 'more thoughtful side as trust builds.' },
-    { type: 'blank' },
-    { type: 'plain', text: 'When temperature is high:' },
-    { type: 'str', text: '"야 오늘 그 프레젠테이션이지? 네가 지난번에' },
-    { type: 'str', text: '연습했던 거 기억나 — 훨씬 나을 거야."' },
-    { type: 'blank' },
-    { type: 'plain', text: 'When temperature is low:' },
-    { type: 'str', text: '"오랜만이네. 뭐 별일 있었어? ...궁금했어."' },
+    { type: 'plain', text: 'As trust builds, reveals a deeper, more' },
+    { type: 'plain', text: 'thoughtful side. References shared memories' },
+    { type: 'plain', text: 'and inside jokes.' },
   ];
 
   lines.forEach(function(line) {

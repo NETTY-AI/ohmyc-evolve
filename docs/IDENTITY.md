@@ -197,7 +197,7 @@ ohmyc가 **아닌** 것.
 ## 참조
 
 - 회사 정체성 (상위): [`00_정체성/README.md`](../../../00_정체성/README.md)
-- 캐릭터 에이전트 스펙: [`CHARACTER-AGENT-SPEC.md`](CHARACTER-AGENT-SPEC.md) — SOUL.md 포맷, Memory/Action/Growth 구현
+- 캐릭터 에이전트 스펙: [`CHARACTER-AGENT-SPEC.md`](CHARACTER-AGENT-SPEC.md) — SOUL.md 포맷(정체성/목적/성격), Memory/Action/Growth 엔진
 - UX 원칙: [`UX.md`](UX.md) — 이 문서의 원칙을 앱 행동으로 구체화
 - 시각 정체성: [`브랜드/VI.md`](브랜드/VI.md)
 - 용어 사전: [`GLOSSARY.md`](GLOSSARY.md)

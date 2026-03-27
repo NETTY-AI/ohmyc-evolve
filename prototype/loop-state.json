@@ -1,9 +1,0 @@
-{
-  "current_version": "0.1.3",
-  "fidelity_level": "L4",
-  "total_iterations": 5,
-  "last_human_feedback": null,
-  "pending_gaps": [],
-  "deploy_url": "https://netty-ai.github.io/ohmyc-evolve/current/",
-  "note": "버전 리셋: SSOT 변경 없는 싸이클은 패치 버전(v0.1.x)으로 통일. 매니페스트 기반 동적 버전 목록 도입."
-}

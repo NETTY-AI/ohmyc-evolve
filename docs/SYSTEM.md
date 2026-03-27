@@ -40,7 +40,7 @@ omc/
 │   │   ├── v002/
 │   │   └── ...
 │   ├── checklist.md                ← SSOT에서 추출한 평가 체크리스트
-│   └── loop-state.json             ← 루프 상태 (현재 버전, 피델리티 레벨 등)
+│   └── state.json                  ← 통합 상태 (버전, 루프, 점수)
 ```
 
 ### 웹 URL 제공 방식
@@ -304,7 +304,7 @@ Tint 컬러: #FF8552 (Soft Apricot)
 
 ### 루프 상태
 
-`loop-state.json`:
+`state.json`:
 
 ```json
 {
@@ -399,7 +399,7 @@ Slack 쓰레드에 달린 피드백을 다음 루프 입력으로 사용.
 | 리뷰 결과 | `versions/v{N}/meta.json > review` |
 | 사람 피드백 | `versions/v{N}/meta.json > human_feedback` |
 | 스크린샷 | `versions/v{N}/screenshot.png` |
-| 누적 학습 | `loop-state.json > pending_gaps` |
+| 누적 학습 | `state.json > pending_gaps` |
 
 ---
 
@@ -483,7 +483,7 @@ Evaluate 또는 Review 단계에서 다음 상황 발생 시 자동 생성:
 블로커/논의 리포트 발생 시 #11-omc에 알림:
 ```
 📋 [Cycle Report] 💬 논의 필요: "온도 시스템 초기값"
-→ https://netty-ai.github.io/ohmyc-evolve/reports/
+→ https://netty-ai.github.io/omc-evolve/reports/
 ```
 
 ---

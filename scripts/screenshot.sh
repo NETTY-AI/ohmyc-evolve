@@ -1,5 +1,5 @@
 #!/bin/bash
-# ohmyc-evolve 프로토타입 스크린샷 캡처
+# omc-evolve 프로토타입 스크린샷 캡처
 # Usage: ./scripts/screenshot.sh <version>
 # Example: ./scripts/screenshot.sh v001
 

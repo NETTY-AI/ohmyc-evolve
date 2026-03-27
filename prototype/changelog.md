@@ -1,4 +1,4 @@
-# ohmyc-evolve Changelog
+# omc-evolve Changelog
 
 ## v0.1.3 (2026-03-26) — L4 Complete (5/5)
 - **P3 Edge Cases**: skeleton loading bubbles in chat (2s shimmer → resolves to real chat), error banner component (`error-banner`) on chat + discover screens (dismissable), empty state component (`empty-state`) on Chats screen with CTA to Discover
