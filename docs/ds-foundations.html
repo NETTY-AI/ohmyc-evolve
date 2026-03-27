@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ohmyc Design System — Foundations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tint: #FF8552;
+    --tint-bright: #FFA47A;
+    --tint-soft: #FFF4EE;
+    --label: #000000;
+    --label-sec: rgba(60,60,67,0.6);
+    --label-tri: rgba(60,60,67,0.3);
+    --bg1: #FFFFFF;
+    --bg2: #F2F2F7;
+    --bg3: #FFFFFF;
+    --sep: rgba(60,60,67,0.29);
+    --sep-opaque: #C6C6C8;
+    --sys-green: #34C759;
+    --sys-orange: #FF9500;
+    --sys-red: #FF3B30;
+    --warm-cream: #FBF8F7;
+    --bubble-char: #F0E6E6;
+    --glass-bg: rgba(255,255,255,0.72);
+    --glass-border: rgba(255,255,255,0.4);
+    --glass-blur: blur(40px) saturate(180%);
+    --shadow-1: 0 0.5px 2px rgba(0,0,0,0.04);
+    --shadow-2: 0 2px 8px rgba(0,0,0,0.08);
+    --shadow-3: 0 4px 20px rgba(0,0,0,0.12);
+    --shadow-4: 0 8px 40px rgba(0,0,0,0.18);
+    --font-sys: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+    --font-rounded: 'SF Pro Rounded', -apple-system, system-ui, sans-serif;
+    --font-wm: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-base: 16px;
+    --space-lg: 20px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 40px;
+    --space-4xl: 48px;
+    --duration-micro: 150ms;
+    --duration-transition: 300ms;
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Dark mode */
+  [data-theme="dark"] {
+    --label: #FFFFFF;
+    --label-sec: rgba(235,235,245,0.6);
+    --label-tri: rgba(235,235,245,0.3);
+    --bg1: #000000;
+    --bg2: #1C1C1E;
+    --bg3: #2C2C2E;
+    --sep: rgba(84,84,88,0.65);
+    --sep-opaque: #38383A;
+    --glass-bg: rgba(30,30,30,0.72);
+    --glass-border: rgba(255,255,255,0.08);
+    --bubble-char: #2C2424;
+    --warm-cream: #1C1C1E;
+    --tint-used: var(--tint-bright);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-sys);
+    background: var(--bg2);
+    color: var(--label);
+    -webkit-font-smoothing: antialiased;
+    transition: background var(--duration-transition) var(--ease-default),
+                color var(--duration-transition) var(--ease-default);
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: sticky; top: 0; z-index: 200;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 0.5px solid var(--sep-opaque);
+    padding: 14px 32px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .nav .logo { font-family: var(--font-wm); font-size: 18px; font-weight: 800; letter-spacing: -0.04em; }
+  .nav .logo span { color: var(--tint); }
+  .nav .page-title { font-size: 13px; font-weight: 600; color: var(--label-sec); }
+  .nav .page-num { font-size: 11px; font-weight: 700; color: var(--tint); background: var(--tint-soft); padding: 2px 8px; border-radius: var(--radius-full); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .nav-link { font-size: 12px; color: var(--label-sec); text-decoration: none; font-weight: 500; transition: color var(--duration-micro); }
+  .nav-link:hover { color: var(--tint); }
+  .nav-link.active { color: var(--tint); font-weight: 600; }
+  .theme-toggle {
+    width: 36px; height: 20px; border-radius: 10px; border: none;
+    background: var(--sep-opaque); cursor: pointer; position: relative;
+    transition: background var(--duration-transition);
+  }
+  .theme-toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: white; box-shadow: var(--shadow-1);
+    transition: transform var(--duration-transition) var(--ease-default);
+  }
+  .theme-toggle.dark { background: var(--tint); }
+  .theme-toggle.dark::after { transform: translateX(16px); }
+
+  /* ── Layout ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 48px 0; }
+  .divider { height: 0.5px; background: var(--sep-opaque); }
+
+  /* ── Section Header ── */
+  .sec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--tint); margin-bottom: 6px; }
+  h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .desc { font-size: 15px; color: var(--label-sec); max-width: 520px; line-height: 1.5; margin-bottom: 32px; }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 80px 0 48px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 48px; font-weight: 700; letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: var(--tint); }
+  .hero .sub {
+    font-size: 17px; color: var(--label-sec); max-width: 480px;
+    margin: 0 auto; line-height: 1.6;
+  }
+  .hero .tagline {
+    font-size: 15px; font-style: italic; color: var(--label-tri);
+    margin-top: 16px;
+  }
+  .hero .badges { display: flex; gap: 8px; justify-content: center; margin-top: 24px; }
+  .badge {
+    padding: 4px 12px; border-radius: var(--radius-full);
+    font-size: 11px; font-weight: 600;
+  }
+  .badge-tint { background: var(--tint-soft); color: var(--tint); }
+  .badge-system { background: var(--bg3); color: var(--label-sec); box-shadow: var(--shadow-1); }
+
+  /* ── Grid ── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+  .g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+  .g5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+
+  /* ── Card ── */
+  .card {
+    background: var(--bg3);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-1);
+    padding: 24px;
+    transition: background var(--duration-transition),
+                box-shadow var(--duration-transition);
+  }
+  .card-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--label-sec); margin-bottom: 16px; text-transform: uppercase;
+  }
+
+  /* ── Swatch ── */
+  .sw {
+    border-radius: var(--radius-sm); padding: 14px; min-height: 80px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    cursor: pointer; position: relative; overflow: hidden;
+    transition: transform var(--duration-micro) var(--ease-default);
+  }
+  .sw:hover { transform: scale(1.03); }
+  .sw .name { font-size: 12px; font-weight: 600; }
+  .sw .hex {
+    font-size: 10px; font-family: 'SF Mono', 'Menlo', monospace;
+    opacity: 0.7; margin-top: 2px;
+  }
+  .sw .token { font-size: 9px; opacity: 0.4; margin-top: 1px; }
+  .sw .copied {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7); color: white; padding: 4px 10px;
+    border-radius: var(--radius-full); font-size: 11px; font-weight: 600;
+    opacity: 0; transition: opacity var(--duration-micro);
+    pointer-events: none;
+  }
+  .sw.flash .copied { opacity: 1; }
+
+  /* ── Type Scale ── */
+  .type-row {
+    display: flex; align-items: baseline; gap: 16px;
+    padding: 12px 0; border-bottom: 0.5px solid var(--sep);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta {
+    width: 120px; flex-shrink: 0; text-align: right;
+    font-size: 11px; color: var(--label-tri); font-family: 'SF Mono', 'Menlo', monospace;
+  }
+  .type-sample { flex: 1; }
+
+  /* ── Spacing Scale ── */
+  .space-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 8px 0;
+  }
+  .space-label {
+    width: 100px; flex-shrink: 0; text-align: right;
+    font-size: 12px; color: var(--label-sec); font-family: 'SF Mono', 'Menlo', monospace;
+  }
+  .space-bar {
+    height: 24px; border-radius: 4px;
+    background: linear-gradient(135deg, var(--tint), var(--tint-bright));
+    transition: width var(--duration-transition) var(--ease-default);
+    position: relative;
+  }
+  .space-bar::after {
+    content: attr(data-px);
+    position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+    font-size: 11px; color: var(--label-tri); font-family: 'SF Mono', 'Menlo', monospace;
+  }
+
+  /* ── Shadow Showcase ── */
+  .shadow-box {
+    width: 100%; aspect-ratio: 1;
+    background: var(--bg3);
+    border-radius: var(--radius-md);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: box-shadow var(--duration-transition);
+  }
+  .shadow-label {
+    font-size: 12px; font-weight: 600; color: var(--label-sec);
+    margin-top: 12px; text-align: center;
+  }
+  .shadow-desc {
+    font-size: 11px; color: var(--label-tri);
+    margin-top: 2px; text-align: center;
+  }
+
+  /* ── Radius Showcase ── */
+  .radius-item {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .radius-box {
+    width: 80px; height: 80px;
+    border: 2px solid var(--tint);
+    background: var(--tint-soft);
+    transition: border-radius var(--duration-transition);
+  }
+  .radius-label { font-size: 11px; color: var(--label-sec); font-weight: 500; }
+  .radius-val { font-size: 10px; color: var(--label-tri); font-family: 'SF Mono', monospace; }
+
+  /* ── Footer ── */
+  .footer {
+    padding: 32px; text-align: center;
+    font-size: 11px; color: var(--label-tri);
+    line-height: 1.8;
+  }
+
+  @media (max-width: 768px) {
+    .g2, .g3, .g4, .g5 { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 34px; }
+    .container { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="nav">
+  <div class="logo">ohmy<span>c</span></div>
+  <span class="page-num">1 / 3</span>
+  <span class="page-title">Foundations</span>
+  <div class="nav-right">
+    <a href="ds-foundations.html" class="nav-link active">Foundations</a>
+    <a href="ds-components.html" class="nav-link">Components</a>
+    <a href="ds-motion.html" class="nav-link">Motion</a>
+    <a href="vi.html" class="nav-link">VI Ref</a>
+    <button class="theme-toggle" id="themeToggle" title="Toggle dark mode"></button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <h1>Design <span>Foundations</span></h1>
+  <div class="sub">Apple HIG 위에 ohmyc만의 따뜻함을 얹는다. 모든 시각 요소의 기반이 되는 토큰 시스템.</div>
+  <div class="tagline">your character, alive.</div>
+  <div class="badges">
+    <span class="badge badge-tint">Soft Apricot #FF8552</span>
+    <span class="badge badge-system">Apple HIG</span>
+    <span class="badge badge-system">Liquid Glass</span>
+    <span class="badge badge-system">8pt Grid</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══ 01 COLOR ═══ -->
+<section>
+  <div class="sec-num">01 — COLOR</div>
+  <h2>Tint Slot System</h2>
+  <div class="desc">Tint 1색만 바꾸면 앱 전체가 바뀐다. Apple System Tint Color 방식.</div>
+
+  <div class="card-label" style="margin-bottom: 12px;">TINT — SOFT APRICOT</div>
+  <div class="g4" style="margin-bottom: 28px;">
+    <div class="sw" style="background: var(--tint); color: white;" onclick="copySwatch(this, '#FF8552')">
+      <div class="name">Tint</div>
+      <div class="hex">#FF8552</div>
+      <div class="token">--tint</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: var(--tint-bright); color: white;" onclick="copySwatch(this, '#FFA47A')">
+      <div class="name">Tint Bright</div>
+      <div class="hex">#FFA47A</div>
+      <div class="token">--tint-bright</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: var(--tint-soft);" onclick="copySwatch(this, '#FFF4EE')">
+      <div class="name">Tint Soft</div>
+      <div class="hex">#FFF4EE</div>
+      <div class="token">--tint-soft</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: var(--warm-cream); border: 1px solid var(--sep-opaque);" onclick="copySwatch(this, '#FBF8F7')">
+      <div class="name">Warm Cream</div>
+      <div class="hex">#FBF8F7</div>
+      <div class="token">--warm-cream</div>
+      <div class="copied">Copied!</div>
+    </div>
+  </div>
+
+  <div class="card-label" style="margin-bottom: 12px;">APPLE SYSTEM — LIGHT</div>
+  <div class="g5" style="margin-bottom: 28px;">
+    <div class="sw" style="background: #FFFFFF; border: 1px solid #E5E5EA;" onclick="copySwatch(this, '#FFFFFF')">
+      <div class="name">BG Primary</div><div class="hex">#FFFFFF</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: #F2F2F7;" onclick="copySwatch(this, '#F2F2F7')">
+      <div class="name">BG Secondary</div><div class="hex">#F2F2F7</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: #FFFFFF; border: 1px solid #E5E5EA;" onclick="copySwatch(this, '#FFFFFF')">
+      <div class="name">BG Tertiary</div><div class="hex">#FFFFFF</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: #000; color: #FFF;" onclick="copySwatch(this, '#000000')">
+      <div class="name">Label</div><div class="hex">#000000</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: rgba(60,60,67,0.6); color: #FFF;" onclick="copySwatch(this, 'rgba(60,60,67,0.6)')">
+      <div class="name">Label Sec</div><div class="hex">60%</div>
+      <div class="copied">Copied!</div>
+    </div>
+  </div>
+
+  <div class="card-label" style="margin-bottom: 12px;">APPLE SYSTEM — DARK</div>
+  <div class="g5" style="margin-bottom: 28px;">
+    <div class="sw" style="background: #000; color: #FFF;" onclick="copySwatch(this, '#000000')">
+      <div class="name">BG Primary</div><div class="hex">#000000</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: #1C1C1E; color: #FFF;" onclick="copySwatch(this, '#1C1C1E')">
+      <div class="name">BG Secondary</div><div class="hex">#1C1C1E</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: #2C2C2E; color: #FFF;" onclick="copySwatch(this, '#2C2C2E')">
+      <div class="name">BG Tertiary</div><div class="hex">#2C2C2E</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: #FFF;" onclick="copySwatch(this, '#FFFFFF')">
+      <div class="name">Label</div><div class="hex">#FFFFFF</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: rgba(84,84,88,0.65); color: #FFF;" onclick="copySwatch(this, 'rgba(84,84,88,0.65)')">
+      <div class="name">Separator</div><div class="hex">65%</div>
+      <div class="copied">Copied!</div>
+    </div>
+  </div>
+
+  <div class="card-label" style="margin-bottom: 12px;">FUNCTIONAL + EXTENSION</div>
+  <div class="g5">
+    <div class="sw" style="background: var(--sys-green); color: #FFF;" onclick="copySwatch(this, '#34C759')">
+      <div class="name">Green</div><div class="hex">#34C759</div><div class="token">Online, Success</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: var(--sys-orange); color: #FFF;" onclick="copySwatch(this, '#FF9500')">
+      <div class="name">Orange</div><div class="hex">#FF9500</div><div class="token">Warning, Action</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: var(--sys-red); color: #FFF;" onclick="copySwatch(this, '#FF3B30')">
+      <div class="name">Red</div><div class="hex">#FF3B30</div><div class="token">Error, Delete</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: var(--bubble-char);" onclick="copySwatch(this, '#F0E6E6')">
+      <div class="name">Bubble (Char)</div><div class="hex">#F0E6E6</div><div class="token">Chat Light</div>
+      <div class="copied">Copied!</div>
+    </div>
+    <div class="sw" style="background: #2C2424; color: #F0E6E6;" onclick="copySwatch(this, '#2C2424')">
+      <div class="name">Bubble (Dark)</div><div class="hex">#2C2424</div><div class="token">Chat Dark</div>
+      <div class="copied">Copied!</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ 02 TYPOGRAPHY ═══ -->
+<section>
+  <div class="sec-num">02 — TYPOGRAPHY</div>
+  <h2>Type Scale</h2>
+  <div class="desc">Apple Dynamic Type 기반 위계. SF Pro(iOS) / Inter(웹). 워드마크만 Plus Jakarta Sans.</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-label">HIERARCHY</div>
+      <div class="type-row">
+        <div class="type-meta">34px / Bold</div>
+        <div class="type-sample" style="font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Large Title</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">28px / Bold</div>
+        <div class="type-sample" style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">Title 1</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">22px / Bold</div>
+        <div class="type-sample" style="font-size: 22px; font-weight: 700;">Title 2</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">20px / Semi</div>
+        <div class="type-sample" style="font-size: 20px; font-weight: 600;">Title 3</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">17px / Semi</div>
+        <div class="type-sample" style="font-size: 17px; font-weight: 600;">Headline</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">17px / Reg</div>
+        <div class="type-sample" style="font-size: 17px; line-height: 1.4; color: var(--label-sec);">Body — comfortable reading at any length.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">16px / Reg</div>
+        <div class="type-sample" style="font-size: 16px; color: var(--label-sec);">Callout text</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">15px / Reg</div>
+        <div class="type-sample" style="font-size: 15px; color: var(--label-sec);">Subheadline</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">13px / Reg</div>
+        <div class="type-sample" style="font-size: 13px; color: var(--label-tri);">Footnote — timestamps, metadata</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">12px / Reg</div>
+        <div class="type-sample" style="font-size: 12px; color: var(--label-tri);">Caption 1 — badge text</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">11px / Reg</div>
+        <div class="type-sample" style="font-size: 11px; color: var(--label-tri);">Caption 2 — minimum size</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-label">FONT FAMILIES</div>
+        <div style="margin-bottom: 20px;">
+          <div style="font-size: 13px; color: var(--label-tri); margin-bottom: 6px;">System UI (Body, Navigation, Labels)</div>
+          <div style="font-size: 20px; font-weight: 500;">SF Pro / Inter</div>
+          <div style="font-size: 15px; color: var(--label-sec); margin-top: 4px; line-height: 1.4;">The quick brown fox jumps over the lazy dog. 0123456789</div>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <div style="font-size: 13px; color: var(--label-tri); margin-bottom: 6px;">Rounded (Numbers, Stats, Levels)</div>
+          <div style="font-family: var(--font-rounded); font-size: 20px; font-weight: 500;">SF Pro Rounded</div>
+          <div style="font-family: var(--font-rounded); font-size: 28px; font-weight: 700; color: var(--tint); margin-top: 4px;">36.5°C  Lv.7  2.3K</div>
+        </div>
+        <div>
+          <div style="font-size: 13px; color: var(--label-tri); margin-bottom: 6px;">Wordmark Only</div>
+          <div style="font-family: var(--font-wm); font-size: 36px; font-weight: 800; letter-spacing: -0.04em;">ohmy<span style="color: var(--tint);">c</span></div>
+          <div style="font-family: var(--font-wm); font-size: 13px; color: var(--label-tri); margin-top: 4px;">Plus Jakarta Sans 800 · -0.04em</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">ACCESSIBILITY</div>
+        <div style="font-size: 14px; line-height: 2; color: var(--label-sec);">
+          <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> Dynamic Type 지원<br>
+          <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> 최소 터치 타겟 44x44pt<br>
+          <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> 최소 텍스트 11px (Caption 2)<br>
+          <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> Body line-height 1.4+<br>
+          <span style="color: var(--sys-red); font-weight: 600;">&#10007;</span> 11px 미만 사용 금지
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ 03 SPACING ═══ -->
+<section>
+  <div class="sec-num">03 — SPACING</div>
+  <h2>8pt Grid</h2>
+  <div class="desc">Apple의 8pt 그리드 기반, 4pt 반단위 허용. 일관된 리듬을 만든다.</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-label">SCALE</div>
+      <div class="space-row">
+        <div class="space-label">--space-xs</div>
+        <div class="space-bar" style="width: 4px;" data-px="4px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-sm</div>
+        <div class="space-bar" style="width: 16px;" data-px="8px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-md</div>
+        <div class="space-bar" style="width: 24px;" data-px="12px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-base</div>
+        <div class="space-bar" style="width: 32px;" data-px="16px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-lg</div>
+        <div class="space-bar" style="width: 40px;" data-px="20px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-xl</div>
+        <div class="space-bar" style="width: 48px;" data-px="24px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-2xl</div>
+        <div class="space-bar" style="width: 64px;" data-px="32px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-3xl</div>
+        <div class="space-bar" style="width: 80px;" data-px="40px"></div>
+      </div>
+      <div class="space-row">
+        <div class="space-label">--space-4xl</div>
+        <div class="space-bar" style="width: 96px;" data-px="48px"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">USAGE</div>
+      <div style="font-size: 14px; line-height: 2.2; color: var(--label-sec);">
+        <div style="display: flex; justify-content: space-between;">
+          <span>화면 좌우 패딩</span>
+          <span style="font-family: 'SF Mono', monospace; font-size: 12px; color: var(--label-tri);">16px</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>카드 내부 패딩</span>
+          <span style="font-family: 'SF Mono', monospace; font-size: 12px; color: var(--label-tri);">12px</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>카드 갭</span>
+          <span style="font-family: 'SF Mono', monospace; font-size: 12px; color: var(--label-tri);">12px</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>섹션 간격</span>
+          <span style="font-family: 'SF Mono', monospace; font-size: 12px; color: var(--label-tri);">20px</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>화면 상/하단 여백</span>
+          <span style="font-family: 'SF Mono', monospace; font-size: 12px; color: var(--label-tri);">32px</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>인라인 요소 간격</span>
+          <span style="font-family: 'SF Mono', monospace; font-size: 12px; color: var(--label-tri);">8px</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Grouped List 아이템</span>
+          <span style="font-family: 'SF Mono', monospace; font-size: 12px; color: var(--label-tri);">12px 16px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ 04 SHADOW ═══ -->
+<section>
+  <div class="sec-num">04 — ELEVATION</div>
+  <h2>Shadow Levels</h2>
+  <div class="desc">Apple elevation 시스템. 다크에서는 그림자 대신 테두리 밝기로 표현.</div>
+
+  <div class="g5">
+    <div>
+      <div class="shadow-box" style="box-shadow: none;">
+        <div style="font-size: 32px; font-weight: 700; color: var(--label-tri);">0</div>
+      </div>
+      <div class="shadow-label">Level 0</div>
+      <div class="shadow-desc">플랫, 리스트 아이템</div>
+    </div>
+    <div>
+      <div class="shadow-box" style="box-shadow: var(--shadow-1);">
+        <div style="font-size: 32px; font-weight: 700; color: var(--label-tri);">1</div>
+      </div>
+      <div class="shadow-label">Level 1</div>
+      <div class="shadow-desc">Grouped list, 카드</div>
+    </div>
+    <div>
+      <div class="shadow-box" style="box-shadow: var(--shadow-2);">
+        <div style="font-size: 32px; font-weight: 700; color: var(--label-tri);">2</div>
+      </div>
+      <div class="shadow-label">Level 2</div>
+      <div class="shadow-desc">캐릭터 카드, 플로팅</div>
+    </div>
+    <div>
+      <div class="shadow-box" style="box-shadow: var(--shadow-3);">
+        <div style="font-size: 32px; font-weight: 700; color: var(--label-tri);">3</div>
+      </div>
+      <div class="shadow-label">Level 3</div>
+      <div class="shadow-desc">모달, 바텀시트</div>
+    </div>
+    <div>
+      <div class="shadow-box" style="box-shadow: var(--shadow-4);">
+        <div style="font-size: 32px; font-weight: 700; color: var(--label-tri);">4</div>
+      </div>
+      <div class="shadow-label">Level 4</div>
+      <div class="shadow-desc">팝오버, 풀스크린</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ 05 RADIUS ═══ -->
+<section>
+  <div class="sec-num">05 — BORDER RADIUS</div>
+  <h2>Continuous Corner</h2>
+  <div class="desc">Apple의 연속 곡률(superellipse) 스타일. 부드러운 모서리가 온기를 전달한다.</div>
+
+  <div style="display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;">
+    <div class="radius-item">
+      <div class="radius-box" style="border-radius: var(--radius-sm);"></div>
+      <div class="radius-label">Small</div>
+      <div class="radius-val">10px</div>
+    </div>
+    <div class="radius-item">
+      <div class="radius-box" style="border-radius: var(--radius-md);"></div>
+      <div class="radius-label">Medium</div>
+      <div class="radius-val">14px</div>
+    </div>
+    <div class="radius-item">
+      <div class="radius-box" style="border-radius: var(--radius-lg);"></div>
+      <div class="radius-label">Large</div>
+      <div class="radius-val">20px</div>
+    </div>
+    <div class="radius-item">
+      <div class="radius-box" style="border-radius: var(--radius-xl);"></div>
+      <div class="radius-label">XLarge</div>
+      <div class="radius-val">24px</div>
+    </div>
+    <div class="radius-item">
+      <div class="radius-box" style="border-radius: var(--radius-full);"></div>
+      <div class="radius-label">Full</div>
+      <div class="radius-val">9999px</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 32px;">
+    <div class="card-label">USAGE MAP</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px;">
+      <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--sep);">
+        <span>입력필드, 작은 카드</span>
+        <span style="color: var(--tint); font-weight: 600;">10px</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--sep);">
+        <span>Grouped list, 모달</span>
+        <span style="color: var(--tint); font-weight: 600;">14px</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--sep);">
+        <span>캐릭터 카드, 히어로</span>
+        <span style="color: var(--tint); font-weight: 600;">20px</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--sep);">
+        <span>바텀시트</span>
+        <span style="color: var(--tint); font-weight: 600;">24px</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--sep);">
+        <span>버튼, 태그, 배지, 아바타</span>
+        <span style="color: var(--tint); font-weight: 600;">9999px</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--sep);">
+        <span>채팅 버블</span>
+        <span style="color: var(--tint); font-weight: 600;">20px</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ 06 GLASS ═══ -->
+<section>
+  <div class="sec-num">06 — LIQUID GLASS</div>
+  <h2>Material</h2>
+  <div class="desc">iOS 26의 핵심 소재. 반투명 + 블러 + 굴절. 적용/비적용 영역이 명확히 구분된다.</div>
+
+  <div class="g3">
+    <div style="padding: 32px; background: linear-gradient(135deg, #FFD4C4, #C4D8FF, #E4D4F4); border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 16px;">
+      <div style="background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 0.5px solid var(--glass-border); border-radius: var(--radius-md); padding: 16px; text-align: center;">
+        <div style="font-size: 14px; font-weight: 600;">Light Glass</div>
+        <div style="font-size: 11px; color: var(--label-sec); margin-top: 4px;">rgba(255,255,255,0.72)</div>
+      </div>
+      <div style="font-size: 11px; text-align: center; color: rgba(0,0,0,0.5); font-family: 'SF Mono', monospace;">blur(40px) saturate(180%)</div>
+    </div>
+
+    <div style="padding: 32px; background: linear-gradient(135deg, #2A1A30, #1A2840, #1A3020); border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 16px;">
+      <div style="background: rgba(30,30,30,0.72); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border: 0.5px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 16px; text-align: center; color: #FFF;">
+        <div style="font-size: 14px; font-weight: 600;">Dark Glass</div>
+        <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px;">rgba(30,30,30,0.72)</div>
+      </div>
+      <div style="font-size: 11px; text-align: center; color: rgba(255,255,255,0.4); font-family: 'SF Mono', monospace;">border: white 8%</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">적용 규칙</div>
+      <div style="font-size: 14px; line-height: 2.2;">
+        <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> Tab Bar<br>
+        <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> Navigation Bar<br>
+        <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> Search Bar<br>
+        <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> Memory Pill<br>
+        <span style="color: var(--sys-green); font-weight: 600;">&#10003;</span> Relationship Bar<br>
+        <span style="color: var(--sys-red); font-weight: 600;">&#10007;</span> Character Card<br>
+        <span style="color: var(--sys-red); font-weight: 600;">&#10007;</span> Chat Bubble<br>
+        <span style="color: var(--sys-red); font-weight: 600;">&#10007;</span> CTA Button
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="footer">
+  ohmyc Design System — Foundations · Page 1 of 3<br>
+  Apple HIG + Liquid Glass · Tint: Soft Apricot #FF8552 · SSOT: VI.md
+</div>
+
+<script>
+// Dark mode toggle
+const toggle = document.getElementById('themeToggle');
+toggle.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+  toggle.classList.toggle('dark', !isDark);
+});
+
+// Copy swatch
+function copySwatch(el, val) {
+  navigator.clipboard.writeText(val).catch(() => {});
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 800);
+}
+</script>
+
+</body>
+</html>

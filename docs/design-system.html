@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ohmyc Design System — SSOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   DESIGN TOKENS (from VI.md)
+   ════════════════════════════════════════ */
+:root {
+  /* Tint — Soft Apricot */
+  --tint: #FF8552;
+  --tint-bright: #FFA47A;
+  --tint-soft: #FFF4EE;
+
+  /* Apple System (Light) */
+  --label: #000000;
+  --label-sec: rgba(60,60,67,0.6);
+  --label-tri: rgba(60,60,67,0.3);
+  --bg1: #FFFFFF;
+  --bg2: #F2F2F7;
+  --bg3: #FFFFFF;
+  --sep: rgba(60,60,67,0.29);
+  --sep-opaque: #C6C6C8;
+
+  /* System Colors */
+  --sys-green: #34C759;
+  --sys-orange: #FF9500;
+  --sys-red: #FF3B30;
+
+  /* ohmyc Extension */
+  --warm-cream: #FBF8F7;
+  --bubble-char: #F0E6E6;
+  --bubble-char-dark: #2C2424;
+
+  /* Liquid Glass */
+  --glass-bg: rgba(255,255,255,0.72);
+  --glass-bg-dark: rgba(30,30,30,0.72);
+  --glass-border: rgba(255,255,255,0.4);
+  --glass-border-dark: rgba(255,255,255,0.08);
+  --glass-blur: blur(40px) saturate(180%);
+  --glass-shadow: 0 2px 16px rgba(0,0,0,0.06);
+
+  /* Shadow Levels */
+  --shadow-0: none;
+  --shadow-1: 0 0.5px 2px rgba(0,0,0,0.04);
+  --shadow-2: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-3: 0 4px 20px rgba(0,0,0,0.12);
+  --shadow-4: 0 8px 40px rgba(0,0,0,0.18);
+
+  /* Typography */
+  --font-sys: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  --font-rounded: 'SF Pro Rounded', -apple-system, system-ui, sans-serif;
+  --font-wm: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-web: 'Inter', 'Pretendard', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Menlo', 'Consolas', monospace;
+
+  /* Motion */
+  --dur-micro: 150ms;
+  --dur-transition: 300ms;
+  --dur-emphasis: 500ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(.22, 1, .36, 1);
+
+  /* Spacing (8pt grid, 4pt half) */
+  --sp-xs: 4px; --sp-sm: 8px; --sp-md: 12px; --sp-base: 16px;
+  --sp-lg: 20px; --sp-xl: 24px; --sp-2xl: 32px; --sp-3xl: 40px; --sp-4xl: 48px;
+
+  /* Radius (Apple continuous corner) */
+  --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 24px;
+  --r-full: 9999px; --r-bubble: 20px;
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+  --label: #FFFFFF;
+  --label-sec: rgba(235,235,245,0.6);
+  --label-tri: rgba(235,235,245,0.3);
+  --bg1: #000000; --bg2: #1C1C1E; --bg3: #2C2C2E;
+  --sep: rgba(84,84,88,0.65);
+  --sep-opaque: #38383A;
+  --glass-bg: var(--glass-bg-dark);
+  --glass-border: var(--glass-border-dark);
+  --bubble-char: var(--bubble-char-dark);
+  --warm-cream: #1C1C1E;
+}
+
+/* ════════════════════════════════════════
+   BASE STYLES
+   ════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-sys); background: var(--bg2); color: var(--label);
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur-transition) var(--ease-default),
+              color var(--dur-transition) var(--ease-default);
+}
+
+/* ── Top Bar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 300;
+  background: rgba(242,242,247,0.92);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid var(--sep-opaque);
+  padding: 10px 32px; display: flex; align-items: center; gap: 14px;
+  transition: background var(--dur-transition);
+}
+[data-theme="dark"] .topbar { background: rgba(28,28,30,0.92); }
+.topbar .logo { font-family: var(--font-wm); font-size: 18px; font-weight: 800; letter-spacing: -0.04em; }
+.topbar .logo b { color: var(--tint); }
+.topbar .ver { font-size: 10px; font-weight: 700; color: var(--tint); background: var(--tint-soft); padding: 2px 8px; border-radius: var(--r-full); }
+.topbar .ssot { font-size: 10px; font-weight: 600; color: var(--label-tri); letter-spacing: 0.05em; }
+.presets { display: flex; gap: 4px; margin-left: auto; }
+.presets .p { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border-color var(--dur-micro); }
+.presets .p:hover { border-color: var(--label); }
+.tint-input { display: flex; align-items: center; gap: 6px; }
+.tint-input input[type="color"] { width: 24px; height: 24px; border: 1.5px solid var(--sep-opaque); border-radius: 6px; cursor: pointer; padding: 0; }
+.tint-input .hex { font-family: var(--font-mono); font-size: 11px; font-weight: 600; min-width: 58px; }
+.theme-btn {
+  width: 34px; height: 18px; border-radius: 9px; border: none; cursor: pointer; position: relative;
+  background: var(--sep-opaque); transition: background var(--dur-transition); margin-left: 8px;
+}
+.theme-btn::after {
+  content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%;
+  background: white; box-shadow: var(--shadow-1); transition: transform var(--dur-transition) var(--ease-default);
+}
+.theme-btn.on { background: var(--tint); }
+.theme-btn.on::after { transform: translateX(16px); }
+
+/* ── TOC ── */
+.toc {
+  position: sticky; top: 50px; z-index: 200;
+  background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 0.5px solid var(--glass-border);
+  padding: 8px 32px; display: flex; gap: 6px; overflow-x: auto;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.toc::-webkit-scrollbar { display: none; }
+.toc a {
+  font-size: 11px; font-weight: 500; color: var(--label-sec); text-decoration: none;
+  padding: 4px 10px; border-radius: var(--r-full); white-space: nowrap;
+  transition: background var(--dur-micro), color var(--dur-micro);
+}
+.toc a:hover, .toc a.active { background: var(--tint-soft); color: var(--tint); font-weight: 600; }
+
+/* ── Layout ── */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+section { padding: 48px 0; }
+.divider { height: 0.5px; background: var(--sep-opaque); }
+.sec-num { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--tint); margin-bottom: 6px; }
+h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+.desc { font-size: 15px; color: var(--label-sec); max-width: 520px; line-height: 1.5; margin-bottom: 32px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.g5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+
+/* ── Cards ── */
+.card { background: var(--bg3); border-radius: var(--r-md); box-shadow: var(--shadow-1); padding: 24px; transition: background var(--dur-transition); }
+.card-dark { background: #1C1C1E; border-radius: var(--r-md); padding: 24px; color: #FFF; }
+.lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--label-sec); margin-bottom: 14px; text-transform: uppercase; }
+.badge-t { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; letter-spacing: 0.03em; }
+.badge-tint { background: var(--tint-soft); color: var(--tint); }
+.badge-ok { background: #E8F5E9; color: #2E7D32; }
+
+/* ── Swatch ── */
+.sw { border-radius: var(--r-sm); padding: 14px; min-height: 72px; display: flex; flex-direction: column; justify-content: flex-end; cursor: pointer; position: relative; overflow: hidden; transition: transform var(--dur-micro); }
+.sw:hover { transform: scale(1.03); }
+.sw .n { font-size: 11px; font-weight: 600; }
+.sw .h { font-size: 9px; opacity: 0.7; font-family: var(--font-mono); }
+.sw .t { font-size: 8px; opacity: 0.4; margin-top: 1px; }
+.sw .cp { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.7); color: #FFF; padding: 3px 8px; border-radius: var(--r-full); font-size: 10px; font-weight: 600; opacity: 0; transition: opacity var(--dur-micro); pointer-events: none; }
+.sw.flash .cp { opacity: 1; }
+
+/* ── Buttons ── */
+.btn { padding: 10px 24px; border-radius: var(--r-full); font-size: 15px; font-weight: 600; border: none; cursor: pointer; font-family: var(--font-sys); transition: transform var(--dur-micro), opacity var(--dur-micro); }
+.btn:hover { opacity: 0.85; } .btn:active { transform: scale(0.97); }
+.btn-lg { padding: 14px 28px; border-radius: var(--r-md); font-size: 17px; font-weight: 600; border: none; cursor: pointer; font-family: var(--font-sys); width: 100%; transition: transform var(--dur-micro), opacity var(--dur-micro); }
+.btn-lg:hover { opacity: 0.85; } .btn-lg:active { transform: scale(0.98); }
+.chip { padding: 6px 16px; border-radius: var(--r-full); font-size: 14px; font-weight: 500; cursor: pointer; display: inline-block; transition: transform var(--dur-micro); }
+.chip:hover { transform: scale(1.03); }
+
+/* ── Bubble ── */
+.bubble { padding: 10px 16px; border-radius: var(--r-bubble); font-size: 16px; line-height: 1.4; max-width: 280px; }
+
+/* ── Glass ── */
+.glass { background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 0.5px solid var(--glass-border); border-radius: var(--r-md); }
+
+/* ── Character Card ── */
+.cc { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 2/3; position: relative; box-shadow: var(--shadow-2); cursor: pointer; transition: transform var(--dur-transition) var(--ease-spring), box-shadow var(--dur-transition); }
+.cc:hover { transform: scale(1.03); box-shadow: var(--shadow-3); }
+.cc .ov { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px; background: linear-gradient(transparent 20%, rgba(0,0,0,0.6) 100%); display: flex; flex-direction: column; justify-content: flex-end; }
+.cc .gb { position: absolute; top: 10px; left: 10px; padding: 3px 10px; border-radius: var(--r-full); background: rgba(255,255,255,0.7); backdrop-filter: blur(16px); font-size: 11px; font-weight: 600; border: 0.5px solid rgba(255,255,255,0.5); }
+
+/* ── Grouped List ── */
+.gl { background: var(--bg3); border-radius: var(--r-md); box-shadow: var(--shadow-1); overflow: hidden; }
+.gl-item { padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 0.5px solid var(--sep); font-size: 16px; cursor: pointer; transition: background var(--dur-micro); }
+.gl-item:hover { background: var(--tint-soft); }
+.gl-item:last-child { border-bottom: none; }
+.gl-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: white; font-weight: 700; flex-shrink: 0; }
+.gl-chev { margin-left: auto; color: var(--sep-opaque); font-size: 14px; }
+
+/* ── Tab Bar ── */
+.tab-bar { background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 0.5px solid var(--glass-border); border-radius: var(--r-xl); padding: 8px 4px; display: flex; justify-content: space-around; box-shadow: var(--shadow-2); max-width: 380px; margin: 0 auto; }
+.tab-i { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 14px; border-radius: var(--r-md); cursor: pointer; transition: background var(--dur-micro); font-size: 10px; font-weight: 500; color: var(--label-tri); }
+.tab-i.on { background: rgba(255,133,82,0.12); color: var(--tint); }
+.tab-i svg { width: 20px; height: 20px; }
+
+/* ── Alive ── */
+.alive { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: var(--sys-green); box-shadow: 0 0 6px rgba(52,199,89,0.4); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
+@keyframes breathe { 0%,100%{transform:scale(1);opacity:.3} 50%{transform:scale(1.15);opacity:.7} }
+@keyframes glow { 0%,100%{box-shadow:0 0 4px var(--tint)} 50%{box-shadow:0 0 24px var(--tint), 0 0 48px rgba(255,133,82,0.15)} }
+@keyframes ripple { 0%{box-shadow:0 0 0 0 rgba(255,133,82,0.4)} 100%{box-shadow:0 0 0 24px rgba(255,133,82,0)} }
+@keyframes grad { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+@keyframes timingSlide { 0%{width:0%} 100%{width:100%} }
+@keyframes easingMove { 0%{left:0} 100%{left:calc(100% - 12px)} }
+
+.wm { font-family: var(--font-wm); font-weight: 800; letter-spacing: -0.04em; }
+
+/* ── Footer ── */
+.footer { padding: 32px; text-align: center; font-size: 11px; color: var(--label-tri); line-height: 1.8; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .g2,.g3,.g4 { grid-template-columns: repeat(2,1fr); }
+  .g5 { grid-template-columns: repeat(3,1fr); }
+  .wrap { padding: 0 16px; }
+  .topbar, .toc { padding-left: 16px; padding-right: 16px; }
+}
+@media (max-width: 480px) {
+  .g2,.g3,.g4,.g5 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════ TOP BAR ════ -->
+<div class="topbar">
+  <div class="logo">ohmy<b>c</b></div>
+  <span class="ver">DS v1.0</span>
+  <span class="ssot">SSOT</span>
+  <div class="presets">
+    <div class="p" style="background:#FF8552" onclick="setTint('#FF8552')" title="Soft Apricot"></div>
+    <div class="p" style="background:#D94444" onclick="setTint('#D94444')" title="Crimson"></div>
+    <div class="p" style="background:#FF2D55" onclick="setTint('#FF2D55')" title="Pink"></div>
+    <div class="p" style="background:#AF52DE" onclick="setTint('#AF52DE')" title="Purple"></div>
+    <div class="p" style="background:#5AC8FA" onclick="setTint('#5AC8FA')" title="Teal"></div>
+  </div>
+  <div class="tint-input">
+    <input type="color" id="cp" value="#FF8552">
+    <span class="hex" id="hd">#FF8552</span>
+  </div>
+  <button class="theme-btn" id="themeBtn" title="Dark mode"></button>
+</div>
+
+<!-- ════ TOC ════ -->
+<nav class="toc" id="toc">
+  <a href="#logo">Logo</a>
+  <a href="#color">Color</a>
+  <a href="#type">Typography</a>
+  <a href="#spacing">Spacing</a>
+  <a href="#elevation">Elevation</a>
+  <a href="#radius">Radius</a>
+  <a href="#glass">Glass</a>
+  <a href="#motion">Motion</a>
+  <a href="#buttons">Buttons</a>
+  <a href="#cards">Cards</a>
+  <a href="#chat">Chat</a>
+  <a href="#nav">Navigation</a>
+  <a href="#lists">Lists</a>
+  <a href="#temp">Temperature</a>
+  <a href="#growth">Growth</a>
+  <a href="#art">Art Guide</a>
+  <a href="#voice">Voice</a>
+  <a href="#a11y">Accessibility</a>
+  <a href="#tokens">Tokens</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ════════════════════════════════════════
+     01 — LOGO
+     ════════════════════════════════════════ -->
+<section id="logo">
+  <div class="sec-num">01 — LOGO</div>
+  <h2>Wordmark & Icon</h2>
+  <div class="desc">'c' = character. NettY의 Y 악센트 방식을 계승하되 컬러로 구분. Plus Jakarta Sans ExtraBold, 워드마크 전용.</div>
+  <div class="g3">
+    <div class="card" style="text-align:center">
+      <div class="wm" style="font-size:48px; color:var(--label)">ohmy<span style="color:var(--tint)">c</span></div>
+      <div style="font-size:13px; color:var(--label-sec); margin-top:8px">Light</div>
+    </div>
+    <div class="card-dark" style="text-align:center">
+      <div class="wm" style="font-size:48px; color:#FFF">ohmy<span style="color:var(--tint-bright)">c</span></div>
+      <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:8px">Dark</div>
+    </div>
+    <div class="card" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px">
+      <div style="width:72px; height:72px; border-radius:16px; background:#1C1C1E; position:relative; box-shadow:var(--shadow-2); overflow:hidden">
+        <span class="wm" style="font-size:38px; color:var(--tint); position:absolute; top:4px; right:10px; line-height:1">c</span>
+      </div>
+      <div style="font-size:13px; color:var(--label-sec)">App Icon</div>
+    </div>
+  </div>
+  <div style="margin-top:20px; text-align:center">
+    <span style="font-size:15px; color:var(--label-sec); font-style:italic">your character, alive.</span>
+    <div style="font-size:11px; color:var(--label-tri); margin-top:4px">Tagline</div>
+  </div>
+  <div style="margin-top:24px">
+    <div class="lbl">CO-BRAND — ENDORSED MODEL</div>
+    <div class="g3">
+      <div class="card" style="text-align:center">
+        <div style="font-family:'Inter';font-size:22px;font-weight:400;color:var(--label);letter-spacing:-0.02em">Nett<span style="font-weight:600">Y</span></div>
+        <div style="width:36px;height:1.5px;background:var(--label);margin:12px auto;opacity:0.2"></div>
+        <div class="wm" style="font-size:16px;color:var(--label)">ohmy<span style="color:var(--tint)">c</span></div>
+      </div>
+      <div class="card" style="display:flex;align-items:center;justify-content:center;gap:12px">
+        <span class="wm" style="font-size:16px;color:var(--label)">ohmy<span style="color:var(--tint)">c</span></span>
+        <span style="color:var(--sep-opaque)">&middot;</span>
+        <span style="font-family:'Inter';font-size:14px;color:var(--label-sec)">Nett<span style="font-weight:600">Y</span></span>
+      </div>
+      <div class="card-dark" style="text-align:center">
+        <div style="font-family:'Inter';font-size:22px;font-weight:400;color:#EEE;letter-spacing:-0.02em">Nett<span style="font-weight:600">Y</span></div>
+        <div style="width:36px;height:1.5px;background:#555;margin:12px auto"></div>
+        <div class="wm" style="font-size:16px;color:#FFF">ohmy<span style="color:var(--tint-bright)">c</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     02 — COLOR
+     ════════════════════════════════════════ -->
+<section id="color">
+  <div class="sec-num">02 — COLOR</div>
+  <h2>Tint Slot System</h2>
+  <div class="desc">Apple System Tint Color 방식. Tint 1색만 바꾸면 앱 전체가 바뀐다. 클릭하면 값 복사.</div>
+
+  <div style="margin-bottom:12px"><span class="badge-t badge-tint">TINT SLOT</span></div>
+  <div class="g4" style="margin-bottom:28px">
+    <div class="sw" style="background:var(--tint);color:#FFF" onclick="copy(this,'#FF8552')"><div class="n">Tint</div><div class="h" id="st">#FF8552</div><div class="t">--tint</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:var(--tint-bright);color:#FFF" onclick="copy(this,'#FFA47A')"><div class="n">Tint Bright</div><div class="h" id="sb">#FFA47A</div><div class="t">--tint-bright</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:var(--tint-soft)" onclick="copy(this,'#FFF4EE')"><div class="n">Tint Soft</div><div class="h" id="ss">#FFF4EE</div><div class="t">--tint-soft</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:var(--warm-cream);border:1px solid var(--sep-opaque)" onclick="copy(this,'#FBF8F7')"><div class="n">Warm Cream</div><div class="h">#FBF8F7</div><div class="t">--warm-cream</div><div class="cp">Copied</div></div>
+  </div>
+
+  <div style="margin-bottom:12px"><span class="badge-t badge-ok">SYSTEM</span> <span style="font-size:11px;color:var(--label-sec);margin-left:6px">LIGHT</span></div>
+  <div class="g5" style="margin-bottom:28px">
+    <div class="sw" style="background:#FFF;border:1px solid #E5E5EA" onclick="copy(this,'#FFFFFF')"><div class="n">BG Primary</div><div class="h">#FFFFFF</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:#F2F2F7" onclick="copy(this,'#F2F2F7')"><div class="n">BG Secondary</div><div class="h">#F2F2F7</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:#FFF;border:1px solid #E5E5EA" onclick="copy(this,'#FFFFFF')"><div class="n">BG Tertiary</div><div class="h">#FFFFFF</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:#000;color:#FFF" onclick="copy(this,'#000000')"><div class="n">Label</div><div class="h">#000000</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:rgba(60,60,67,0.6);color:#FFF" onclick="copy(this,'rgba(60,60,67,0.6)')"><div class="n">Label Sec</div><div class="h">60%</div><div class="cp">Copied</div></div>
+  </div>
+
+  <div style="margin-bottom:12px"><span class="badge-t badge-ok">SYSTEM</span> <span style="font-size:11px;color:var(--label-sec);margin-left:6px">DARK</span></div>
+  <div class="g5" style="margin-bottom:28px">
+    <div class="sw" style="background:#000;color:#FFF" onclick="copy(this,'#000000')"><div class="n">BG Primary</div><div class="h">#000000</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:#1C1C1E;color:#FFF" onclick="copy(this,'#1C1C1E')"><div class="n">BG Secondary</div><div class="h">#1C1C1E</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:#2C2C2E;color:#FFF" onclick="copy(this,'#2C2C2E')"><div class="n">BG Tertiary</div><div class="h">#2C2C2E</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:#FFF" onclick="copy(this,'#FFFFFF')"><div class="n">Label</div><div class="h">#FFFFFF</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:rgba(84,84,88,0.65);color:#FFF" onclick="copy(this,'rgba(84,84,88,0.65)')"><div class="n">Separator</div><div class="h">65%</div><div class="cp">Copied</div></div>
+  </div>
+
+  <div style="margin-bottom:12px"><span class="badge-t badge-ok">FUNCTIONAL + EXTENSION</span></div>
+  <div class="g5">
+    <div class="sw" style="background:var(--sys-green);color:#FFF" onclick="copy(this,'#34C759')"><div class="n">Green</div><div class="h">#34C759</div><div class="t">Online, Success</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:var(--sys-orange);color:#FFF" onclick="copy(this,'#FF9500')"><div class="n">Orange</div><div class="h">#FF9500</div><div class="t">Warning</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:var(--sys-red);color:#FFF" onclick="copy(this,'#FF3B30')"><div class="n">Red</div><div class="h">#FF3B30</div><div class="t">Error, Delete</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:var(--bubble-char)" onclick="copy(this,'#F0E6E6')"><div class="n">Bubble (Char)</div><div class="h">#F0E6E6</div><div class="cp">Copied</div></div>
+    <div class="sw" style="background:#2C2424;color:#F0E6E6" onclick="copy(this,'#2C2424')"><div class="n">Bubble (Dark)</div><div class="h">#2C2424</div><div class="cp">Copied</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     03 — TYPOGRAPHY
+     ════════════════════════════════════════ -->
+<section id="type">
+  <div class="sec-num">03 — TYPOGRAPHY</div>
+  <h2>Type Scale</h2>
+  <div class="desc">Apple Dynamic Type 기반 위계. SF Pro(iOS) / Inter(웹). 워드마크만 Plus Jakarta Sans.</div>
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">HIERARCHY</div>
+      <div style="font-size:34px;font-weight:700;letter-spacing:-0.02em;margin-bottom:2px">Large Title <span style="font-size:11px;color:var(--label-tri);font-weight:400">34 Bold</span></div>
+      <div style="font-size:28px;font-weight:700;margin:8px 0 2px">Title 1 <span style="font-size:11px;color:var(--label-tri);font-weight:400">28 Bold</span></div>
+      <div style="font-size:22px;font-weight:700;margin:8px 0 2px">Title 2 <span style="font-size:11px;color:var(--label-tri);font-weight:400">22 Bold</span></div>
+      <div style="font-size:20px;font-weight:600;margin:8px 0 2px">Title 3 <span style="font-size:11px;color:var(--label-tri);font-weight:400">20 Semi</span></div>
+      <div style="font-size:17px;font-weight:600;margin:8px 0 2px">Headline <span style="font-size:11px;color:var(--label-tri);font-weight:400">17 Semi</span></div>
+      <div style="font-size:17px;margin:8px 0 2px;color:var(--label-sec)">Body text — comfortable reading <span style="font-size:11px;color:var(--label-tri)">17 Reg</span></div>
+      <div style="font-size:15px;margin:8px 0 2px;color:var(--label-sec)">Subheadline <span style="font-size:11px;color:var(--label-tri)">15 Reg</span></div>
+      <div style="font-size:13px;margin:6px 0 2px;color:var(--label-tri)">Footnote — 13px &middot; Caption 1 — 12px &middot; Caption 2 — 11px (min)</div>
+    </div>
+    <div class="card">
+      <div class="lbl">FONT FAMILIES</div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--label-tri);margin-bottom:4px">System UI — Body, Navigation, Labels</div>
+        <div style="font-size:18px;font-weight:500">SF Pro / Inter</div>
+        <div style="font-size:14px;color:var(--label-sec);margin-top:4px">The quick brown fox. 0123456789</div>
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--label-tri);margin-bottom:4px">Rounded — Numbers, Stats, Levels</div>
+        <div style="font-family:var(--font-rounded);font-size:26px;font-weight:700;color:var(--tint)">36.5°C &nbsp;Lv.7 &nbsp;2.3K</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--label-tri);margin-bottom:4px">Wordmark Only</div>
+        <div class="wm" style="font-size:32px;color:var(--label)">ohmy<span style="color:var(--tint)">c</span></div>
+        <div style="font-size:11px;color:var(--label-tri);margin-top:2px">Plus Jakarta Sans 800 &middot; -0.04em</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     04 — SPACING
+     ════════════════════════════════════════ -->
+<section id="spacing">
+  <div class="sec-num">04 — SPACING</div>
+  <h2>8pt Grid</h2>
+  <div class="desc">Apple의 8pt 그리드 기본, 4pt 반단위 허용.</div>
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">SCALE</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-xs</span><div style="height:20px;width:4px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">4px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-sm</span><div style="height:20px;width:16px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">8px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-md</span><div style="height:20px;width:24px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">12px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-base</span><div style="height:20px;width:32px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">16px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-lg</span><div style="height:20px;width:40px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">20px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-xl</span><div style="height:20px;width:48px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">24px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-2xl</span><div style="height:20px;width:64px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">32px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-3xl</span><div style="height:20px;width:80px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">40px</span></div>
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:90px;text-align:right;font-size:11px;font-family:var(--font-mono);color:var(--label-sec)">--sp-4xl</span><div style="height:20px;width:96px;border-radius:3px;background:linear-gradient(135deg,var(--tint),var(--tint-bright))"></div><span style="font-size:10px;color:var(--label-tri)">48px</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">USAGE</div>
+      <div style="font-size:14px;line-height:2.4;color:var(--label-sec)">
+        <div style="display:flex;justify-content:space-between">화면 좌우 패딩<span style="font-family:var(--font-mono);font-size:12px;color:var(--label-tri)">16px</span></div>
+        <div style="display:flex;justify-content:space-between">카드 내부 패딩<span style="font-family:var(--font-mono);font-size:12px;color:var(--label-tri)">12px</span></div>
+        <div style="display:flex;justify-content:space-between">카드 갭<span style="font-family:var(--font-mono);font-size:12px;color:var(--label-tri)">12px</span></div>
+        <div style="display:flex;justify-content:space-between">섹션 간격<span style="font-family:var(--font-mono);font-size:12px;color:var(--label-tri)">20px</span></div>
+        <div style="display:flex;justify-content:space-between">화면 상/하단 여백<span style="font-family:var(--font-mono);font-size:12px;color:var(--label-tri)">32px</span></div>
+        <div style="display:flex;justify-content:space-between">인라인 요소 간격<span style="font-family:var(--font-mono);font-size:12px;color:var(--label-tri)">8px</span></div>
+        <div style="display:flex;justify-content:space-between">Grouped List 아이템<span style="font-family:var(--font-mono);font-size:12px;color:var(--label-tri)">12px 16px</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     05 — ELEVATION
+     ════════════════════════════════════════ -->
+<section id="elevation">
+  <div class="sec-num">05 — ELEVATION</div>
+  <h2>Shadow Levels</h2>
+  <div class="desc">Apple elevation 시스템. 다크에서는 테두리 밝기로 표현.</div>
+  <div class="g5">
+    <div><div style="width:100%;aspect-ratio:1;background:var(--bg3);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--label-tri)">0</div><div style="font-size:12px;font-weight:600;color:var(--label-sec);margin-top:8px;text-align:center">Level 0</div><div style="font-size:11px;color:var(--label-tri);text-align:center">플랫</div></div>
+    <div><div style="width:100%;aspect-ratio:1;background:var(--bg3);border-radius:var(--r-md);box-shadow:var(--shadow-1);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--label-tri)">1</div><div style="font-size:12px;font-weight:600;color:var(--label-sec);margin-top:8px;text-align:center">Level 1</div><div style="font-size:11px;color:var(--label-tri);text-align:center">카드, 리스트</div></div>
+    <div><div style="width:100%;aspect-ratio:1;background:var(--bg3);border-radius:var(--r-md);box-shadow:var(--shadow-2);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--label-tri)">2</div><div style="font-size:12px;font-weight:600;color:var(--label-sec);margin-top:8px;text-align:center">Level 2</div><div style="font-size:11px;color:var(--label-tri);text-align:center">캐릭터 카드</div></div>
+    <div><div style="width:100%;aspect-ratio:1;background:var(--bg3);border-radius:var(--r-md);box-shadow:var(--shadow-3);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--label-tri)">3</div><div style="font-size:12px;font-weight:600;color:var(--label-sec);margin-top:8px;text-align:center">Level 3</div><div style="font-size:11px;color:var(--label-tri);text-align:center">모달, 시트</div></div>
+    <div><div style="width:100%;aspect-ratio:1;background:var(--bg3);border-radius:var(--r-md);box-shadow:var(--shadow-4);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--label-tri)">4</div><div style="font-size:12px;font-weight:600;color:var(--label-sec);margin-top:8px;text-align:center">Level 4</div><div style="font-size:11px;color:var(--label-tri);text-align:center">팝오버</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     06 — RADIUS
+     ════════════════════════════════════════ -->
+<section id="radius">
+  <div class="sec-num">06 — BORDER RADIUS</div>
+  <h2>Continuous Corner</h2>
+  <div class="desc">Apple 연속 곡률(superellipse). 부드러운 모서리가 온기를 전달한다.</div>
+  <div style="display:flex;gap:32px;justify-content:center;flex-wrap:wrap">
+    <div style="text-align:center"><div style="width:80px;height:80px;border:2px solid var(--tint);background:var(--tint-soft);border-radius:var(--r-sm)"></div><div style="font-size:12px;font-weight:500;color:var(--label-sec);margin-top:6px">Small</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono)">10px</div></div>
+    <div style="text-align:center"><div style="width:80px;height:80px;border:2px solid var(--tint);background:var(--tint-soft);border-radius:var(--r-md)"></div><div style="font-size:12px;font-weight:500;color:var(--label-sec);margin-top:6px">Medium</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono)">14px</div></div>
+    <div style="text-align:center"><div style="width:80px;height:80px;border:2px solid var(--tint);background:var(--tint-soft);border-radius:var(--r-lg)"></div><div style="font-size:12px;font-weight:500;color:var(--label-sec);margin-top:6px">Large</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono)">20px</div></div>
+    <div style="text-align:center"><div style="width:80px;height:80px;border:2px solid var(--tint);background:var(--tint-soft);border-radius:var(--r-xl)"></div><div style="font-size:12px;font-weight:500;color:var(--label-sec);margin-top:6px">XLarge</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono)">24px</div></div>
+    <div style="text-align:center"><div style="width:80px;height:80px;border:2px solid var(--tint);background:var(--tint-soft);border-radius:var(--r-full)"></div><div style="font-size:12px;font-weight:500;color:var(--label-sec);margin-top:6px">Full</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono)">9999px</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     07 — GLASS
+     ════════════════════════════════════════ -->
+<section id="glass">
+  <div class="sec-num">07 — LIQUID GLASS</div>
+  <h2>Material</h2>
+  <div class="desc">iOS 26 핵심 소재. 반투명 + 블러 + 굴절. 적용/비적용 영역이 명확.</div>
+  <div class="g3">
+    <div style="padding:28px;background:linear-gradient(135deg,#FFD4C4,#C4D8FF,#E4D4F4);border-radius:var(--r-lg)">
+      <div class="glass" style="padding:18px;text-align:center"><div style="font-size:14px;font-weight:600">Light Glass</div><div style="font-size:11px;color:var(--label-sec);margin-top:4px">rgba(255,255,255,0.72)</div></div>
+      <div style="font-size:10px;text-align:center;color:rgba(0,0,0,0.4);margin-top:8px;font-family:var(--font-mono)">blur(40px) saturate(180%)</div>
+    </div>
+    <div style="padding:28px;background:linear-gradient(135deg,#2A1A30,#1A2840);border-radius:var(--r-lg)">
+      <div style="background:rgba(30,30,30,0.72);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border:0.5px solid rgba(255,255,255,0.08);border-radius:var(--r-md);padding:18px;text-align:center;color:#FFF"><div style="font-size:14px;font-weight:600">Dark Glass</div><div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px">rgba(30,30,30,0.72)</div></div>
+    </div>
+    <div class="card">
+      <div class="lbl">적용 규칙</div>
+      <div style="font-size:14px;line-height:2.2">
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> Tab Bar &nbsp;&nbsp;
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> Navigation Bar<br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> Search Bar &nbsp;&nbsp;
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> Memory Pill<br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> Relationship Bar<br>
+        <span style="color:var(--sys-red);font-weight:600">&#10007;</span> Character Card &nbsp;&nbsp;
+        <span style="color:var(--sys-red);font-weight:600">&#10007;</span> Chat Bubble<br>
+        <span style="color:var(--sys-red);font-weight:600">&#10007;</span> CTA Button
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     08 — MOTION
+     ════════════════════════════════════════ -->
+<section id="motion">
+  <div class="sec-num">08 — AGENT MOTION</div>
+  <h2>Life Signal</h2>
+  <div class="desc">정지된 것은 죽어있다. 모션은 장식이 아니라 캐릭터 에이전트의 생명 신호.</div>
+  <div class="g4" style="margin-bottom:24px">
+    <div class="card" style="text-align:center">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--tint);margin:0 auto 12px;animation:breathe 3s ease-in-out infinite"></div>
+      <div style="font-size:16px;font-weight:600">Breathe</div>
+      <div style="font-size:12px;color:var(--label-sec);margin:4px 0">대기. 살아있다는 최소 신호.</div>
+      <div style="font-size:11px;color:var(--tint);font-weight:600">3s &middot; infinite</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--tint);margin:0 auto 12px;animation:glow 2.5s ease-in-out infinite"></div>
+      <div style="font-size:16px;font-weight:600">Think</div>
+      <div style="font-size:12px;color:var(--label-sec);margin:4px 0">사고 중. 처리하고 있다.</div>
+      <div style="font-size:11px;color:var(--tint);font-weight:600">2.5s &middot; infinite</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--tint);margin:0 auto 12px;animation:ripple 1.5s ease-out infinite"></div>
+      <div style="font-size:16px;font-weight:600">Respond</div>
+      <div style="font-size:12px;color:var(--label-sec);margin:4px 0">응답 순간. 리플 이펙트.</div>
+      <div style="font-size:11px;color:var(--tint);font-weight:600">1.5s &middot; once</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--tint),var(--tint-bright));background-size:200% 200%;margin:0 auto 12px;animation:grad 4s ease infinite"></div>
+      <div style="font-size:16px;font-weight:600">Grow</div>
+      <div style="font-size:12px;color:var(--label-sec);margin:4px 0">성장 중. 관계가 변화시킨다.</div>
+      <div style="font-size:11px;color:var(--tint);font-weight:600">4s &middot; infinite</div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="lbl">DURATION</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="font-weight:600">Micro</span><span style="font-family:var(--font-mono);color:var(--label-tri)">150ms</span></div><div style="height:3px;background:var(--sep-opaque);border-radius:2px;overflow:hidden;position:relative"><div style="height:100%;background:var(--tint);border-radius:2px;position:absolute;animation:timingSlide 0.15s linear infinite"></div></div><div style="font-size:10px;color:var(--label-tri);margin-top:3px">Hover, tap feedback</div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="font-weight:600">Transition</span><span style="font-family:var(--font-mono);color:var(--label-tri)">300ms</span></div><div style="height:3px;background:var(--sep-opaque);border-radius:2px;overflow:hidden;position:relative"><div style="height:100%;background:var(--tint);border-radius:2px;position:absolute;animation:timingSlide 0.3s linear infinite"></div></div><div style="font-size:10px;color:var(--label-tri);margin-top:3px">Color, toggle, fade</div></div>
+        <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="font-weight:600">Emphasis</span><span style="font-family:var(--font-mono);color:var(--label-tri)">500ms</span></div><div style="height:3px;background:var(--sep-opaque);border-radius:2px;overflow:hidden;position:relative"><div style="height:100%;background:var(--tint);border-radius:2px;position:absolute;animation:timingSlide 0.5s linear infinite"></div></div><div style="font-size:10px;color:var(--label-tri);margin-top:3px">Modal, page transition</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">EASING CURVES</div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Default</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono);margin-bottom:6px">cubic-bezier(0.4, 0, 0.2, 1)</div><div style="height:3px;background:var(--sep-opaque);border-radius:2px;position:relative;overflow:hidden"><div style="position:absolute;width:10px;height:10px;border-radius:50%;background:var(--tint);top:-3px;animation:easingMove 2s var(--ease-default) infinite"></div></div></div>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Spring</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono);margin-bottom:6px">cubic-bezier(0.34, 1.56, 0.64, 1)</div><div style="height:3px;background:var(--sep-opaque);border-radius:2px;position:relative;overflow:hidden"><div style="position:absolute;width:10px;height:10px;border-radius:50%;background:var(--sys-orange);top:-3px;animation:easingMove 2s var(--ease-spring) infinite"></div></div></div>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px">Smooth</div><div style="font-size:10px;color:var(--label-tri);font-family:var(--font-mono);margin-bottom:6px">cubic-bezier(0.22, 1, 0.36, 1)</div><div style="height:3px;background:var(--sep-opaque);border-radius:2px;position:relative;overflow:hidden"><div style="position:absolute;width:10px;height:10px;border-radius:50%;background:var(--tint-bright);top:-3px;animation:easingMove 2s var(--ease-smooth) infinite"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">노출 위치</div>
+      <div style="font-size:14px;line-height:2.2;color:var(--label-sec)">
+        <div style="display:flex;justify-content:space-between">홈 카드<span style="font-size:11px;color:var(--label-tri)">Alive Dot 8px</span></div>
+        <div style="display:flex;justify-content:space-between">채팅 헤더<span style="font-size:11px;color:var(--label-tri)">Ring pulse</span></div>
+        <div style="display:flex;justify-content:space-between">채팅 리스트<span style="font-size:11px;color:var(--label-tri)">Alive Dot</span></div>
+        <div style="display:flex;justify-content:space-between">프로필<span style="font-size:11px;color:var(--label-tri)">Avatar + text</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     09 — BUTTONS
+     ════════════════════════════════════════ -->
+<section id="buttons">
+  <div class="sec-num">09 — BUTTONS & CHIPS</div>
+  <h2>Actions</h2>
+  <div class="desc">명확한 행동 유도. Solid 배경, Glass 미적용.</div>
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">PRIMARY &amp; SECONDARY</div>
+      <button class="btn-lg" style="background:var(--tint);color:#FFF;margin-bottom:10px">Continue Chat</button>
+      <button class="btn-lg" style="background:var(--bg2);color:var(--tint)">Share Character</button>
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn" style="background:var(--tint);color:#FFF">Start Chat</button>
+        <button class="btn" style="background:transparent;color:var(--tint);border:1.5px solid var(--tint)">Follow</button>
+        <button class="btn" style="background:var(--tint-soft);color:var(--tint)">Soft</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">CHIPS &amp; STATUS</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+        <span class="chip" style="background:var(--tint);color:#FFF">For You</span>
+        <span class="chip" style="background:var(--tint-soft);color:var(--tint)">Romance</span>
+        <span class="chip" style="background:var(--bg2);color:var(--label-sec)">Fantasy</span>
+        <span class="chip" style="background:var(--bg2);color:var(--label-sec)">Comfort</span>
+      </div>
+      <div class="lbl">STATUS</div>
+      <div style="display:flex;gap:20px">
+        <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:var(--label-sec)"><span class="alive"></span>alive</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:var(--label-sec)"><span style="width:8px;height:8px;border-radius:50%;background:var(--tint);display:inline-block;animation:glow 2.5s ease-in-out infinite"></span>thinking</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     10 — CHARACTER CARDS
+     ════════════════════════════════════════ -->
+<section id="cards">
+  <div class="sec-num">10 — CHARACTER CARDS</div>
+  <h2>The Stage</h2>
+  <div class="desc">캐릭터가 주인공. 2:3 비율, 20px radius. 하단 30% 그래디언트 오버레이.</div>
+  <div class="g4">
+    <div class="cc" style="background:linear-gradient(180deg,#FFD4C4,#A04030)"><div class="gb">NEW</div><div class="ov"><div style="font-size:17px;font-weight:700;color:#FFF">Yuna</div><div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:2px">by @storyteller</div><div style="display:flex;align-items:center;gap:5px;margin-top:8px"><span class="alive"></span><span style="font-size:12px;color:rgba(255,255,255,0.6)">alive &middot; 2.3K</span></div></div></div>
+    <div class="cc" style="background:linear-gradient(180deg,#C4D8FF,#2A4A7A)"><div class="ov"><div style="font-size:17px;font-weight:700;color:#FFF">Kai</div><div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:2px">by @moonlight</div><div style="display:flex;align-items:center;gap:5px;margin-top:8px"><span class="alive"></span><span style="font-size:12px;color:rgba(255,255,255,0.6)">thinking &middot; 5.1K</span></div></div></div>
+    <div class="cc" style="background:linear-gradient(180deg,#E4D4F4,#5A3A7A)"><div class="ov"><div style="font-size:17px;font-weight:700;color:#FFF">Mira</div><div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:2px">by @dreamweaver</div><div style="display:flex;align-items:center;gap:5px;margin-top:8px"><span class="alive"></span><span style="font-size:12px;color:rgba(255,255,255,0.6)">growing &middot; 8.7K</span></div></div></div>
+    <div class="cc" style="background:linear-gradient(180deg,#D4F0E0,#2A6A4A)"><div class="gb">HOT</div><div class="ov"><div style="font-size:17px;font-weight:700;color:#FFF">Ren</div><div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:2px">by @windchaser</div><div style="display:flex;align-items:center;gap:5px;margin-top:8px"><span class="alive"></span><span style="font-size:12px;color:rgba(255,255,255,0.6)">alive &middot; 12K</span></div></div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     11 — CHAT
+     ════════════════════════════════════════ -->
+<section id="chat">
+  <div class="sec-num">11 — CHAT</div>
+  <h2>Conversation</h2>
+  <div class="desc">텍스트 가독성 우선. Solid 배경. Memory Pill은 Glass 소재.</div>
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">LIGHT</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="bubble" style="background:var(--bubble-char);border-top-left-radius:4px;align-self:flex-start">Hey! I was thinking about that cafe you mentioned.</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--glass-bg);backdrop-filter:blur(16px);border:0.5px solid var(--glass-border);border-radius:var(--r-full);align-self:center;font-size:12px;color:var(--label-sec);font-weight:500"><span style="width:18px;height:18px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center;font-size:9px;color:#FFF;font-weight:800">M</span>Remembered from Mar 15</div>
+        <div class="bubble" style="background:var(--tint);color:#FFF;border-top-right-radius:4px;align-self:flex-end">You remembered! That's so sweet</div>
+      </div>
+    </div>
+    <div class="card-dark">
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);margin-bottom:14px;letter-spacing:0.04em">DARK</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="bubble" style="background:#2C2424;color:#FFF;border-top-left-radius:4px;align-self:flex-start">Hey! I was thinking about that cafe.</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(30,30,30,0.72);backdrop-filter:blur(16px);border:0.5px solid rgba(255,255,255,0.08);border-radius:var(--r-full);align-self:center;font-size:12px;color:rgba(235,235,245,0.6);font-weight:500"><span style="width:18px;height:18px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center;font-size:9px;color:#FFF;font-weight:800">M</span>Remembered from Mar 15</div>
+        <div class="bubble" style="background:var(--tint);color:#FFF;border-top-right-radius:4px;align-self:flex-end">You remembered!</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     12 — NAVIGATION
+     ════════════════════════════════════════ -->
+<section id="nav">
+  <div class="sec-num">12 — NAVIGATION</div>
+  <h2>Glass Navigation</h2>
+  <div class="desc">Tab Bar, Search, Relationship Bar. 모두 Liquid Glass.</div>
+  <div class="g3">
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="lbl">TAB BAR</div>
+      <div style="padding:20px;background:linear-gradient(180deg,var(--warm-cream),var(--bg2));border-radius:var(--r-md)">
+        <div class="tab-bar">
+          <div class="tab-i on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</div>
+          <div class="tab-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chats</div>
+          <div class="tab-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Apps</div>
+          <div class="tab-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="lbl">SEARCH</div>
+      <div style="padding:20px;background:linear-gradient(135deg,#FFD4C4,#E4D4F4);border-radius:var(--r-md)">
+        <div class="glass" style="padding:10px 16px;border-radius:var(--r-full);display:flex;align-items:center;gap:8px;font-size:16px;color:var(--label-tri)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.4"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Find a character...
+        </div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="lbl">RELATIONSHIP BAR</div>
+      <div style="padding:20px;background:linear-gradient(135deg,#FFD4C4,#FFF4EE);border-radius:var(--r-md)">
+        <div class="glass" style="padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;border-radius:var(--r-md)">
+          <div style="width:36px;height:36px;border-radius:50%;background:conic-gradient(var(--tint) 0% 65%,var(--sep-opaque) 65% 100%);display:flex;align-items:center;justify-content:center"><div style="width:28px;height:28px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--tint)">Lv.7</div></div>
+          <div style="flex:1"><div style="font-weight:600;font-size:14px">Close Friend</div><div style="font-size:12px;color:var(--label-sec)">23 days together</div></div>
+          <div style="font-size:18px;font-family:var(--font-rounded);font-weight:700;color:var(--tint)">38.2°</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     13 — LISTS
+     ════════════════════════════════════════ -->
+<section id="lists">
+  <div class="sec-num">13 — GROUPED LIST</div>
+  <h2>Apple Settings Pattern</h2>
+  <div class="desc">구조화된 정보를 깔끔하게 전달. 좌측 아이콘, 우측 chevron.</div>
+  <div class="g2">
+    <div>
+      <div style="font-size:13px;color:var(--label-sec);text-transform:uppercase;letter-spacing:0.02em;padding:12px 16px 6px">Agent Capabilities</div>
+      <div class="gl">
+        <div class="gl-item"><div class="gl-icon" style="background:var(--tint)">M</div><div style="flex:1"><div style="font-weight:500">Memory</div><div style="font-size:13px;color:var(--label-sec)">Remembers conversations</div></div><span class="gl-chev">&#8250;</span></div>
+        <div class="gl-item"><div class="gl-icon" style="background:var(--sys-orange)">A</div><div style="flex:1"><div style="font-weight:500">Action</div><div style="font-size:13px;color:var(--label-sec)">Sends messages proactively</div></div><span class="gl-chev">&#8250;</span></div>
+        <div class="gl-item"><div class="gl-icon" style="background:var(--sys-green)">G</div><div style="flex:1"><div style="font-weight:500">Growth</div><div style="font-size:13px;color:var(--label-sec)">Evolves through relationship</div></div><span class="gl-chev">&#8250;</span></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;color:var(--label-sec);text-transform:uppercase;letter-spacing:0.02em;padding:12px 16px 6px">Settings</div>
+      <div class="gl">
+        <div class="gl-item"><div class="gl-icon" style="background:#5856D6"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09"/></svg></div><div style="flex:1"><div style="font-weight:500">Preferences</div></div><span class="gl-chev">&#8250;</span></div>
+        <div class="gl-item"><div class="gl-icon" style="background:var(--sys-green)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><div style="flex:1"><div style="font-weight:500">Notifications</div></div><span class="gl-chev">&#8250;</span></div>
+        <div class="gl-item"><div class="gl-icon" style="background:var(--sys-red)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div style="flex:1"><div style="font-weight:500">Privacy</div></div><span class="gl-chev">&#8250;</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     14 — TEMPERATURE
+     ════════════════════════════════════════ -->
+<section id="temp">
+  <div class="sec-num">14 — TEMPERATURE</div>
+  <h2>Bond Warmth</h2>
+  <div class="desc">관계의 온기를 체온에서 시작하는 은유로 표현. 스트릭 대신 — 죄책감이 아닌 그리움.</div>
+  <div class="g3" style="margin-bottom:24px">
+    <div class="card" style="text-align:center">
+      <div class="lbl">WARM</div>
+      <div style="width:52px;height:150px;margin:0 auto 14px;background:var(--bg2);border-radius:26px;border:2px solid var(--sep-opaque);overflow:hidden;position:relative">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(to top,#E8582A,#FF8552,#FFA47A);border-radius:0 0 24px 24px"></div>
+      </div>
+      <div style="font-size:26px;font-weight:700;font-family:var(--font-rounded);color:#E8582A">38.2°C</div>
+      <div style="font-size:13px;color:var(--label-sec);margin-top:4px">Close Friend</div>
+      <div style="font-size:11px;color:var(--label-tri);margin-top:6px">활발한 대화 &middot; 풍부한 표현</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="lbl">BASELINE</div>
+      <div style="width:52px;height:150px;margin:0 auto 14px;background:var(--bg2);border-radius:26px;border:2px solid var(--sep-opaque);overflow:hidden;position:relative">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,#FF8552,#FFA47A,#FFCBA4);border-radius:0 0 24px 24px"></div>
+      </div>
+      <div style="font-size:26px;font-weight:700;font-family:var(--font-rounded);color:var(--tint)">36.5°C</div>
+      <div style="font-size:13px;color:var(--label-sec);margin-top:4px">New Connection</div>
+      <div style="font-size:11px;color:var(--label-tri);margin-top:6px">체온 &middot; 관계가 살아있다</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="lbl">COOL</div>
+      <div style="width:52px;height:150px;margin:0 auto 14px;background:var(--bg2);border-radius:26px;border:2px solid var(--sep-opaque);overflow:hidden;position:relative">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:20%;background:linear-gradient(to top,#FFCBA4,#FFE0CC);border-radius:0 0 24px 24px"></div>
+      </div>
+      <div style="font-size:26px;font-weight:700;font-family:var(--font-rounded);color:#FFCBA4">34.0°C</div>
+      <div style="font-size:13px;color:var(--label-sec);margin-top:4px">Been Away</div>
+      <div style="font-size:11px;color:var(--label-tri);margin-top:6px">자연스럽게 식어감 &middot; 기억은 보존</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="g2">
+      <div>
+        <div class="lbl">TEMPERATURE vs STREAK</div>
+        <div style="font-size:14px;line-height:2;color:var(--label-sec)">
+          <div><span style="color:var(--tint);font-weight:600">Temp</span> — 점진적 하강 &middot; "식었다" &middot; 그리움</div>
+          <div><span style="color:var(--sys-red);font-weight:600">Streak</span> — 이진 끊김 &middot; "끊겼다!" &middot; 죄책감</div>
+          <div><span style="color:var(--tint);font-weight:600">Temp</span> — 기억이 있어 빨리 회복</div>
+          <div><span style="color:var(--sys-red);font-weight:600">Streak</span> — 0부터 다시</div>
+        </div>
+      </div>
+      <div>
+        <div class="lbl">COLOR GRADIENT</div>
+        <div style="height:32px;border-radius:var(--r-full);background:linear-gradient(to right,#FFE0CC,#FFCBA4,#FFA47A,#FF8552,#E8582A);margin-bottom:10px"></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--label-tri)">
+          <span>Cool (34°)</span><span>Baseline (36.5°)</span><span>Warm (39°+)</span>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:var(--label-sec);line-height:1.6">
+          높은 온도 = 활발한 발현 → 더 풍부하게, 더 자기답게<br>
+          낮은 온도 = 축소된 발현 → 조심스럽게, 다시 알아가듯
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     15 — GROWTH
+     ════════════════════════════════════════ -->
+<section id="growth">
+  <div class="sec-num">15 — GROWTH</div>
+  <h2>Relationship Depth</h2>
+  <div class="desc">후성유전학 모델. SOUL.md(DNA)는 불변, 유저와의 관계(환경)에 따라 발현이 달라진다.</div>
+  <div class="g4">
+    <div class="card" style="text-align:center">
+      <div style="width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--tint) 0% 15%,var(--sep-opaque) 15% 100%);margin:0 auto 8px;display:flex;align-items:center;justify-content:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:var(--font-rounded);color:var(--label-tri)">1</div></div>
+      <div style="font-size:13px;font-weight:600">Stranger</div><div style="font-size:11px;color:var(--label-tri)">첫 만남</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--tint) 0% 40%,var(--sep-opaque) 40% 100%);margin:0 auto 8px;display:flex;align-items:center;justify-content:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:var(--font-rounded);color:var(--tint)">3</div></div>
+      <div style="font-size:13px;font-weight:600">Acquaintance</div><div style="font-size:11px;color:var(--label-tri)">알아가는 중</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--tint) 0% 65%,var(--sep-opaque) 65% 100%);margin:0 auto 8px;display:flex;align-items:center;justify-content:center"><div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:var(--font-rounded);color:var(--tint)">7</div></div>
+      <div style="font-size:13px;font-weight:600">Close Friend</div><div style="font-size:11px;color:var(--label-tri)">깊어진 관계</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--tint) 0% 95%,var(--tint-bright) 95% 100%);margin:0 auto 8px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(255,133,82,0.3);animation:glow 3s ease-in-out infinite"><div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:var(--font-rounded);color:var(--tint)">10</div></div>
+      <div style="font-size:13px;font-weight:600">Soulmate</div><div style="font-size:11px;color:var(--label-tri)">완전한 발현</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     16 — ART GUIDE
+     ════════════════════════════════════════ -->
+<section id="art">
+  <div class="sec-num">16 — CHARACTER ART</div>
+  <h2>Art Guide for Creators</h2>
+  <div class="desc">캐릭터가 시각적 주인공. 크리에이터가 올리는 아트의 품질/포맷 기준.</div>
+  <div class="g3">
+    <div class="card" style="text-align:center">
+      <div style="width:100%;aspect-ratio:2/3;background:linear-gradient(180deg,#FFD4C4,#D06040);border-radius:var(--r-lg);margin-bottom:10px;position:relative"><div style="position:absolute;bottom:0;left:0;right:0;height:30%;background:linear-gradient(transparent,rgba(0,0,0,0.4));border-radius:0 0 var(--r-lg) var(--r-lg);display:flex;align-items:flex-end;justify-content:center;padding:8px"><span style="font-size:11px;color:rgba(255,255,255,0.7)">Safe zone (overlay area)</span></div></div>
+      <div style="font-size:14px;font-weight:600">Card Art</div><div style="font-size:12px;color:var(--label-sec)">2:3 &middot; min 600x900px</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:120px;height:120px;background:linear-gradient(135deg,#FFD4C4,#D06040);border-radius:50%;margin:0 auto 10px"></div>
+      <div style="font-size:14px;font-weight:600">Avatar</div><div style="font-size:12px;color:var(--label-sec)">1:1 &middot; min 256x256px</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#FFD4C4,#D06040);border-radius:var(--r-sm);margin-bottom:10px"></div>
+      <div style="font-size:14px;font-weight:600">Banner</div><div style="font-size:12px;color:var(--label-sec)">16:9 &middot; min 1200x675px</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     17 — BRAND VOICE
+     ════════════════════════════════════════ -->
+<section id="voice">
+  <div class="sec-num">17 — BRAND VOICE</div>
+  <h2>How ohmyc Speaks</h2>
+  <div class="desc">친구처럼. 짧게. 캐릭터 중심으로. 발견과 놀라움의 톤.</div>
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">UI TEXT</div>
+      <div style="font-size:15px;line-height:2.2">
+        <span style="color:var(--label-tri)">Empty:</span> "Find someone to talk to."<br>
+        <span style="color:var(--label-tri)">Start:</span> "Say hi to Yuna."<br>
+        <span style="color:var(--label-tri)">Memory:</span> "Yuna remembered this."<br>
+        <span style="color:var(--label-tri)">Level:</span> "You and Yuna are closer now."<br>
+        <span style="color:var(--label-tri)">Error:</span> "Something went wrong. Let's try again."<br>
+        <span style="color:var(--label-tri)">Streak:</span> "5 days with Yuna."<br>
+        <span style="color:var(--label-tri)">Onboard:</span> "Your character is alive."
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">TONE RULES</div>
+      <div style="font-size:15px;line-height:2.2">
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> "돌아왔네!" <span style="color:var(--label-tri)">(친구)</span><br>
+        <span style="color:var(--sys-red);font-weight:600">&#10007;</span> "로그인되었습니다" <span style="color:var(--label-tri)">(기업)</span><br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> "Yuna가 사진도 기억해요"<br>
+        <span style="color:var(--sys-red);font-weight:600">&#10007;</span> "새 기능이 추가되었습니다"<br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> 한 문장이면 충분<br>
+        <span style="color:var(--sys-red);font-weight:600">&#10007;</span> 길게 설명하기
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     18 — ACCESSIBILITY
+     ════════════════════════════════════════ -->
+<section id="a11y">
+  <div class="sec-num">18 — ACCESSIBILITY</div>
+  <h2>Inclusive Design</h2>
+  <div class="desc">모든 사람이 캐릭터와 관계를 맺을 수 있어야 한다.</div>
+  <div class="g3">
+    <div class="card">
+      <div class="lbl">REQUIREMENTS</div>
+      <div style="font-size:14px;line-height:2.2;color:var(--label-sec)">
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> 색상 대비 WCAG AA (4.5:1)<br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> 터치 타겟 최소 44x44pt<br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> Dynamic Type 지원<br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> VoiceOver 모든 요소 label<br>
+        <span style="color:var(--sys-green);font-weight:600">&#10003;</span> 최소 텍스트 11px
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">REDUCE MOTION</div>
+      <div style="font-size:14px;color:var(--label-sec);line-height:1.6;margin-bottom:12px">Breathe/Grow 모션 비활성화. 상태는 텍스트로 전달.</div>
+      <div style="padding:10px;background:var(--tint-soft);border-radius:var(--r-sm);font-family:var(--font-mono);font-size:11px;color:var(--label-sec);line-height:1.6">
+        @media (prefers-reduced-motion) {<br>
+        &nbsp;&nbsp;* { animation-duration: 0.01ms !important; }<br>
+        }
+      </div>
+    </div>
+    <div class="card">
+      <div class="lbl">COLOR BLIND</div>
+      <div style="font-size:14px;color:var(--label-sec);line-height:1.6">
+        Tint 외에 형태(아이콘, 밑줄)로 상태 구분.<br><br>
+        <span style="display:flex;align-items:center;gap:6px"><span class="alive"></span> <span style="font-weight:500">alive</span> — dot + text</span>
+        <span style="display:flex;align-items:center;gap:6px;margin-top:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--tint);display:inline-block;animation:glow 2.5s ease-in-out infinite"></span> <span style="font-weight:500">thinking</span> — glow + text</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════════════
+     19 — TOKENS
+     ════════════════════════════════════════ -->
+<section id="tokens">
+  <div class="sec-num">19 — DESIGN TOKENS</div>
+  <h2>Full CSS Variables</h2>
+  <div class="desc">이 토큰이 모든 구현의 기반. VI.md에서 정의, 이 페이지에서 시각화.</div>
+  <div class="card">
+    <pre style="font-family:var(--font-mono);font-size:12px;line-height:1.8;color:var(--label-sec);overflow-x:auto;white-space:pre-wrap">:root {
+  /* Tint (Soft Apricot) */
+  --tint: #FF8552;  --tint-bright: #FFA47A;  --tint-soft: #FFF4EE;
+
+  /* Apple System (Light) */
+  --label: #000;  --label-secondary: rgba(60,60,67,0.6);  --label-tertiary: rgba(60,60,67,0.3);
+  --bg-primary: #FFF;  --bg-secondary: #F2F2F7;  --bg-tertiary: #FFF;
+  --separator: rgba(60,60,67,0.29);  --separator-opaque: #C6C6C8;
+
+  /* System Colors */
+  --system-green: #34C759;  --system-orange: #FF9500;  --system-red: #FF3B30;
+
+  /* ohmyc Extension */
+  --warm-cream: #FBF8F7;  --bubble-char: #F0E6E6;  --bubble-char-dark: #2C2424;
+
+  /* Liquid Glass */
+  --glass-bg: rgba(255,255,255,0.72);  --glass-bg-dark: rgba(30,30,30,0.72);
+  --glass-border: rgba(255,255,255,0.4);  --glass-border-dark: rgba(255,255,255,0.08);
+  --glass-blur: blur(40px) saturate(180%);
+
+  /* Shadow */
+  --shadow-1: 0 0.5px 2px rgba(0,0,0,0.04);  --shadow-2: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-3: 0 4px 20px rgba(0,0,0,0.12);    --shadow-4: 0 8px 40px rgba(0,0,0,0.18);
+
+  /* Typography */
+  --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro', system-ui, sans-serif;
+  --font-rounded: 'SF Pro Rounded', -apple-system, system-ui, sans-serif;
+  --font-wordmark: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-web: 'Inter', 'Pretendard', system-ui, sans-serif;
+
+  /* Motion */
+  --duration-micro: 150ms;  --duration-transition: 300ms;  --duration-emphasis: 500ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(.22, 1, .36, 1);
+
+  /* Spacing (8pt grid) */
+  --space-xs: 4px;  --space-sm: 8px;  --space-md: 12px;  --space-base: 16px;
+  --space-lg: 20px;  --space-xl: 24px;  --space-2xl: 32px;  --space-3xl: 40px;  --space-4xl: 48px;
+
+  /* Radius */
+  --radius-sm: 10px;  --radius-md: 14px;  --radius-lg: 20px;  --radius-xl: 24px;
+  --radius-full: 9999px;  --radius-bubble: 20px;
+}</pre>
+  </div>
+</section>
+
+</div>
+
+<div class="footer">
+  ohmyc Design System — Single Source of Truth &middot; v1.0<br>
+  Apple HIG + Liquid Glass &middot; Tint: Soft Apricot #FF8552 &middot; Authority: VI.md<br>
+  your character, alive.
+</div>
+
+<!-- ════════════════════════════════════════
+     SCRIPTS
+     ════════════════════════════════════════ -->
+<script>
+const cp=document.getElementById('cp'), hd=document.getElementById('hd'), r=document.documentElement;
+
+function hexToHSL(h){let a=parseInt(h.slice(1,3),16)/255,b=parseInt(h.slice(3,5),16)/255,c=parseInt(h.slice(5,7),16)/255,d=Math.max(a,b,c),e=Math.min(a,b,c),f,g,i=(d+e)/2;if(d===e)f=g=0;else{let j=d-e;g=i>.5?j/(2-d-e):j/(d+e);switch(d){case a:f=(b-c)/j+(b<c?6:0);break;case b:f=(c-a)/j+2;break;case c:f=(a-b)/j+4;break;}f/=6;}return{h:f*360,s:g*100,l:i*100};}
+function hslToHex(h,s,l){s/=100;l/=100;const a=s*Math.min(l,1-l),f=n=>{const k=(n+h/30)%12;return l-a*Math.max(Math.min(k-3,9-k,1),-1);};return'#'+[f(0),f(8),f(4)].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('');}
+
+function setTint(hex){cp.value=hex;apply(hex);}
+function apply(hex){
+  const h=hexToHSL(hex),
+    b=hslToHex(h.h,Math.min(h.s+5,100),Math.min(h.l+15,85)),
+    s=hslToHex(h.h,Math.max(h.s-40,10),Math.min(h.l+35,95));
+  r.style.setProperty('--tint',hex);
+  r.style.setProperty('--tint-bright',b);
+  r.style.setProperty('--tint-soft',s);
+  hd.textContent=hex.toUpperCase();
+  const st=document.getElementById('st'),sb=document.getElementById('sb'),ss=document.getElementById('ss');
+  if(st)st.textContent=hex.toUpperCase();
+  if(sb)sb.textContent=b.toUpperCase();
+  if(ss)ss.textContent=s.toUpperCase();
+}
+cp.addEventListener('input',e=>apply(e.target.value));
+
+// Dark mode
+const tb=document.getElementById('themeBtn');
+tb.addEventListener('click',()=>{
+  const d=r.getAttribute('data-theme')==='dark';
+  r.setAttribute('data-theme',d?'':'dark');
+  tb.classList.toggle('on',!d);
+});
+
+// Copy swatch
+function copy(el,v){navigator.clipboard.writeText(v).catch(()=>{});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),700);}
+
+// TOC active state
+const tocLinks=document.querySelectorAll('.toc a');
+const sections=document.querySelectorAll('section[id]');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tocLinks.forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.toc a[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{rootMargin:'-80px 0px -70% 0px'});
+sections.forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>
