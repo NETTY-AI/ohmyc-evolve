@@ -12,13 +12,13 @@ omc-evolve is a **prototype self-evolution system** for the ohmyc character agen
 Evaluate → Plan → Build → Review (2-agent) → Publish → Human Feedback → Repeat
 ```
 
-- **Evaluate**: Compare current prototype against SSOT checklist (`docs/CHECKLIST.md`), generate Gap Report, determine fidelity level (L1–L4)
+- **Evaluate**: Compare current prototype against SSOT checklist (`docs/evolve/CHECKLIST.md`), generate Gap Report, determine fidelity level (L1–L4)
 - **Plan**: Pick max 3 improvements per iteration; human feedback always takes priority over checklist gaps
 - **Build**: Modify prototype HTML; use VI.md design tokens as CSS variables (no hardcoding)
 - **Review**: 2-agent parallel review — Agent A (UX/product via IDENTITY.md, UX.md) + Agent B (visual/tech via VI.md)
 - **Publish**: Archive version, deploy, notify
 
-Roles: see `docs/RNR.md` — Sero (human), netty (PM), aethmon (designer), devmon (builder).
+Roles: see `docs/evolve/RNR.md` — Sero (human), netty (PM), aethmon (designer), devmon (builder).
 
 ## SSOT Documents (in `docs/`)
 
@@ -30,10 +30,17 @@ The prototype must conform to these authoritative specs:
 | `UX.md` | UX principles, behavioral rules |
 | `CHARACTER-AGENT-SPEC.md` | Memory/Action/Growth agent spec |
 | `VI.md` | Visual identity, design tokens, component specs |
-| `CHECKLIST.md` | Evaluation checklist extracted from above docs |
 | `FLOWS.md` | User flow definitions |
+
+### Evolve Cycle Documents (in `docs/evolve/`)
+
+| Document | Role |
+|----------|------|
+| `SYSTEM.md` | Evolve Cycle system design |
+| `CHECKLIST.md` | Evaluation checklist extracted from SSOT docs |
 | `RNR.md` | Roles & responsibilities for Evolve Cycle |
 | `REPORT-SPEC.md` | Report format (ideas, discussions, SSOT proposals) |
+| `OPEN-ITEMS.md` | Open report tracker |
 
 Agents **never modify SSOT docs** — changes require human approval.
 

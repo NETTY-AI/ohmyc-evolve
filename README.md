@@ -22,8 +22,16 @@ omc-evolve/
 │       ├── v001/
 │       └── ...
 ├── docs/
-│   ├── SYSTEM.md         ← 시스템 설계 문서
-│   └── CHECKLIST.md      ← SSOT 기반 평가 체크리스트
+│   ├── IDENTITY.md       ← 제품 정체성 (SSOT)
+│   ├── UX.md             ← UX 원칙 (SSOT)
+│   ├── VI.md             ← 시각 정체성 (SSOT)
+│   ├── ...               ← 기타 제품 SSOT 문서
+│   └── evolve/           ← Evolve Cycle 프로세스 문서
+│       ├── SYSTEM.md     ← 시스템 설계
+│       ├── CHECKLIST.md  ← 평가 체크리스트
+│       ├── RNR.md        ← 역할 분담
+│       ├── REPORT-SPEC.md← 리포트 스펙
+│       └── OPEN-ITEMS.md ← 열린 이슈 트래커
 ├── scripts/
 │   └── screenshot.sh     ← Playwright 스크린샷 캡처
 └── README.md

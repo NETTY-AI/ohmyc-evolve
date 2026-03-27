@@ -148,4 +148,4 @@ netty:   [11] 다음 Cycle에 피드백 반영 → [1]로
 - Evolve Cycle 시스템: `SYSTEM.md`
 - 리포트 스펙: `REPORT-SPEC.md`
 - 평가 체크리스트: `CHECKLIST.md`
-- SSOT 변경 규칙: `README.md` > 변경 규칙
+- SSOT 변경 규칙: `../README.md` > 변경 규칙
