@@ -30,6 +30,7 @@ The prototype must conform to these authoritative specs:
 | `UX.md` | UX principles, behavioral rules |
 | `CHARACTER-AGENT-SPEC.md` | Memory/Action/Growth agent spec |
 | `VI.md` | Visual identity, design tokens, component specs |
+| `vi.html` | VI visual reference (interactive rendering of VI.md tokens) |
 | `FLOWS.md` | User flow definitions |
 
 ### Evolve Cycle Documents (in `docs/evolve/`)

@@ -21,6 +21,7 @@ cp "$SOURCE/IDENTITY.md" "$OMC/"
 cp "$SOURCE/UX.md" "$OMC/"
 cp "$SOURCE/CHARACTER-AGENT-SPEC.md" "$OMC/"
 cp "$SOURCE/VI.md" "$OMC/브랜드/"
+cp "$SOURCE/vi.html" "$OMC/브랜드/"
 cp "$SOURCE/FLOWS.md" "$OMC/설계/"
 cp "$SOURCE/GLOSSARY.md" "$OMC/" 2>/dev/null || true
 

@@ -12,6 +12,7 @@ docs/
 ├── UX.md                         ← UX 원칙, 행동 규칙
 ├── CHARACTER-AGENT-SPEC.md       ← Memory/Action/Growth 기술 스펙
 ├── VI.md                         ← 시각 정체성, 디자인 토큰
+├── vi.html                       ← VI 시각 레퍼런스 (VI.md의 렌더링 짝)
 ├── FLOWS.md                      ← 화면 & 유저 플로우 정의
 ├── GLOSSARY.md                   ← 용어 사전
 ├── TECH-SPEC.md                  ← 기술 아키텍처 스펙
@@ -33,6 +34,7 @@ omc-evolve + omc-platform 양쪽에서 참조하는 제품 스펙.
 | **UX.md** | UX 원칙, 행동 규칙 | 가끔 |
 | **CHARACTER-AGENT-SPEC.md** | Memory/Action/Growth 기술 스펙 | 가끔 |
 | **VI.md** | 시각 정체성, 디자인 토큰, 컴포넌트 | 자주 |
+| **vi.html** | VI 시각 레퍼런스 (VI.md 토큰의 인터랙티브 렌더링) | VI.md와 함께 |
 | **FLOWS.md** | 화면 & 유저 플로우 정의 | 자주 |
 | **GLOSSARY.md** | 용어 사전 | 가끔 |
 | **TECH-SPEC.md** | 기술 아키텍처, DB 스키마, API 설계 | 자주 |
